@@ -1,0 +1,260 @@
+\begin{thebibliography}{25}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\href}[2]{#2}
+\providecommand{\path}[1]{#1}
+\providecommand{\DOIprefix}{doi:}
+\providecommand{\ArXivprefix}{arXiv:}
+\providecommand{\URLprefix}{URL: }
+\providecommand{\Pubmedprefix}{pmid:}
+\providecommand{\doi}[1]{\href{http://dx.doi.org/#1}{\path{#1}}}
+\providecommand{\Pubmed}[1]{\href{pmid:#1}{\path{#1}}}
+\providecommand{\bibinfo}[2]{#2}
+\ifx\xfnm\relax \def\xfnm[#1]{\unskip,\space#1}\fi
+%Type = Article
+\bibitem[{Assefa et~al.(2025)Assefa, Naseer, Ganapathi, Ali, Seghier and
+  Werghi}]{assefa2025dycon}
+\bibinfo{author}{Assefa, M.}, \bibinfo{author}{Naseer, M.},
+  \bibinfo{author}{Ganapathi, I.I.}, \bibinfo{author}{Ali, S.S.},
+  \bibinfo{author}{Seghier, M.L.}, \bibinfo{author}{Werghi, N.},
+  \bibinfo{year}{2025}.
+\newblock \bibinfo{title}{{DyCON}: Dynamic uncertainty-aware consistency and
+  contrastive learning for semi-supervised medical image segmentation}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2504.04566} .
+%Type = Inproceedings
+\bibitem[{Bai et~al.(2023)Bai, Chen, Li, Shen and Wang}]{bai2023bcp}
+\bibinfo{author}{Bai, Y.}, \bibinfo{author}{Chen, D.}, \bibinfo{author}{Li,
+  Q.}, \bibinfo{author}{Shen, W.}, \bibinfo{author}{Wang, Y.},
+  \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Bidirectional copy-paste for semi-supervised medical
+  image segmentation}, in: \bibinfo{booktitle}{Proceedings of the IEEE/CVF
+  Conference on Computer Vision and Pattern Recognition}, pp.
+  \bibinfo{pages}{11514--11524}.
+\newblock \DOIprefix\doi{10.1109/CVPR52729.2023.01108}.
+%Type = Inproceedings
+\bibitem[{Carion et~al.(2026)Carion, Gustafson, Hu, Debnath, Hu, Suris, Ryali,
+  Alwala, Khedr, Huang et~al.}]{carion2026sam3}
+\bibinfo{author}{Carion, N.}, \bibinfo{author}{Gustafson, L.},
+  \bibinfo{author}{Hu, Y.T.}, \bibinfo{author}{Debnath, S.},
+  \bibinfo{author}{Hu, R.}, \bibinfo{author}{Suris, D.},
+  \bibinfo{author}{Ryali, C.}, \bibinfo{author}{Alwala, K.V.},
+  \bibinfo{author}{Khedr, H.}, \bibinfo{author}{Huang, A.}, et~al.,
+  \bibinfo{year}{2026}.
+\newblock \bibinfo{title}{{SAM} 3: Segment anything with concepts}, in:
+  \bibinfo{booktitle}{International Conference on Learning Representations}.
+\newblock \href{http://arxiv.org/abs/2511.16719}{\tt arXiv:2511.16719}.
+%Type = Inproceedings
+\bibitem[{Chen et~al.(2021)Chen, Yuan, Zeng and Wang}]{chen2021cps}
+\bibinfo{author}{Chen, X.}, \bibinfo{author}{Yuan, Y.}, \bibinfo{author}{Zeng,
+  G.}, \bibinfo{author}{Wang, J.}, \bibinfo{year}{2021}.
+\newblock \bibinfo{title}{Semi-supervised semantic segmentation with cross
+  pseudo supervision}, in: \bibinfo{booktitle}{Proceedings of the IEEE/CVF
+  Conference on Computer Vision and Pattern Recognition}, pp.
+  \bibinfo{pages}{2613--2622}.
+\newblock \DOIprefix\doi{10.1109/CVPR46437.2021.00264}.
+%Type = Inproceedings
+\bibitem[{Chi et~al.(2024)Chi, Pang, Zhang and Liu}]{chi2024abd}
+\bibinfo{author}{Chi, H.}, \bibinfo{author}{Pang, J.}, \bibinfo{author}{Zhang,
+  B.}, \bibinfo{author}{Liu, W.}, \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{Adaptive bidirectional displacement for
+  semi-supervised medical image segmentation}, in:
+  \bibinfo{booktitle}{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition}, pp. \bibinfo{pages}{4070--4080}.
+\newblock \DOIprefix\doi{10.1109/CVPR52733.2024.00390}.
+%Type = Inproceedings
+\bibitem[{Kirillov et~al.(2023)Kirillov, Mintun, Ravi, Mao, Rolland, Gustafson,
+  Xiao, Whitehead, Berg, Lo, Doll{\'a}r and Girshick}]{kirillov2023segment}
+\bibinfo{author}{Kirillov, A.}, \bibinfo{author}{Mintun, E.},
+  \bibinfo{author}{Ravi, N.}, \bibinfo{author}{Mao, H.},
+  \bibinfo{author}{Rolland, C.}, \bibinfo{author}{Gustafson, L.},
+  \bibinfo{author}{Xiao, T.}, \bibinfo{author}{Whitehead, S.},
+  \bibinfo{author}{Berg, A.C.}, \bibinfo{author}{Lo, W.Y.},
+  \bibinfo{author}{Doll{\'a}r, P.}, \bibinfo{author}{Girshick, R.},
+  \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Segment anything}, in:
+  \bibinfo{booktitle}{Proceedings of the IEEE/CVF International Conference on
+  Computer Vision}, pp. \bibinfo{pages}{4015--4026}.
+\newblock \DOIprefix\doi{10.1109/ICCV51070.2023.00371}.
+%Type = Article
+\bibitem[{Liu et~al.(2023)Liu, Zhu, Li, Chen, Wang and Shen}]{liu2023matcher}
+\bibinfo{author}{Liu, Y.}, \bibinfo{author}{Zhu, M.}, \bibinfo{author}{Li, H.},
+  \bibinfo{author}{Chen, H.}, \bibinfo{author}{Wang, X.},
+  \bibinfo{author}{Shen, C.}, \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Matcher: Segment anything with one shot using
+  all-purpose feature matching}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2305.13310} .
+%Type = Inproceedings
+\bibitem[{Luo et~al.(2022)Luo, Hu, Song, Wang and Zhang}]{luo2022crossteaching}
+\bibinfo{author}{Luo, X.}, \bibinfo{author}{Hu, M.}, \bibinfo{author}{Song,
+  T.}, \bibinfo{author}{Wang, G.}, \bibinfo{author}{Zhang, S.},
+  \bibinfo{year}{2022}.
+\newblock \bibinfo{title}{Semi-supervised medical image segmentation via cross
+  teaching between {CNN} and transformer}, in: \bibinfo{booktitle}{Proceedings
+  of the 5th Conference on Medical Imaging with Deep Learning}, pp.
+  \bibinfo{pages}{820--833}.
+%Type = Article
+\bibitem[{Ma et~al.(2024)Ma, He, Li, Han, You and Wang}]{ma2024medsam}
+\bibinfo{author}{Ma, J.}, \bibinfo{author}{He, Y.}, \bibinfo{author}{Li, F.},
+  \bibinfo{author}{Han, L.}, \bibinfo{author}{You, C.}, \bibinfo{author}{Wang,
+  B.}, \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{Segment anything in medical images}.
+\newblock \bibinfo{journal}{Nature Communications} \bibinfo{volume}{15},
+  \bibinfo{pages}{654}.
+\newblock \DOIprefix\doi{10.1038/s41467-024-44824-z}.
+%Type = Inproceedings
+\bibitem[{Mao et~al.(2025)Mao, Xing, Meng, Liu, Bai, Nie and
+  Meng}]{mao2025opsam}
+\bibinfo{author}{Mao, X.}, \bibinfo{author}{Xing, X.}, \bibinfo{author}{Meng,
+  F.}, \bibinfo{author}{Liu, J.}, \bibinfo{author}{Bai, F.},
+  \bibinfo{author}{Nie, Q.}, \bibinfo{author}{Meng, M.}, \bibinfo{year}{2025}.
+\newblock \bibinfo{title}{One polyp identifies all: One-shot polyp segmentation
+  with {SAM} via cascaded priors and iterative prompt evolution}, in:
+  \bibinfo{booktitle}{Proceedings of the IEEE/CVF International Conference on
+  Computer Vision}.
+\newblock \href{http://arxiv.org/abs/2507.16337}{\tt arXiv:2507.16337}.
+%Type = Article
+\bibitem[{Mazurowski et~al.(2023)Mazurowski, Dong, Gu, Yang, Konz and
+  Zhang}]{mazurowski2023samexperiment}
+\bibinfo{author}{Mazurowski, M.A.}, \bibinfo{author}{Dong, H.},
+  \bibinfo{author}{Gu, H.}, \bibinfo{author}{Yang, J.}, \bibinfo{author}{Konz,
+  N.}, \bibinfo{author}{Zhang, Y.}, \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Segment anything model for medical image analysis: An
+  experimental study}.
+\newblock \bibinfo{journal}{Medical Image Analysis} \bibinfo{volume}{89},
+  \bibinfo{pages}{102918}.
+\newblock \DOIprefix\doi{10.1016/j.media.2023.102918}.
+%Type = Inproceedings
+\bibitem[{Miao et~al.(2024)Miao, Chen, Zhang, Chuai, Li and
+  Heng}]{miao2024cpcsam}
+\bibinfo{author}{Miao, J.}, \bibinfo{author}{Chen, C.}, \bibinfo{author}{Zhang,
+  K.}, \bibinfo{author}{Chuai, J.}, \bibinfo{author}{Li, Q.},
+  \bibinfo{author}{Heng, P.A.}, \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{Cross prompting consistency with segment anything
+  model for semi-supervised medical image segmentation}, in:
+  \bibinfo{booktitle}{Medical Image Computing and Computer Assisted
+  Intervention}, pp. \bibinfo{pages}{167--177}.
+\newblock \DOIprefix\doi{10.1007/978-3-031-72120-5_16}.
+%Type = Inproceedings
+\bibitem[{Ravi et~al.(2025)Ravi, Gabeur, Hu, Hu, Ryali, Ma, Khedr, R{\"a}dle,
+  Rolland, Gustafson et~al.}]{ravi2025sam2}
+\bibinfo{author}{Ravi, N.}, \bibinfo{author}{Gabeur, V.}, \bibinfo{author}{Hu,
+  Y.T.}, \bibinfo{author}{Hu, R.}, \bibinfo{author}{Ryali, C.},
+  \bibinfo{author}{Ma, T.}, \bibinfo{author}{Khedr, H.},
+  \bibinfo{author}{R{\"a}dle, R.}, \bibinfo{author}{Rolland, C.},
+  \bibinfo{author}{Gustafson, L.}, et~al., \bibinfo{year}{2025}.
+\newblock \bibinfo{title}{{SAM} 2: Segment anything in images and videos}, in:
+  \bibinfo{booktitle}{International Conference on Learning Representations}.
+\newblock \href{http://arxiv.org/abs/2408.00714}{\tt arXiv:2408.00714}.
+%Type = Article
+\bibitem[{Tang et~al.(2024)Tang, Xu, Hu, Li, Xia, Zhong, Wu, Su and
+  Ge}]{tang2024dacl}
+\bibinfo{author}{Tang, F.}, \bibinfo{author}{Xu, Z.}, \bibinfo{author}{Hu, M.},
+  \bibinfo{author}{Li, W.}, \bibinfo{author}{Xia, P.}, \bibinfo{author}{Zhong,
+  Y.}, \bibinfo{author}{Wu, H.}, \bibinfo{author}{Su, J.}, \bibinfo{author}{Ge,
+  Z.}, \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{Neighbor does matter: Density-aware contrastive
+  learning for medical semi-supervised segmentation}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2412.19871} .
+%Type = Inproceedings
+\bibitem[{Tarvainen and Valpola(2017)}]{tarvainen2017meanteacher}
+\bibinfo{author}{Tarvainen, A.}, \bibinfo{author}{Valpola, H.},
+  \bibinfo{year}{2017}.
+\newblock \bibinfo{title}{Mean teachers are better role models: Weight-averaged
+  consistency targets improve semi-supervised deep learning results}, in:
+  \bibinfo{booktitle}{Advances in Neural Information Processing Systems}.
+%Type = Article
+\bibitem[{Vu et~al.(2026)Vu, Nguyen, Nguyen, Lam, Nguyen, Wang, Li and
+  Xu}]{vu2026scsam}
+\bibinfo{author}{Vu, V.}, \bibinfo{author}{Nguyen, T.H.},
+  \bibinfo{author}{Nguyen, T.T.}, \bibinfo{author}{Lam, B.T.},
+  \bibinfo{author}{Nguyen, H.T.}, \bibinfo{author}{Wang, T.},
+  \bibinfo{author}{Li, X.}, \bibinfo{author}{Xu, M.}, \bibinfo{year}{2026}.
+\newblock \bibinfo{title}{From specialist to generalist: Unlocking {SAM}'s
+  learning potential on unlabeled medical images}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2601.17934} .
+%Type = Article
+\bibitem[{Wang et~al.(2024)Wang, Li, Su, Yin, Yang and Li}]{wang2024graphcl}
+\bibinfo{author}{Wang, M.}, \bibinfo{author}{Li, J.}, \bibinfo{author}{Su, H.},
+  \bibinfo{author}{Yin, N.}, \bibinfo{author}{Yang, L.}, \bibinfo{author}{Li,
+  S.}, \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{{GraphCL}: Graph-based clustering for semi-supervised
+  medical image segmentation}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2411.13147} .
+%Type = Article
+\bibitem[{Wu et~al.(2022)Wu, Ge, Zhang, Xu, Zhang, Xia and Cai}]{wu2022mcnet}
+\bibinfo{author}{Wu, Y.}, \bibinfo{author}{Ge, Z.}, \bibinfo{author}{Zhang,
+  D.}, \bibinfo{author}{Xu, M.}, \bibinfo{author}{Zhang, L.},
+  \bibinfo{author}{Xia, Y.}, \bibinfo{author}{Cai, J.}, \bibinfo{year}{2022}.
+\newblock \bibinfo{title}{Mutual consistency learning for semi-supervised
+  medical image segmentation}.
+\newblock \bibinfo{journal}{Medical Image Analysis} \bibinfo{volume}{81},
+  \bibinfo{pages}{102530}.
+\newblock \DOIprefix\doi{10.1016/j.media.2022.102530}.
+%Type = Article
+\bibitem[{Xu et~al.(2024)Xu, Qian, Shao, Luo, Lu and Zhang}]{xu2024samatch}
+\bibinfo{author}{Xu, G.}, \bibinfo{author}{Qian, X.}, \bibinfo{author}{Shao,
+  H.C.}, \bibinfo{author}{Luo, J.}, \bibinfo{author}{Lu, W.},
+  \bibinfo{author}{Zhang, Y.}, \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{A {SAM}-guided and match-based semi-supervised
+  segmentation framework for medical imaging}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2411.16949} .
+%Type = Article
+\bibitem[{You et~al.(2022)You, Dai, Min, Staib and Duncan}]{you2022action}
+\bibinfo{author}{You, C.}, \bibinfo{author}{Dai, W.}, \bibinfo{author}{Min,
+  Y.}, \bibinfo{author}{Staib, L.}, \bibinfo{author}{Duncan, J.S.},
+  \bibinfo{year}{2022}.
+\newblock \bibinfo{title}{Bootstrapping semi-supervised medical image
+  segmentation with anatomical-aware contrastive distillation}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2206.02307} .
+%Type = Article
+\bibitem[{Zhang et~al.(2026)Zhang, Gu, Wang, Mou, Zhang and
+  Zhao}]{zhang2026yoloseg}
+\bibinfo{author}{Zhang, M.}, \bibinfo{author}{Gu, Y.}, \bibinfo{author}{Wang,
+  M.}, \bibinfo{author}{Mou, L.}, \bibinfo{author}{Zhang, J.},
+  \bibinfo{author}{Zhao, Y.}, \bibinfo{year}{2026}.
+\newblock \bibinfo{title}{{YoloSeg}: You only label once for medical image
+  segmentation}.
+\newblock \bibinfo{journal}{Medical Image Analysis} \bibinfo{volume}{112},
+  \bibinfo{pages}{104093}.
+\newblock \DOIprefix\doi{10.1016/j.media.2026.104093}.
+%Type = Article
+\bibitem[{Zhang et~al.(2023)Zhang, Jiang, Guo, Yan, Pan, Ma, Dong, Gao and
+  Li}]{zhang2023persam}
+\bibinfo{author}{Zhang, R.}, \bibinfo{author}{Jiang, Z.}, \bibinfo{author}{Guo,
+  Z.}, \bibinfo{author}{Yan, S.}, \bibinfo{author}{Pan, J.},
+  \bibinfo{author}{Ma, X.}, \bibinfo{author}{Dong, H.}, \bibinfo{author}{Gao,
+  P.}, \bibinfo{author}{Li, H.}, \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Personalize segment anything model with one shot}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2305.03048} .
+%Type = Article
+\bibitem[{Zhang et~al.(2025)Zhang, Lv, Xue, Zhang, Liu, Fu, Cheng and
+  Qi}]{zhang2025semisamplus}
+\bibinfo{author}{Zhang, Y.}, \bibinfo{author}{Lv, B.}, \bibinfo{author}{Xue,
+  L.}, \bibinfo{author}{Zhang, W.}, \bibinfo{author}{Liu, Y.},
+  \bibinfo{author}{Fu, Y.}, \bibinfo{author}{Cheng, Y.}, \bibinfo{author}{Qi,
+  Y.}, \bibinfo{year}{2025}.
+\newblock \bibinfo{title}{{SemiSAM+}: Rethinking semi-supervised medical image
+  segmentation in the era of foundation models}.
+\newblock \bibinfo{journal}{Medical Image Analysis} \bibinfo{volume}{106},
+  \bibinfo{pages}{103733}.
+\newblock \DOIprefix\doi{10.1016/j.media.2025.103733}.
+%Type = Inproceedings
+\bibitem[{Zhang et~al.(2024)Zhang, Yang, Liu, Cheng and Qi}]{zhang2023semisam}
+\bibinfo{author}{Zhang, Y.}, \bibinfo{author}{Yang, J.}, \bibinfo{author}{Liu,
+  Y.}, \bibinfo{author}{Cheng, Y.}, \bibinfo{author}{Qi, Y.},
+  \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{{SemiSAM}: Enhancing semi-supervised medical image
+  segmentation via {SAM}-assisted consistency regularization}, in:
+  \bibinfo{booktitle}{IEEE International Conference on Bioinformatics and
+  Biomedicine}, pp. \bibinfo{pages}{3982--3986}.
+\newblock \DOIprefix\doi{10.1109/BIBM62325.2024.10821951}.
+%Type = Article
+\bibitem[{Zhang and He(2026)}]{zhang2026cppssam}
+\bibinfo{author}{Zhang, Z.}, \bibinfo{author}{He, L.}, \bibinfo{year}{2026}.
+\newblock \bibinfo{title}{{SAM} foundation model and expert model cross
+  prompting framework for semi-supervised medical image segmentation}.
+\newblock \bibinfo{journal}{Journal of Visual Communication and Image
+  Representation} \bibinfo{volume}{119}, \bibinfo{pages}{104876}.
+\newblock \DOIprefix\doi{10.1016/j.jvcir.2026.104876}.
+
+\end{thebibliography}

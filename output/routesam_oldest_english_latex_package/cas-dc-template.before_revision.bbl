@@ -1,0 +1,80 @@
+\begin{thebibliography}{6}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\href}[2]{#2}
+\providecommand{\path}[1]{#1}
+\providecommand{\DOIprefix}{doi:}
+\providecommand{\ArXivprefix}{arXiv:}
+\providecommand{\URLprefix}{URL: }
+\providecommand{\Pubmedprefix}{pmid:}
+\providecommand{\doi}[1]{\href{http://dx.doi.org/#1}{\path{#1}}}
+\providecommand{\Pubmed}[1]{\href{pmid:#1}{\path{#1}}}
+\providecommand{\bibinfo}[2]{#2}
+\ifx\xfnm\relax \def\xfnm[#1]{\unskip,\space#1}\fi
+%Type = Inproceedings
+\bibitem[{Carion et~al.(2026)Carion, Gustafson, Hu, Debnath, Hu, Suris, Ryali,
+  Alwala, Khedr, Huang et~al.}]{carion2026sam}
+\bibinfo{author}{Carion, N.}, \bibinfo{author}{Gustafson, L.},
+  \bibinfo{author}{Hu, Y.T.}, \bibinfo{author}{Debnath, S.},
+  \bibinfo{author}{Hu, R.}, \bibinfo{author}{Suris, D.},
+  \bibinfo{author}{Ryali, C.}, \bibinfo{author}{Alwala, K.V.},
+  \bibinfo{author}{Khedr, H.}, \bibinfo{author}{Huang, A.}, et~al.,
+  \bibinfo{year}{2026}.
+\newblock \bibinfo{title}{{SAM} 3: Segment anything with concepts}, in:
+  \bibinfo{booktitle}{International Conference on Learning Representations}.
+\newblock \href{http://arxiv.org/abs/2511.16719}{\tt arXiv:2511.16719}.
+%Type = Inproceedings
+\bibitem[{Kirillov et~al.(2023)Kirillov, Mintun, Ravi, Mao, Rolland, Gustafson,
+  Xiao, Whitehead, Berg, Lo, Doll{\'a}r and Girshick}]{kirillov2023segment}
+\bibinfo{author}{Kirillov, A.}, \bibinfo{author}{Mintun, E.},
+  \bibinfo{author}{Ravi, N.}, \bibinfo{author}{Mao, H.},
+  \bibinfo{author}{Rolland, C.}, \bibinfo{author}{Gustafson, L.},
+  \bibinfo{author}{Xiao, T.}, \bibinfo{author}{Whitehead, S.},
+  \bibinfo{author}{Berg, A.C.}, \bibinfo{author}{Lo, W.Y.},
+  \bibinfo{author}{Doll{\'a}r, P.}, \bibinfo{author}{Girshick, R.},
+  \bibinfo{year}{2023}.
+\newblock \bibinfo{title}{Segment anything}, in:
+  \bibinfo{booktitle}{Proceedings of the IEEE/CVF International Conference on
+  Computer Vision}, pp. \bibinfo{pages}{4015--4026}.
+\newblock \DOIprefix\doi{10.1109/ICCV51070.2023.00371}.
+%Type = Inproceedings
+\bibitem[{Ravi et~al.(2025)Ravi, Gabeur, Hu, Hu, Ryali, Ma, Khedr, R{\"a}dle,
+  Rolland, Gustafson et~al.}]{ravi2025sam}
+\bibinfo{author}{Ravi, N.}, \bibinfo{author}{Gabeur, V.}, \bibinfo{author}{Hu,
+  Y.T.}, \bibinfo{author}{Hu, R.}, \bibinfo{author}{Ryali, C.},
+  \bibinfo{author}{Ma, T.}, \bibinfo{author}{Khedr, H.},
+  \bibinfo{author}{R{\"a}dle, R.}, \bibinfo{author}{Rolland, C.},
+  \bibinfo{author}{Gustafson, L.}, et~al., \bibinfo{year}{2025}.
+\newblock \bibinfo{title}{{SAM} 2: Segment anything in images and videos}, in:
+  \bibinfo{booktitle}{International Conference on Learning Representations}.
+\newblock \href{http://arxiv.org/abs/2408.00714}{\tt arXiv:2408.00714}.
+%Type = Article
+\bibitem[{Vu et~al.(2026)Vu, Nguyen, Nguyen, Lam, Nguyen, Wang, Li and
+  Xu}]{scsam}
+\bibinfo{author}{Vu, V.}, \bibinfo{author}{Nguyen, T.H.},
+  \bibinfo{author}{Nguyen, T.T.}, \bibinfo{author}{Lam, B.T.},
+  \bibinfo{author}{Nguyen, H.T.}, \bibinfo{author}{Wang, T.},
+  \bibinfo{author}{Li, X.}, \bibinfo{author}{Xu, M.}, \bibinfo{year}{2026}.
+\newblock \bibinfo{title}{From specialist to generalist: Unlocking {SAM}'s
+  learning potential on unlabeled medical images}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2601.17934} .
+%Type = Article
+\bibitem[{Xu et~al.(2024)Xu, Qian, Shao, Luo, Lu and Zhang}]{sammatch}
+\bibinfo{author}{Xu, G.}, \bibinfo{author}{Qian, X.}, \bibinfo{author}{Shao,
+  H.C.}, \bibinfo{author}{Luo, J.}, \bibinfo{author}{Lu, W.},
+  \bibinfo{author}{Zhang, Y.}, \bibinfo{year}{2024}.
+\newblock \bibinfo{title}{A {SAM}-guided and match-based semi-supervised
+  segmentation framework for medical imaging}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2411.16949} .
+%Type = Article
+\bibitem[{Zhang et~al.(2025)Zhang, Lv, Xue, Zhang, Liu, Fu, Cheng and
+  Qi}]{semisamplus}
+\bibinfo{author}{Zhang, Y.}, \bibinfo{author}{Lv, B.}, \bibinfo{author}{Xue,
+  L.}, \bibinfo{author}{Zhang, W.}, \bibinfo{author}{Liu, Y.},
+  \bibinfo{author}{Fu, Y.}, \bibinfo{author}{Cheng, Y.}, \bibinfo{author}{Qi,
+  Y.}, \bibinfo{year}{2025}.
+\newblock \bibinfo{title}{{SemiSAM+}: Rethinking semi-supervised medical image
+  segmentation in the era of foundation models}.
+\newblock \bibinfo{journal}{arXiv preprint arXiv:2502.20749} .
+
+\end{thebibliography}

@@ -1,0 +1,229 @@
+% RouteSAM 中文理解稿
+% 建议使用 XeLaTeX 编译；本稿与英文投稿稿共享公式、图片和参考文献。
+\documentclass[UTF8,a4paper,10pt]{ctexart}
+
+\usepackage[left=2.1cm,right=2.1cm,top=2.2cm,bottom=2.2cm]{geometry}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[authoryear,round]{natbib}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[colorlinks=true,citecolor=TealBlue,linkcolor=blue,urlcolor=blue]{hyperref}
+\usepackage{booktabs}
+\usepackage{microtype}
+
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.25em}
+\linespread{1.15}
+
+\title{RouteSAM：通过跨图像语义路径实现半监督二维医学图像分割}
+\author{作者信息待补充}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+现有半监督医学图像分割方法通常将每张未标注图像视为独立的伪标签生成对象，并通过模型预测、一致性约束或跨图像迁移建立监督联系。然而，在标注极为稀缺时，少量标注样本难以覆盖病灶形态、尺度和外观的多样性，导致模型难以为语义差异较大的未标注目标提供可靠监督，一步式跨图像迁移也容易失败。这些错误在后续训练中可能被不断强化，反而损害分割性能。为解决这一问题，本文提出 RouteSAM，将极少标注条件下的半监督医学图像分割重新表述为跨图像监督路由问题。其核心思想是，不再要求有限的标注样本分别与所有未标注目标建立困难的直接联系，而是利用未标注数据之间潜在的{\color{red}语义连续性}，为分割监督规划由易到难的渐进传播路径。在这一视角下，未标注图像不仅是等待生成伪标签的训练对象，还可以作为连接标注样本与困难目标的中间语义节点。具体而言，RouteSAM 首先在固定标注预算下选择能够覆盖训练数据分布的少量图像作为标注锚点；对于每张目标图像，进一步确定合适的传播起点，并从未标注数据中选择具有连续语义关系的桥接图像，将其组织为“锚点--桥接图像--目标图像”的有序路径。SAM3 沿路径逐步传播锚点掩码，将一次跨越较大语义差异的困难迁移分解为一系列更加平滑的局部传播，并通过不同锚点和路径深度产生多个目标候选掩码。为抑制路径选择错误和传播误差的累积，RouteSAM 结合路径结构与传播过程估计候选质量，并引入任务专用分割模型学习可靠监督、审核传播结果和提供医学领域反馈。经过领域适配的 SAM3 沿冻结路径再次传播，由此形成“通用模型扩展监督--任务模型学习与审核--通用模型重新传播”的协作闭环。语义检索与路径传播仅用于训练阶段，最终分割模型无需检索参考图像、构造传播路径或接收人工提示，即可直接完成单幅图像分割。本文在 Kvasir-SEG、BUSI 和 ISIC2018 数据集上，以约 1\% 的标注预算验证所提方法。实验结果表明，RouteSAM【最终定量结果待补充】，说明显式规划监督从标注数据到未标注数据的传播路径，能够更充分地利用未标注医学数据。
+
+\noindent\textbf{关键词：}半监督医学图像分割；Segment Anything Model；跨图像传播；语义路径；伪标签学习
+\end{abstract}
+
+\section{引言}
+
+像素级标注一直是医学图像分割中的主要瓶颈，因为准确勾画病灶或器官边界不仅耗时，而且依赖专业医学知识。半监督医学图像分割通过同时利用有限的标注图像和大量未标注图像来缓解这一负担。代表性方法通常生成伪标签，或在输入、特征和模型扰动下约束预测一致性~\cite{tarvainen2017meanteacher,chen2021cps,luo2022crossteaching,wu2022mcnet,bai2023bcp,assefa2025dycon}。在常见的实验设置中，当约 5\%--20\% 的训练数据具有像素级标注时，这些方法能够显著优于仅使用相同标注子集训练的监督基线，说明未标注数据可以补偿相当一部分缺失的人工标注~\cite{luo2022crossteaching,bai2023bcp,assefa2025dycon}。
+
+在此基础上，提示式分割基础模型为进一步增强少标注学习提供了新的途径。SAM 系列模型~\cite{kirillov2023segment,ravi2025sam2,carion2026sam3}通过大规模预训练获得了较强的提示驱动分割先验。尽管医学图像与自然图像在成像方式、对比度、目标尺度和形态上存在显著差异，直接部署 SAM 仍不够可靠~\cite{mazurowski2023samexperiment,ma2024medsam}，但将其与任务专用医学模型结合后，SAM 仍可作为通用分割先验。近期的 SAM 辅助半监督方法因而利用任务模型预测生成 SAM 提示、利用 SAM 输出精化伪标签，或在通用模型与任务模型之间交换知识，进一步增强从未标注图像中获得的监督~\cite{zhang2023semisam,zhang2025semisamplus,xu2024samatch,miao2024cpcsam,vu2026scsam,zhang2026cppssam}。
+
+然而，当标注数据进一步减少，甚至整个训练集中仅有少数几张图像具有像素级标注时，传统半监督模型与提示式分割基础模型更容易产生不可靠的伪监督和错误预测。当这些错误预测被重新作为训练监督时，可能进一步加剧确认偏差，使误差在迭代训练过程中不断累积。
+我们观察到，这一现象往往出现在已标注源图像与未标注目标图像之间存在较大视觉或语义距离时。有限的已标注源图像难以覆盖病灶在形态、尺度和外观上的多样性，因而传统半监督模型可能难以为差异较大的目标生成可靠伪标签，提示式分割基础模型也可能难以根据标注源提供的掩码提示得到准确的目标分割结果。
+
+现有方法大多更加关注源图像与目标图像之间的直接联系，而大量未标注数据及其内部关系往往未被充分挖掘。这促使我们进一步思考：能否利用未标注图像之间潜在的语义关联，弥补标注源与困难目标之间的语义鸿沟，将一次跨越较大语义距离的直接迁移分解为多个更加局部的传播步骤？
+
+未标注数据本身还包含有价值的数据集级结构。ACTION 学习全局语义关系和局部解剖对比~\cite{you2022action}；DACL 构建密度感知邻居图以压紧类别特征~\cite{tang2024dacl}；GraphCL 则通过图聚类建模实例关系~\cite{wang2024graphcl}。这些方法说明跨样本关系具有价值，但主要利用这些关系正则化特征学习，而不是定义一条可执行的掩码传播路径。
+
+与本文更接近的工作在单样本监督下进行跨图像掩码迁移。OP-SAM 通过支持图像与查询图像之间的特征相关性和迭代提示演化，将标注先验迁移到查询图像~\cite{mao2025opsam}。YoloSeg 使用 SAM2 将单个标注掩码传播到未标注图像池，并利用多视图共识与分歧区域训练任务专用模型~\cite{zhang2026yoloseg}。这些研究证明了基础模型驱动传播的价值，但其迁移仍围绕直接的支持图像--查询图像联系展开，并未显式选择和排序一组中间未标注样本。当标注起点与目标在形态、尺度或外观上差异较大时，即使后续对结果进行筛选或正则化，这种一步式迁移仍可能十分困难。
+
+本文将未标注医学数据集同时视为预测目标集合和语义过渡空间。在标注起点与困难目标之间，数据池中可能存在能够提供中间语义状态、使连续迁移更局部的图像。如图~\ref{fig:motivation-zh} 所示，这一视角把研究问题从“如何改善每张未标注图像的预测”转变为“如何设计稀疏监督到达该图像的传播路径”。
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.96\linewidth]{../figs/figure1.png}
+    \caption{直接跨图像传播与 RouteSAM 语义路径传播的概念比较。直接传播试图一步将锚点 $A$ 的掩码迁移到目标 $T$；RouteSAM 则选择并排序桥接图像 $\{B_i\}$，让 SAM3 按照 $A\rightarrow B_1\rightarrow\cdots\rightarrow B_b\rightarrow T$ 逐步传播。路径只在训练阶段使用，最终任务模型直接处理单幅测试图像。图中的掩码仅用于说明方法直觉。}
+    \label{fig:motivation-zh}
+\end{figure}
+
+为回答这一问题，本文提出面向极少标注半监督二维医学图像分割的语义路由框架 \textbf{RouteSAM}。在固定标注预算下，RouteSAM 首先选择能够覆盖训练分布的图像作为标注锚点（Anchor）。对于每张未标注目标图像（Target），目标条件检索选择合适的锚点和桥接候选（Bridge），并将它们排序为 Anchor--Bridge--Target 路径。SAM3 将这些有序图像视作一段伪视频，沿路径逐步传播锚点掩码，并从不同起点和路径深度产生多个目标候选。随后，路径感知的质量模型选择可靠候选作为伪监督。RouteSAM 并非仅把任务模型作为另一个同图像协作者，而是训练任务专用 U-Net 吸收路径生成的监督并审核传播候选，再以其领域预测指导 SAM3 的参数高效适配。适配后的模型沿相同的冻结路径重新传播，构建第二轮训练集。路径构造仅发生在训练阶段，最终任务模型可直接进行无需提示的单图像推理。
+
+本文在 Kvasir-SEG、BUSI 和 ISIC2018 上采用约 1\% 的标注预算评估 RouteSAM，将其与传统半监督方法、SAM 辅助方法及单样本传播基线进行比较，并分析锚点选择、桥接深度、候选选择、任务模型审核、SAM3 适配和重新传播的作用。\textbf{【统一闭环评估完成后，在此补充最终定量结果。】}
+
+本文的主要贡献如下：
+\begin{itemize}
+    \item 将半监督医学图像分割表述为跨图像监督路由问题，把研究重点从逐图像独立生成伪标签推进到在未标注训练集上显式设计监督传播路径。
+    \item 提出覆盖感知的锚点选择和目标条件路径构造策略，将选出的未标注桥接图像组织为有序语义路径，使 SAM3 能够用一系列更局部的传播步骤替代困难的一步式迁移。
+    \item 构建路径感知的监督生成与吸收流程：SAM3 生成多个路径相关候选，质量模型选择可靠伪监督，任务专用模型审核候选并指导保持路径不变的适配与重新传播，同时保留直接单图像推理能力。
+\end{itemize}
+
+\section{相关工作}
+
+\subsection{半监督医学图像分割}
+
+半监督医学图像分割利用少量像素级标注和大量未标注图像训练模型。一类代表性方法是一致性正则化：同一图像在不同扰动、不同网络或不同视图下应得到一致预测。Mean Teacher 使用滑动平均教师产生稳定目标~\cite{tarvainen2017meanteacher}；Cross Pseudo Supervision 让两个独立初始化的网络交换硬伪标签~\cite{chen2021cps}；Cross Teaching 利用 CNN 与 Transformer 的不同归纳偏置进行互教~\cite{luo2022crossteaching}；MC-Net+ 则通过多个解码器估计不确定区域并施加软一致性~\cite{wu2022mcnet}。
+
+近期工作进一步提高了伪监督的可靠性。BCP 通过双向复制粘贴减小标注数据与未标注数据之间的经验分布差异~\cite{bai2023bcp}；ABD 使用置信度引导的双向区域置换控制多种扰动~\cite{chi2024abd}；DyCON 对不确定体素动态加权，并结合一致性和对比学习~\cite{assefa2025dycon}。这些方法主要通过预测一致性、扰动或局部样本混合来利用未标注数据。RouteSAM 与其区别在于，它不只改进单张图像的伪标签，而是显式构造一条由多张图像组成的监督传播路径。
+
+\subsection{基础分割模型辅助的少标注学习}
+
+SAM 的提示式分割能力使基础模型能够为少标注医学任务提供额外先验。SemiSAM 将冻结的 SAM 作为传统一致性框架的辅助分支：任务模型产生提示，SAM 输出额外伪监督~\cite{zhang2023semisam}。SemiSAM+ 将这种设计推广到一个或多个冻结的通用模型，并加入置信度感知的通用模型--任务模型协作~\cite{zhang2025semisamplus}。SAMatch 结合弱到强的一致性学习和任务适配后的 SAM，由教师自动生成提示，再由 SAM 返回精化掩码~\cite{xu2024samatch}。
+
+另一些方法直接利用未标注数据适配 SAM。CPC-SAM 使用两个 SAM 解码器相互产生提示与监督，并约束不同提示位置下的预测一致性~\cite{miao2024cpcsam}。SC-SAM 让 U-Net 为 SAM 提供点提示和伪标签，同时由 SAM 反向约束 U-Net~\cite{vu2026scsam}。CPPS-SAM 也通过交叉提示与交叉伪监督，在 CNN 专家和 SAM 通用模型之间双向传递知识~\cite{zhang2026cppssam}。这些方法证明了通用模型和任务模型协作的价值，但协作主要发生在同一图像内部。RouteSAM 关注的是另一个维度：监督应当如何在一组相关图像之间被组织和传播。
+
+\subsection{跨图像关系建模与掩码传播}
+
+一些半监督方法已经利用了数据集中的跨样本关系。ACTION 学习全局语义关系和局部解剖对比~\cite{you2022action}；DACL 使用密度感知的邻居图将稀疏特征拉向高密度类别区域~\cite{tang2024dacl}；GraphCL 将实例图和图聚类引入教师--学生框架~\cite{wang2024graphcl}。这些研究说明未标注数据包含有价值的数据集级结构，但跨样本关系主要用于改善特征空间，并没有直接回答掩码应当沿哪些图像传播。
+
+参考图像驱动的方法与本文更为接近。PerSAM 和 Matcher 根据一张参考图像及其掩码个性化或提示 SAM~\cite{zhang2023persam,liu2023matcher}；OP-SAM 通过支持图像与查询图像之间的相关性和迭代提示，将单个标注样本的先验迁移到息肉图像~\cite{mao2025opsam}；YoloSeg 使用 SAM2 将单个标注传播到未标注图像，并通过多视图共识训练任务模型~\cite{zhang2026yoloseg}。RouteSAM 的关键区别在于：它不仅决定从哪张标注图像出发，还在起点与目标之间主动插入并排序未标注桥接图像，把未标注池从被动的预测对象转化为可用于渐进监督迁移的过渡空间。
+
+\section{方法}
+\label{sec:method-zh}
+
+\subsection{问题定义与整体思路}
+
+设训练图像集合为 $\mathcal{D}_{\mathrm{tr}}=\{x_i\}_{i=1}^{N}$，固定的验证集和测试集分别为 $\mathcal{D}_{\mathrm{val}}$ 与 $\mathcal{D}_{\mathrm{te}}$。在约 1\% 的标注预算下，我们从训练集中选择
+\begin{equation}
+K=\max\left(1,\operatorname{round}(0.01N)\right)
+\end{equation}
+张图像作为锚点并获取人工掩码，其余训练图像构成未标注池 $\mathcal{U}$。验证集标签只用于拟合和选择质量估计模块；所有测试预测冻结之前，测试标签始终不可见。
+
+RouteSAM 分为三个阶段。阶段 0 在不知道任何训练掩码的前提下，从训练图像中选择尽可能覆盖数据分布的锚点。阶段 1 针对每个目标检索合适的锚点和桥接图像，构造不同深度的传播路径，并使用冻结的 SAM3 生成与路径相关的目标候选掩码。阶段 2 用这些伪标签训练单图像任务模型，再由任务模型审核传播结果并辅助 SAM3 适配；适配后的 SAM3 沿固定路径重新传播，最终训练部署模型。
+
+\subsection{覆盖感知的锚点选择}
+\label{sec:anchor-selection-zh}
+
+锚点不仅是一张标注样本，还是许多传播路径的起点。如果少量锚点都集中在相似外观上，那么其他类型的目标只能从很不匹配的起点获得监督。因此，我们不进行独立随机抽样，而是选择能够共同覆盖训练分布的图像。整个选择过程只读取 RGB 图像；锚点列表完全冻结后才打开对应掩码。
+
+\paragraph{全局描述。}
+每张训练图像以 $1008\times1008$ 的分辨率输入冻结的 SAM3 图像骨干。设其 patch token 为 $\mathbf{P}_i=\{\mathbf{p}_{i,r}\}_{r=1}^{72\times72}$。先归一化每个 token，再进行平均，得到全局描述：
+\begin{equation}
+\mathbf{g}_i=\operatorname{norm}\left(\frac{1}{|\mathbf{P}_i|}\sum_r
+\operatorname{norm}(\mathbf{p}_{i,r})\right),
+\end{equation}
+其中 $\operatorname{norm}(\mathbf{v})=\mathbf{v}/\lVert\mathbf{v}\rVert_2$。
+
+\paragraph{局部描述。}
+仅使用全局平均可能忽略小目标和局部纹理，因此我们从每张图像均匀采样 $8\times8$ 个 patch token，并在训练集上拟合包含 64 个聚类中心的 MiniBatch K-Means 视觉词典。记 $h_{i,c}$ 为图像 $i$ 中视觉词 $c$ 的归一化频数，并定义
+\begin{equation}
+\operatorname{idf}_c=\log\frac{N+1}{\operatorname{df}_c+1}+1.
+\end{equation}
+局部描述为经过 Hellinger 变换并归一化的直方图：
+\begin{equation}
+\mathbf{l}_i=\operatorname{norm}\left(\sqrt{\mathbf{h}_i\odot\mathbf{idf}}\right).
+\end{equation}
+综合全局与局部外观，图像相似度定义为
+\begin{equation}
+S(i,j)=\frac{1}{2}\left[\mathbf{g}_i^{\top}\mathbf{g}_j\right]_+
++\frac{1}{2}\left[\mathbf{l}_i^{\top}\mathbf{l}_j\right]_+,
+\end{equation}
+其中 $[z]_+=\max(z,0)$。
+
+\paragraph{贪心覆盖。}
+对于锚点集合 $\mathcal{A}$，使用设施选址形式的覆盖目标：
+\begin{equation}
+F(\mathcal{A})=\frac{1}{N}\sum_{i=1}^{N}\max_{a\in\mathcal{A}}S(i,a).
+\end{equation}
+从空集合开始，每次加入使 $F$ 的边际增益最大的图像，直到选出 $K$ 个锚点。完全重复的图像文件不作为重复候选，但仍保留在覆盖目标中。相同得分按照固定样本编号打破平局。最终锚点列表及其哈希在读取掩码之前冻结。
+
+\subsection{面向目标的锚点检索}
+\label{sec:target-pooling-zh}
+
+覆盖选择回答“哪些图像值得被标注”，但不同目标需要的起点并不相同。阶段 1 因而使用目标感知的检索方法，从锚点集合中找到与当前目标最相关的一个或两个锚点。
+
+检索与传播使用独立的 $256\times256$ 表示。SAM3 骨干为每张图像产生 $18\times18$ 个 1024 维 patch token，记为 $\{\mathbf{x}_{i,j}\}_{j=1}^{324}$。对于锚点 $a$，把其掩码缩放到 patch 网格，并平均前景位置 $\Omega_a$ 内的 token，得到前景原型
+\begin{equation}
+\mathbf{p}_a=\operatorname{norm}\left(
+\frac{1}{|\Omega_a|}\sum_{j\in\Omega_a}\operatorname{norm}(\mathbf{x}_{a,j})
+\right).
+\end{equation}
+若缩放后前景为空，则退化为整幅图像的 patch 均值。
+
+对于目标 $t$，将锚点前景原型与目标各 patch 的相似度转化为注意力权重：
+\begin{equation}
+w_{a,t,j}=\frac{\exp(\beta\mathbf{p}_a^{\top}\mathbf{x}_{t,j})}
+{\sum_k\exp(\beta\mathbf{p}_a^{\top}\mathbf{x}_{t,k})},
+\qquad \beta=10.
+\end{equation}
+由此得到锚点条件下的目标描述和 Target Pooling 分数：
+\begin{equation}
+\mathbf{z}(a,t)=\operatorname{norm}\left(\sum_jw_{a,t,j}\mathbf{x}_{t,j}\right),
+\qquad
+r(a,t)=\mathbf{p}_a^{\top}\mathbf{z}(a,t).
+\end{equation}
+默认使用 $r(a,t)$ 排序锚点。我们同时研究中心化分数 $r(a,t)-\mu_a$，其中 $\mu_a$ 是锚点 $a$ 在训练 RGB 图像上的平均 Target Pooling 分数。中心化只作为锚点排序的校准消融，不改变后续路径目标。最终保留排名最高的一个或两个锚点。
+
+\subsection{有序语义路径构造}
+\label{sec:route-construction-zh}
+
+对于每个保留的锚点--目标组合，RouteSAM 分别构造包含 0 至 6 张桥接图像的路径：
+\begin{equation}
+\mathcal{R}_{b}: A\rightarrow B_1\rightarrow\cdots\rightarrow B_b\rightarrow T,
+\qquad b\in\{0,\ldots,6\}.
+\end{equation}
+所有桥接图像只能来自训练划分，目标图像不能出现在自己的桥接链中。相邻图像之间的亲和度由归一化全图 patch 均值描述的余弦相似度计算。对于一条候选路径，我们同时考虑中间节点及目标的 Target Pooling 分数，以及所有相邻边的亲和度，并用下式评分：
+\begin{equation}
+Q(\mathcal{R})=\left(\min_{v\in\mathcal{V}(\mathcal{R})}v,
+\frac{1}{|\mathcal{V}(\mathcal{R})|}\sum_{v\in\mathcal{V}(\mathcal{R})}v\right).
+\end{equation}
+该二元组按字典序比较：首先最大化路径中最弱的节点或转移，再最大化平均相关性。直观上，它避免某一段严重不匹配的路径，而不是只追求较高的平均分。每种深度分别使用宽度为 32 的束搜索，避免短路径与长路径相互挤占搜索空间。
+
+\subsection{SAM3 渐进传播}
+\label{sec:sam3-propagation-zh}
+
+每条路径被视作一段短伪视频，各帧按照式（10）的顺序排列。SAM3 在锚点帧上由人工掩码的紧致外接框初始化，不使用文本提示。模型随后在 $256\times256$ 画布上将目标掩码依次传播经过各个桥接帧，最终目标帧上的二值掩码被保存为路径候选 $\hat{y}_{t,\mathcal{R}}$。
+
+由于目标真值不可见，我们还执行一次反向传播来获得无标签质量信号。具体而言，用预测得到的目标掩码初始化逆序路径，并把返回锚点的预测与已知锚点掩码比较，得到循环一致性 $q_{\mathrm{cycle}}$。该比较只发生在有标注的锚点，因此既能用于未标注训练目标，也能用于独立测试目标。
+
+\subsection{路径候选质量估计}
+\label{sec:router-zh}
+
+若保留 $M$ 个锚点，则每个目标共有 $7M$ 个候选掩码。RouteSAM 使用 28 个不依赖目标真值的特征描述候选。7 个基础特征包括路径深度、路径最小与平均亲和度、最终 SAM 分数、候选数量及深度--亲和度交互；另外 21 个传播特征刻画反向传播的一致性与成功状态、掩码面积变化、空掩码与连通分量、质心和外接框漂移、相邻帧掩码一致性、SAM 分数轨迹以及候选数量轨迹。
+
+这些特征标准化后输入 $\alpha=1$ 的 Ridge 回归器，在验证集上预测候选 Dice。五折拟合时，同一验证图像的全部候选始终属于同一组，从而避免候选级信息泄漏。推理时选择预测质量最高的候选，并用固定的锚点排名和路径深度规则打破平局。所有测试选择在读取测试真值之前冻结。同一候选池上的逐目标 Oracle 仅作为诊断上界，不参与部署。
+
+\subsection{任务模型审核与 SAM3 适配}
+\label{sec:collaboration-zh}
+
+阶段 1 选出的掩码形成第一轮伪标注集合
+\begin{equation}
+\widehat{\mathcal{D}}_{U}^{(1)}=
+\{(x_t,\hat{y}_t^{(1)},q_t^{(1)})\mid x_t\in\mathcal{U}\},
+\end{equation}
+其中 $q_t^{(1)}$ 是预测的路径质量。任务专用 U-Net $f_{\theta}$ 使用锚点真值和通过筛选的伪标签训练：
+\begin{equation}
+\begin{aligned}
+\mathcal{L}_{\mathrm{sup}}&=\frac{1}{K}\sum_{a\in\mathcal{A}}
+\ell(f_{\theta}(x_a),y_a),\\
+\mathcal{L}_{\mathrm{pseudo}}&=\frac{1}{|\widehat{\mathcal{D}}_{U}^{(1)}|}
+\sum_t q_t^{(1)}\ell(f_{\theta}(x_t),\hat{y}_t^{(1)}),\\
+\mathcal{L}_{\mathrm{student}}&=\mathcal{L}_{\mathrm{sup}}
++\lambda_u\mathcal{L}_{\mathrm{pseudo}},
+\end{aligned}
+\end{equation}
+其中 $\ell$ 由二元交叉熵和 soft Dice 损失组成。
+
+U-Net 随后作为独立的领域审核者。对每个路径候选，我们综合传播质量估计和候选掩码与 U-Net 预测之间的一致性。接受阈值及组合权重只根据验证集选择。其目的不是简单地让两个模型互相确认，而是发现那些沿路径看似自洽、却不符合目标领域外观的传播结果。
+
+通过审核的伪标签和锚点掩码用于参数高效的 SAM3 适配。为了把“模型适配收益”与“重新搜索路径的收益”区分开，适配之前冻结锚点身份、桥接成员、路径顺序和候选选择策略。
+
+% TODO（阶段 2）：自动锚点闭环实现后，冻结审核公式、阈值、PEFT 模块和优化日程。
+
+\subsection{保持路径不变的第二轮传播与最终推理}
+\label{sec:repropagation-zh}
+
+将适配后的 SAM3 应用于相同的冻结路径，得到第二轮候选 $\hat{y}_{t,\mathcal{R}}^{(2)}$。随后按照预先在验证集确定的策略再次执行质量估计和任务模型审核，构造 $\widehat{\mathcal{D}}_{U}^{(2)}$。最终 U-Net 使用锚点真值和第二轮伪监督训练，目标函数仍采用式（13）。
+
+语义检索和 SAM3 传播都是训练阶段的监督扩展机制。测试时，最终 U-Net 只接收一张图像并直接输出分割掩码；它不检索锚点、不构造路径，也不需要人工提示。这样既可以在训练阶段利用较复杂的跨图像推理扩大监督，又能保持部署阶段的轻量和稳定。
+
+\bibliographystyle{plainnat}
+\bibliography{../related_work_papers/references}
+
+\end{document}

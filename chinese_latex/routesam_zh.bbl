@@ -1,0 +1,201 @@
+\begin{thebibliography}{25}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Assefa et~al.(2025)Assefa, Naseer, Ganapathi, Ali, Seghier, and
+  Werghi]{assefa2025dycon}
+Maregu Assefa, Muzammal Naseer, Iyyakutti~Iyappan Ganapathi, Syed~Sadaf Ali,
+  Mohamed~L. Seghier, and Naoufel Werghi.
+\newblock {DyCON}: Dynamic uncertainty-aware consistency and contrastive
+  learning for semi-supervised medical image segmentation.
+\newblock \emph{arXiv preprint arXiv:2504.04566}, 2025.
+
+\bibitem[Bai et~al.(2023)Bai, Chen, Li, Shen, and Wang]{bai2023bcp}
+Yunhao Bai, Duowen Chen, Qingli Li, Wei Shen, and Yan Wang.
+\newblock Bidirectional copy-paste for semi-supervised medical image
+  segmentation.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition}, pages 11514--11524, 2023.
+\newblock \doi{10.1109/CVPR52729.2023.01108}.
+
+\bibitem[Carion et~al.(2026)Carion, Gustafson, Hu, Debnath, Hu, Suris, Ryali,
+  Alwala, Khedr, Huang, et~al.]{carion2026sam3}
+Nicolas Carion, Laura Gustafson, Yuan-Ting Hu, Shoubhik Debnath, Ronghang Hu,
+  Didac Suris, Chaitanya Ryali, Kalyan~Vasudev Alwala, Haitham Khedr, Andrew
+  Huang, et~al.
+\newblock {SAM} 3: Segment anything with concepts.
+\newblock In \emph{International Conference on Learning Representations}, 2026.
+
+\bibitem[Chen et~al.(2021)Chen, Yuan, Zeng, and Wang]{chen2021cps}
+Xiaokang Chen, Yuhui Yuan, Gang Zeng, and Jingdong Wang.
+\newblock Semi-supervised semantic segmentation with cross pseudo supervision.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition}, pages 2613--2622, 2021.
+\newblock \doi{10.1109/CVPR46437.2021.00264}.
+
+\bibitem[Chi et~al.(2024)Chi, Pang, Zhang, and Liu]{chi2024abd}
+Hanyang Chi, Jian Pang, Bingfeng Zhang, and Weifeng Liu.
+\newblock Adaptive bidirectional displacement for semi-supervised medical image
+  segmentation.
+\newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition}, pages 4070--4080, 2024.
+\newblock \doi{10.1109/CVPR52733.2024.00390}.
+
+\bibitem[Kirillov et~al.(2023)Kirillov, Mintun, Ravi, Mao, Rolland, Gustafson,
+  Xiao, Whitehead, Berg, Lo, Doll{\'a}r, and Girshick]{kirillov2023segment}
+Alexander Kirillov, Eric Mintun, Nikhila Ravi, Hanzi Mao, Chloe Rolland, Laura
+  Gustafson, Tete Xiao, Spencer Whitehead, Alexander~C. Berg, Wan-Yen Lo, Piotr
+  Doll{\'a}r, and Ross Girshick.
+\newblock Segment anything.
+\newblock In \emph{Proceedings of the IEEE/CVF International Conference on
+  Computer Vision}, pages 4015--4026, 2023.
+\newblock \doi{10.1109/ICCV51070.2023.00371}.
+
+\bibitem[Liu et~al.(2023)Liu, Zhu, Li, Chen, Wang, and Shen]{liu2023matcher}
+Yang Liu, Muzhi Zhu, Hengtao Li, Hao Chen, Xinlong Wang, and Chunhua Shen.
+\newblock Matcher: Segment anything with one shot using all-purpose feature
+  matching.
+\newblock \emph{arXiv preprint arXiv:2305.13310}, 2023.
+
+\bibitem[Luo et~al.(2022)Luo, Hu, Song, Wang, and Zhang]{luo2022crossteaching}
+Xiangde Luo, Minhao Hu, Tao Song, Guotai Wang, and Shaoting Zhang.
+\newblock Semi-supervised medical image segmentation via cross teaching between
+  {CNN} and transformer.
+\newblock In \emph{Proceedings of the 5th Conference on Medical Imaging with
+  Deep Learning}, volume 172 of \emph{Proceedings of Machine Learning
+  Research}, pages 820--833, 2022.
+
+\bibitem[Ma et~al.(2024)Ma, He, Li, Han, You, and Wang]{ma2024medsam}
+Jun Ma, Yuting He, Feifei Li, Lin Han, Chenyu You, and Bo~Wang.
+\newblock Segment anything in medical images.
+\newblock \emph{Nature Communications}, 15:\penalty0 654, 2024.
+\newblock \doi{10.1038/s41467-024-44824-z}.
+
+\bibitem[Mao et~al.(2025)Mao, Xing, Meng, Liu, Bai, Nie, and
+  Meng]{mao2025opsam}
+Xinyu Mao, Xiaohan Xing, Fei Meng, Jianbang Liu, Fan Bai, Qiang Nie, and Max
+  Meng.
+\newblock One polyp identifies all: One-shot polyp segmentation with {SAM} via
+  cascaded priors and iterative prompt evolution.
+\newblock In \emph{Proceedings of the IEEE/CVF International Conference on
+  Computer Vision}, 2025.
+
+\bibitem[Mazurowski et~al.(2023)Mazurowski, Dong, Gu, Yang, Konz, and
+  Zhang]{mazurowski2023samexperiment}
+Maciej~A. Mazurowski, Haoyu Dong, Hanxue Gu, Jichen Yang, Nicholas Konz, and
+  Yixin Zhang.
+\newblock Segment anything model for medical image analysis: An experimental
+  study.
+\newblock \emph{Medical Image Analysis}, 89:\penalty0 102918, 2023.
+\newblock \doi{10.1016/j.media.2023.102918}.
+
+\bibitem[Miao et~al.(2024)Miao, Chen, Zhang, Chuai, Li, and
+  Heng]{miao2024cpcsam}
+Juzheng Miao, Cheng Chen, Keli Zhang, Jie Chuai, Quanzheng Li, and Pheng-Ann
+  Heng.
+\newblock Cross prompting consistency with segment anything model for
+  semi-supervised medical image segmentation.
+\newblock In \emph{Medical Image Computing and Computer Assisted Intervention},
+  pages 167--177, 2024.
+\newblock \doi{10.1007/978-3-031-72120-5_16}.
+
+\bibitem[Ravi et~al.(2025)Ravi, Gabeur, Hu, Hu, Ryali, Ma, Khedr, R{\"a}dle,
+  Rolland, Gustafson, et~al.]{ravi2025sam2}
+Nikhila Ravi, Valentin Gabeur, Yuan-Ting Hu, Ronghang Hu, Chaitanya Ryali,
+  Tengyu Ma, Haitham Khedr, Roman R{\"a}dle, Chloe Rolland, Laura Gustafson,
+  et~al.
+\newblock {SAM} 2: Segment anything in images and videos.
+\newblock In \emph{International Conference on Learning Representations}, 2025.
+
+\bibitem[Tang et~al.(2024)Tang, Xu, Hu, Li, Xia, Zhong, Wu, Su, and
+  Ge]{tang2024dacl}
+Feilong Tang, Zhongxing Xu, Ming Hu, Wenxue Li, Peng Xia, Yiheng Zhong, Hanjun
+  Wu, Jionglong Su, and Zongyuan Ge.
+\newblock Neighbor does matter: Density-aware contrastive learning for medical
+  semi-supervised segmentation.
+\newblock \emph{arXiv preprint arXiv:2412.19871}, 2024.
+
+\bibitem[Tarvainen and Valpola(2017)]{tarvainen2017meanteacher}
+Antti Tarvainen and Harri Valpola.
+\newblock Mean teachers are better role models: Weight-averaged consistency
+  targets improve semi-supervised deep learning results.
+\newblock In \emph{Advances in Neural Information Processing Systems},
+  volume~30, 2017.
+
+\bibitem[Vu et~al.(2026)Vu, Nguyen, Nguyen, Lam, Nguyen, Wang, Li, and
+  Xu]{vu2026scsam}
+Vi~Vu, Thanh-Huy Nguyen, Tien-Thinh Nguyen, Ba-Thinh Lam, Hoang-Thien Nguyen,
+  Tianyang Wang, Xingjian Li, and Min Xu.
+\newblock From specialist to generalist: Unlocking {SAM}'s learning potential
+  on unlabeled medical images.
+\newblock \emph{arXiv preprint arXiv:2601.17934}, 2026.
+
+\bibitem[Wang et~al.(2024)Wang, Li, Su, Yin, Yang, and Li]{wang2024graphcl}
+Mengzhu Wang, Jiao Li, Houcheng Su, Nan Yin, Liang Yang, and Shen Li.
+\newblock {GraphCL}: Graph-based clustering for semi-supervised medical image
+  segmentation.
+\newblock \emph{arXiv preprint arXiv:2411.13147}, 2024.
+
+\bibitem[Wu et~al.(2022)Wu, Ge, Zhang, Xu, Zhang, Xia, and Cai]{wu2022mcnet}
+Yicheng Wu, Zongyuan Ge, Donghao Zhang, Minfeng Xu, Lei Zhang, Yong Xia, and
+  Jianfei Cai.
+\newblock Mutual consistency learning for semi-supervised medical image
+  segmentation.
+\newblock \emph{Medical Image Analysis}, 81:\penalty0 102530, 2022.
+\newblock \doi{10.1016/j.media.2022.102530}.
+
+\bibitem[Xu et~al.(2024)Xu, Qian, Shao, Luo, Lu, and Zhang]{xu2024samatch}
+Guoping Xu, Xiaoxue Qian, Hua~Chieh Shao, Jax Luo, Weiguo Lu, and You Zhang.
+\newblock A {SAM}-guided and match-based semi-supervised segmentation framework
+  for medical imaging.
+\newblock \emph{arXiv preprint arXiv:2411.16949}, 2024.
+
+\bibitem[You et~al.(2022)You, Dai, Min, Staib, and Duncan]{you2022action}
+Chenyu You, Weicheng Dai, Yifei Min, Lawrence Staib, and James~S. Duncan.
+\newblock Bootstrapping semi-supervised medical image segmentation with
+  anatomical-aware contrastive distillation.
+\newblock \emph{arXiv preprint arXiv:2206.02307}, 2022.
+
+\bibitem[Zhang et~al.(2026)Zhang, Gu, Wang, Mou, Zhang, and
+  Zhao]{zhang2026yoloseg}
+Mingen Zhang, Yuanyuan Gu, Meng Wang, Lei Mou, Jingfeng Zhang, and Yitian Zhao.
+\newblock {YoloSeg}: You only label once for medical image segmentation.
+\newblock \emph{Medical Image Analysis}, 112:\penalty0 104093, 2026.
+\newblock \doi{10.1016/j.media.2026.104093}.
+
+\bibitem[Zhang et~al.(2023)Zhang, Jiang, Guo, Yan, Pan, Ma, Dong, Gao, and
+  Li]{zhang2023persam}
+Renrui Zhang, Zhengkai Jiang, Ziyu Guo, Shilin Yan, Junting Pan, Xianzheng Ma,
+  Hao Dong, Peng Gao, and Hongsheng Li.
+\newblock Personalize segment anything model with one shot.
+\newblock \emph{arXiv preprint arXiv:2305.03048}, 2023.
+
+\bibitem[Zhang et~al.(2024)Zhang, Yang, Liu, Cheng, and Qi]{zhang2023semisam}
+Yichi Zhang, Jin Yang, Yuchen Liu, Yuan Cheng, and Yuan Qi.
+\newblock {SemiSAM}: Enhancing semi-supervised medical image segmentation via
+  {SAM}-assisted consistency regularization.
+\newblock In \emph{IEEE International Conference on Bioinformatics and
+  Biomedicine}, pages 3982--3986, 2024.
+\newblock \doi{10.1109/BIBM62325.2024.10821951}.
+
+\bibitem[Zhang et~al.(2025)Zhang, Lv, Xue, Zhang, Liu, Fu, Cheng, and
+  Qi]{zhang2025semisamplus}
+Yichi Zhang, Bohao Lv, Le~Xue, Wenbo Zhang, Yuchen Liu, Yu~Fu, Yuan Cheng, and
+  Yuan Qi.
+\newblock {SemiSAM+}: Rethinking semi-supervised medical image segmentation in
+  the era of foundation models.
+\newblock \emph{Medical Image Analysis}, 106:\penalty0 103733, 2025.
+\newblock \doi{10.1016/j.media.2025.103733}.
+
+\bibitem[Zhang and He(2026)]{zhang2026cppssam}
+Zerong Zhang and Lianghua He.
+\newblock {SAM} foundation model and expert model cross prompting framework for
+  semi-supervised medical image segmentation.
+\newblock \emph{Journal of Visual Communication and Image Representation},
+  119:\penalty0 104876, 2026.
+\newblock \doi{10.1016/j.jvcir.2026.104876}.
+
+\end{thebibliography}

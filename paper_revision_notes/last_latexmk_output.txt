@@ -1,0 +1,570 @@
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+	LC_ALL = "C.UTF-8",
+	LC_CTYPE = "C.UTF-8",
+	LC_NUMERIC = (unset),
+	LC_COLLATE = (unset),
+	LC_TIME = (unset),
+	LC_MONETARY = (unset),
+	LANG = "C.UTF-8"
+    are supported and installed on your system.
+perl: warning: Falling back to the system default locale ("Chinese (Simplified)_China.936").
+Initial Win CP for (console input, console output, system): (CP936, CP65001, CP936)
+I changed them all to CP936
+Rc files read (in order):
+  NONE
+Latexmk: This is Latexmk, John Collins, 9 March 2026. Version 4.88.
+Latexmk: applying rule 'pdflatex'...
+Rule 'pdflatex':  Reasons for rerun
+Changed files or newly in use/created:
+  cas-dc-template.tex
+Category 'changed_user':
+  cas-dc-template.tex
+
+------------
+Run number 1 of rule 'pdflatex'
+------------
+------------
+Running 'pdflatex  -interaction=nonstopmode -halt-on-error -recorder  "cas-dc-template.tex"'
+------------
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex.fmt)
+ restricted \write18 enabled.
+entering extended mode
+(cas-dc-template.tex
+LaTeX2e <2025-11-01>
+L3 programming layer <2025-12-24>
+(cas-dc.cls
+Document Class: cas-dc 2024/05/04, 2.4: Formatting class for CAS double column 
+articles
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
+Document Class: article 2025/01/22 v1.4n Standard LaTeX document class
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/base\fleqn.clo)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/base\size10.clo))
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.c
+fg)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
+))) (C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
+For additional information on amsmath, use the `?' option.
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty))
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty))
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssymb.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\expl3.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
+tex.def))
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/xparse\xpars
+e.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/preprint\balance.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\booktabs.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/makecell\makecell.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty))
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/multirow\multirow.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/colortbl\colortbl.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/graphics\color.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx)
+)) (C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/tools\dcolumn.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/sttools\stfloats.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/tools\xspace.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/xstring\xstring.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/xstring\xstring.tex))
+ (C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/footmisc\footmisc.sty)
+ (C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx)
+) (C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\svgnam.def)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/graphics\dvipsnam.def)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hyperref.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.sty
+)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/kvdefinekeys\kvdefine
+keys.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/pdfescape\pdfescape.s
+ty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pdftexcmds
+.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarerr.s
+ty)))
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/hycolor\hycolor.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/refcount\refcount.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/gettitlestring\gettit
+lestring.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.sty
+)))
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/stringenc\stringenc.s
+ty) (C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\pd1enc.def
+) (C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/intcalc\intcalc.sty
+) (C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\puenc.def)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/bitset\bitset.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/bigintcalc\bigintcalc
+.sty)))
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hpdftex.def
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/rerunfilecheck\rerunfil
+echeck.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/uniquecounter\uniquec
+ounter.sty))) (cas-common.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/moreverb\moreverb.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/tools\verbatim.sty))
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/wrapfig\wrapfig.sty))
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/stix\stix.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/base\textcomp.sty))
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/inconsolata\inconsolata
+.sty `inconsolata-zi4' v1.12, 2019/05/17 Text macros for Inconsolata (msharpe)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/xkeyval\xkeyval.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\xkeyval.tex
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\xkvutils.tex)
+)))
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifvtex.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.cfg))
+) (C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/natbib\natbib.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/stix\t1stix.fd)
+(cas-dc-template.aux)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/stix\ls1stix.fd)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/stix\ls2stix.fd)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
+ii
+[Loading MPS to PDF converter (version 2006.09.02).]
+)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
+ase.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/grfext\grfext.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.c
+fg)) (cas-dc-template.out) (cas-dc-template.out)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/upquote\upquote.sty)
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/stix\ts1stix.fd)
+[0{C:/Users/viole/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/vi
+ole/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/stix/stix-t1.enc}{C:/Users/vi
+ole/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/stix/stix-ts1.enc}]
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/stix\ls1stixscr.fd)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/stix\ls2stixex.fd)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/stix\ls1stixfrak.fd)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/stix\ls1stixbb.fd)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/stix\ls2stixcal.fd)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/stix\ls1stixsf.fd)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/stix\ls2stixtt.fd)
+Overfull \hbox (123.62721pt too wide) detected at line 172
+[]
+(cas-dc-template.abs)
+
+Package hyperref Warning: Ignoring empty anchor on input line 172.
+
+
+Package hyperref Warning: Ignoring empty anchor on input line 172.
+
+
+Package hyperref Warning: Ignoring empty anchor on input line 172.
+
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/inconsolata\t1zi4.fd)
+
+Package hyperref Warning: Ignoring empty anchor on input line 172.
+
+
+Package hyperref Warning: Ignoring empty anchor on input line 172.
+
+
+Package hyperref Warning: Ignoring empty anchor on input line 172.
+
+
+Underfull \hbox (badness 1448) in paragraph at lines 180--181
+\T1/stix/m/n/10 sub-stan-tial time and do-main ex-per-tise. Semi-supervised
+
+Underfull \hbox (badness 1715) in paragraph at lines 180--181
+\T1/stix/m/n/10 meth-ods mainly ob-tain su-per-vi-sion from pseudo la-bels
+
+Underfull \hbox (badness 1436) in paragraph at lines 180--181
+\T1/stix/m/n/10 mak-ing per-for-mance sen-si-tive to con-fir-ma-tion bias and
+
+Underfull \hbox (badness 1688) in paragraph at lines 182--183
+[]\T1/stix/m/n/10 Promptable seg-men-ta-tion foun-da-tion mod-els of-fer a
+
+Underfull \hbox (badness 1789) in paragraph at lines 182--183
+\T1/stix/m/n/10 Hu, Deb-nath, Hu, Suris, Ryali, Al-wala, Khedr, Huang
+[1 <./thumbnails/cas-email.jpeg> <./thumbnails/cas-url.jpeg>]
+Underfull \hbox (badness 1546) in paragraph at lines 186--187
+\T1/stix/m/n/10 Dai, Min, Staib and Dun-can[][] ([][]2022[][]); DACL con-struct
+s
+
+Underfull \hbox (badness 1831) in paragraph at lines 199--200
+\T1/stix/m/n/10 can-di-dates, which are or-dered into an Anchor--Bridge--
+
+Underfull \hbox (badness 1048) in paragraph at lines 201--202
+[]\T1/stix/m/n/10 We eval-u-ate Route-SAM on Kvasir-SEG, BUSI, and
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+$[]$
+[2 <./figs/figure1.png (PNG copy)>]
+Underfull \hbox (badness 1721) in paragraph at lines 216--217
+[]\T1/stix/m/n/10 Semi-supervised med-i-cal im-age seg-men-ta-tion learns
+
+Underfull \hbox (badness 1895) in paragraph at lines 216--217
+\T1/stix/m/n/10 moving-average teacher to pro-vide sta-ble tar-gets un-der
+
+Underfull \hbox (badness 1701) in paragraph at lines 218--219
+\T1/stix/m/n/10 and com-bines con-sis-tency with fo-cal con-trastive learn-
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+$[]$
+[3]
+Underfull \hbox (badness 1642) in paragraph at lines 242--243
+[]\T1/stix/m/n/10 RouteSAM con-tains three stages. Stage 0 se-lects a
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+$[]$
+[4] (cas-dc-template.bbl
+Underfull \hbox (badness 1248) in paragraph at lines 17--25
+\T1/stix/m/n/8 learn-ing for semi-supervised med-i-cal im-age seg-men-ta-tion. 
+ arXiv
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+$[]$
+[5]
+Underfull \hbox (badness 1616) in paragraph at lines 107--117
+[]\T1/stix/m/n/8 Mao, X., Xing, X., Meng, F., Liu, J., Bai, F., Nie, Q., Meng, 
+M.,
+
+Underfull \hbox (badness 1286) in paragraph at lines 129--139
+[]\T1/stix/m/n/8 Miao, J., Chen, C., Zhang, K., Chuai, J., Li, Q., Heng, P.A., 
+2024.
+
+Underfull \hbox (badness 1418) in paragraph at lines 151--159
+[]\T1/stix/m/n/8 Tang, F., Xu, Z., Hu, M., Li, W., Xia, P., Zhong, Y., Wu, H., 
+Su,
+)
+Underfull \hbox (badness 10000) has occurred while \output is active
+$[]$
+[6{C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/inconsolata/i4-
+t1-0.enc}] (cas-dc-template.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ )
+(see the transcript file for additional information) <C:\Users\viole\AppData\Lo
+cal\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecsx0900.pk> <C:\Users\viole\AppD
+ata\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecss0900.pk><C:/Users/viole
+/AppData/Local/Programs/MiKTeX/fonts/type1/public/inconsolata/Inconsolata-zi4r.
+pfb><C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/STIXG
+eneral-Bold.pfb><C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/publi
+c/stix/STIXGeneral-Italic.pfb><C:/Users/viole/AppData/Local/Programs/MiKTeX/fon
+ts/type1/public/stix/STIXGeneral-Regular.pfb><C:/Users/viole/AppData/Local/Prog
+rams/MiKTeX/fonts/type1/public/stix/stix-mathcal.pfb><C:/Users/viole/AppData/Lo
+cal/Programs/MiKTeX/fonts/type1/public/stix/stix-mathex.pfb><C:/Users/viole/App
+Data/Local/Programs/MiKTeX/fonts/type1/public/stix/stix-mathit.pfb><C:/Users/vi
+ole/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/stix-mathrm-bold.pfb>
+<C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/stix-math
+rm.pfb><C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/st
+ix-mathscr.pfb><C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/public
+/stix/stix-mathsf.pfb>
+Output written on cas-dc-template.pdf (7 pages, 2316291 bytes).
+Transcript written on cas-dc-template.log.
+Latexmk: Getting log file 'cas-dc-template.log'
+Latexmk: Examining 'cas-dc-template.fls'
+Latexmk: Examining 'cas-dc-template.log'
+Latexmk: Found input bbl file 'cas-dc-template.bbl'
+Latexmk: References changed.
+Latexmk: Log file says output to 'cas-dc-template.pdf'
+  ===Source file 'cas-dc-template.bbl' for 'pdflatex'
+Latexmk: Using bibtex to make bibliography file(s).
+Latexmk: Found bibliography file(s):
+  ./related_work_papers/references.bib
+Latexmk: applying rule 'bibtex cas-dc-template'...
+Rule 'bibtex cas-dc-template':  Reasons for rerun
+Changed files or newly in use/created:
+  cas-dc-template.aux
+
+------------
+Run number 1 of rule 'bibtex cas-dc-template'
+------------
+------------
+Running 'bibtex  "cas-dc-template.aux"'
+------------
+This is BibTeX, Version 0.99e (MiKTeX 25.12)
+The top-level auxiliary file: cas-dc-template.aux
+The style file: cas-model2-names.bst
+Database file #1: related_work_papers/references.bib
+Warning--empty pages in carion2026sam3
+Warning--empty pages in mao2025opsam
+Warning--empty pages in ravi2025sam2
+Warning--empty pages in tarvainen2017meanteacher
+(There were 4 warnings)
+Latexmk: applying rule 'pdflatex'...
+Rule 'pdflatex':  Reasons for rerun
+Changed files or newly in use/created:
+  cas-dc-template.aux
+
+------------
+Run number 2 of rule 'pdflatex'
+------------
+------------
+Running 'pdflatex  -interaction=nonstopmode -halt-on-error -recorder  "cas-dc-template.tex"'
+------------
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex.fmt)
+ restricted \write18 enabled.
+entering extended mode
+(cas-dc-template.tex
+LaTeX2e <2025-11-01>
+L3 programming layer <2025-12-24>
+(cas-dc.cls
+Document Class: cas-dc 2024/05/04, 2.4: Formatting class for CAS double column 
+articles
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
+Document Class: article 2025/01/22 v1.4n Standard LaTeX document class
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/base\fleqn.clo)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/base\size10.clo))
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/graphics\trig.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\graphics.c
+fg)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
+))) (C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsmath.sty
+For additional information on amsmath, use the `?' option.
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amstext.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsgen.sty))
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsbsy.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/amsmath\amsopn.sty))
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amsfonts.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\amssymb.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/l3kernel\expl3.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
+tex.def))
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/l3packages/xparse\xpars
+e.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/preprint\balance.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\booktabs.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/makecell\makecell.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty))
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/multirow\multirow.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/colortbl\colortbl.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/graphics\color.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx)
+)) (C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/tools\dcolumn.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/sttools\stfloats.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/tools\xspace.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/xstring\xstring.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/xstring\xstring.tex))
+ (C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/footmisc\footmisc.sty)
+ (C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx)
+) (C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\svgnam.def)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/graphics\dvipsnam.def)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hyperref.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/kvsetkeys\kvsetkeys.sty
+)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/kvdefinekeys\kvdefine
+keys.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/pdfescape\pdfescape.s
+ty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/ltxcmds\ltxcmds.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/pdftexcmds\pdftexcmds
+.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/infwarerr\infwarerr.s
+ty)))
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/hycolor\hycolor.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/refcount\refcount.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/gettitlestring\gettit
+lestring.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.sty
+)))
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/stringenc\stringenc.s
+ty) (C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\pd1enc.def
+) (C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/intcalc\intcalc.sty
+) (C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\puenc.def)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/bitset\bitset.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/bigintcalc\bigintcalc
+.sty)))
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hpdftex.def
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/rerunfilecheck\rerunfil
+echeck.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/uniquecounter\uniquec
+ounter.sty))) (cas-common.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/moreverb\moreverb.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/tools\verbatim.sty))
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/wrapfig\wrapfig.sty))
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/base\fontenc.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/stix\stix.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/base\textcomp.sty))
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/inconsolata\inconsolata
+.sty `inconsolata-zi4' v1.12, 2019/05/17 Text macros for Inconsolata (msharpe)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/xkeyval\xkeyval.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\xkeyval.tex
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/xkeyval\xkvutils.tex)
+)))
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifvtex.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.cfg))
+) (C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/natbib\natbib.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/stix\t1stix.fd)
+(cas-dc-template.aux)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/stix\ls1stix.fd)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/stix\ls2stix.fd)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
+ii
+[Loading MPS to PDF converter (version 2006.09.02).]
+)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
+ase.sty
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/grfext\grfext.sty)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.c
+fg)) (cas-dc-template.out) (cas-dc-template.out)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/upquote\upquote.sty)
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/stix\ts1stix.fd)
+[0{C:/Users/viole/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/vi
+ole/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/stix/stix-t1.enc}{C:/Users/vi
+ole/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/stix/stix-ts1.enc}]
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/stix\ls1stixscr.fd)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/stix\ls2stixex.fd)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/stix\ls1stixfrak.fd)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/stix\ls1stixbb.fd)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/stix\ls2stixcal.fd)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/stix\ls1stixsf.fd)
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/stix\ls2stixtt.fd)
+Overfull \hbox (123.62721pt too wide) detected at line 172
+[]
+(cas-dc-template.abs)
+
+Package hyperref Warning: Ignoring empty anchor on input line 172.
+
+
+Package hyperref Warning: Ignoring empty anchor on input line 172.
+
+
+Package hyperref Warning: Ignoring empty anchor on input line 172.
+
+(C:\Users\viole\AppData\Local\Programs\MiKTeX\tex/latex/inconsolata\t1zi4.fd)
+
+Package hyperref Warning: Ignoring empty anchor on input line 172.
+
+
+Package hyperref Warning: Ignoring empty anchor on input line 172.
+
+
+Package hyperref Warning: Ignoring empty anchor on input line 172.
+
+
+Underfull \hbox (badness 1448) in paragraph at lines 180--181
+\T1/stix/m/n/10 sub-stan-tial time and do-main ex-per-tise. Semi-supervised
+
+Underfull \hbox (badness 1715) in paragraph at lines 180--181
+\T1/stix/m/n/10 meth-ods mainly ob-tain su-per-vi-sion from pseudo la-bels
+
+Underfull \hbox (badness 1436) in paragraph at lines 180--181
+\T1/stix/m/n/10 mak-ing per-for-mance sen-si-tive to con-fir-ma-tion bias and
+
+Underfull \hbox (badness 1688) in paragraph at lines 182--183
+[]\T1/stix/m/n/10 Promptable seg-men-ta-tion foun-da-tion mod-els of-fer a
+
+Underfull \hbox (badness 1789) in paragraph at lines 182--183
+\T1/stix/m/n/10 Hu, Deb-nath, Hu, Suris, Ryali, Al-wala, Khedr, Huang
+[1 <./thumbnails/cas-email.jpeg> <./thumbnails/cas-url.jpeg>]
+Underfull \hbox (badness 1546) in paragraph at lines 186--187
+\T1/stix/m/n/10 Dai, Min, Staib and Dun-can[][] ([][]2022[][]); DACL con-struct
+s
+
+Underfull \hbox (badness 1831) in paragraph at lines 199--200
+\T1/stix/m/n/10 can-di-dates, which are or-dered into an Anchor--Bridge--
+
+Underfull \hbox (badness 1048) in paragraph at lines 201--202
+[]\T1/stix/m/n/10 We eval-u-ate Route-SAM on Kvasir-SEG, BUSI, and
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+$[]$
+[2 <./figs/figure1.png (PNG copy)>]
+Underfull \hbox (badness 1721) in paragraph at lines 216--217
+[]\T1/stix/m/n/10 Semi-supervised med-i-cal im-age seg-men-ta-tion learns
+
+Underfull \hbox (badness 1895) in paragraph at lines 216--217
+\T1/stix/m/n/10 moving-average teacher to pro-vide sta-ble tar-gets un-der
+
+Underfull \hbox (badness 1701) in paragraph at lines 218--219
+\T1/stix/m/n/10 and com-bines con-sis-tency with fo-cal con-trastive learn-
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+$[]$
+[3]
+Underfull \hbox (badness 1642) in paragraph at lines 242--243
+[]\T1/stix/m/n/10 RouteSAM con-tains three stages. Stage 0 se-lects a
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+$[]$
+[4] (cas-dc-template.bbl
+Underfull \hbox (badness 1248) in paragraph at lines 17--25
+\T1/stix/m/n/8 learn-ing for semi-supervised med-i-cal im-age seg-men-ta-tion. 
+ arXiv
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+$[]$
+[5]
+Underfull \hbox (badness 1616) in paragraph at lines 107--117
+[]\T1/stix/m/n/8 Mao, X., Xing, X., Meng, F., Liu, J., Bai, F., Nie, Q., Meng, 
+M.,
+
+Underfull \hbox (badness 1286) in paragraph at lines 129--139
+[]\T1/stix/m/n/8 Miao, J., Chen, C., Zhang, K., Chuai, J., Li, Q., Heng, P.A., 
+2024.
+
+Underfull \hbox (badness 1418) in paragraph at lines 151--159
+[]\T1/stix/m/n/8 Tang, F., Xu, Z., Hu, M., Li, W., Xia, P., Zhong, Y., Wu, H., 
+Su,
+)
+Underfull \hbox (badness 10000) has occurred while \output is active
+$[]$
+[6{C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/inconsolata/i4-
+t1-0.enc}] (cas-dc-template.aux) )
+(see the transcript file for additional information) <C:\Users\viole\AppData\Lo
+cal\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecsx0900.pk> <C:\Users\viole\AppD
+ata\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecss0900.pk><C:/Users/viole
+/AppData/Local/Programs/MiKTeX/fonts/type1/public/inconsolata/Inconsolata-zi4r.
+pfb><C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/STIXG
+eneral-Bold.pfb><C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/publi
+c/stix/STIXGeneral-Italic.pfb><C:/Users/viole/AppData/Local/Programs/MiKTeX/fon
+ts/type1/public/stix/STIXGeneral-Regular.pfb><C:/Users/viole/AppData/Local/Prog
+rams/MiKTeX/fonts/type1/public/stix/stix-mathcal.pfb><C:/Users/viole/AppData/Lo
+cal/Programs/MiKTeX/fonts/type1/public/stix/stix-mathex.pfb><C:/Users/viole/App
+Data/Local/Programs/MiKTeX/fonts/type1/public/stix/stix-mathit.pfb><C:/Users/vi
+ole/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/stix-mathrm-bold.pfb>
+<C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/stix-math
+rm.pfb><C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/st
+ix-mathscr.pfb><C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/public
+/stix/stix-mathsf.pfb>
+Output written on cas-dc-template.pdf (7 pages, 2316291 bytes).
+Transcript written on cas-dc-template.log.
+Latexmk: Getting log file 'cas-dc-template.log'
+Latexmk: Examining 'cas-dc-template.fls'
+Latexmk: Examining 'cas-dc-template.log'
+Latexmk: Found input bbl file 'cas-dc-template.bbl'
+Latexmk: Log file says output to 'cas-dc-template.pdf'
+  ===Source file 'cas-dc-template.bbl' for 'pdflatex'
+Latexmk: Using bibtex to make bibliography file(s).
+Latexmk: Found bibliography file(s):
+  ./related_work_papers/references.bib
+Latexmk: All targets (cas-dc-template.pdf) are up-to-date
+
+Reverting Windows console CPs to (in,out) = (936,65001)

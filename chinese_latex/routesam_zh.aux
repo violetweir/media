@@ -1,0 +1,88 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{tarvainen2017meanteacher,chen2021cps,luo2022crossteaching,wu2022mcnet,bai2023bcp,assefa2025dycon}
+\citation{luo2022crossteaching,bai2023bcp,assefa2025dycon}
+\citation{kirillov2023segment,ravi2025sam2,carion2026sam3}
+\citation{mazurowski2023samexperiment,ma2024medsam}
+\citation{zhang2023semisam,zhang2025semisamplus,xu2024samatch,miao2024cpcsam,vu2026scsam,zhang2026cppssam}
+\@writefile{toc}{\contentsline {section}{\numberline {1}引言}{1}{section.1}\protected@file@percent }
+\citation{you2022action}
+\citation{tang2024dacl}
+\citation{wang2024graphcl}
+\citation{mao2025opsam}
+\citation{zhang2026yoloseg}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces 直接跨图像传播与 RouteSAM 语义路径传播的概念比较。直接传播试图一步将锚点 $A$ 的掩码迁移到目标 $T$；RouteSAM 则选择并排序桥接图像 $\{B_i\}$，让 SAM3 按照 $A\rightarrow B_1\rightarrow \cdots  \rightarrow B_b\rightarrow T$ 逐步传播。路径只在训练阶段使用，最终任务模型直接处理单幅测试图像。图中的掩码仅用于说明方法直觉。}}{2}{figure.1}\protected@file@percent }
+\newlabel{fig:motivation-zh}{{1}{2}{直接跨图像传播与 RouteSAM 语义路径传播的概念比较。直接传播试图一步将锚点 $A$ 的掩码迁移到目标 $T$；RouteSAM 则选择并排序桥接图像 $\{B_i\}$，让 SAM3 按照 $A\rightarrow B_1\rightarrow \cdots \rightarrow B_b\rightarrow T$ 逐步传播。路径只在训练阶段使用，最终任务模型直接处理单幅测试图像。图中的掩码仅用于说明方法直觉。}{figure.1}{}}
+\citation{tarvainen2017meanteacher}
+\citation{chen2021cps}
+\citation{luo2022crossteaching}
+\citation{wu2022mcnet}
+\citation{bai2023bcp}
+\citation{chi2024abd}
+\citation{assefa2025dycon}
+\citation{zhang2023semisam}
+\citation{zhang2025semisamplus}
+\citation{xu2024samatch}
+\citation{miao2024cpcsam}
+\citation{vu2026scsam}
+\citation{zhang2026cppssam}
+\citation{you2022action}
+\citation{tang2024dacl}
+\citation{wang2024graphcl}
+\citation{zhang2023persam,liu2023matcher}
+\citation{mao2025opsam}
+\citation{zhang2026yoloseg}
+\@writefile{toc}{\contentsline {section}{\numberline {2}相关工作}{3}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}半监督医学图像分割}{3}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}基础分割模型辅助的少标注学习}{3}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}跨图像关系建模与掩码传播}{3}{subsection.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}方法}{4}{section.3}\protected@file@percent }
+\newlabel{sec:method-zh}{{3}{4}{方法}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}问题定义与整体思路}{4}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}覆盖感知的锚点选择}{4}{subsection.3.2}\protected@file@percent }
+\newlabel{sec:anchor-selection-zh}{{3.2}{4}{覆盖感知的锚点选择}{subsection.3.2}{}}
+\@writefile{toc}{\contentsline {paragraph}{全局描述。}{4}{paragraph*.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{局部描述。}{4}{paragraph*.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{贪心覆盖。}{4}{paragraph*.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}面向目标的锚点检索}{5}{subsection.3.3}\protected@file@percent }
+\newlabel{sec:target-pooling-zh}{{3.3}{5}{面向目标的锚点检索}{subsection.3.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}有序语义路径构造}{5}{subsection.3.4}\protected@file@percent }
+\newlabel{sec:route-construction-zh}{{3.4}{5}{有序语义路径构造}{subsection.3.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}SAM3 渐进传播}{5}{subsection.3.5}\protected@file@percent }
+\newlabel{sec:sam3-propagation-zh}{{3.5}{5}{SAM3 渐进传播}{subsection.3.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}路径候选质量估计}{5}{subsection.3.6}\protected@file@percent }
+\newlabel{sec:router-zh}{{3.6}{5}{路径候选质量估计}{subsection.3.6}{}}
+\bibstyle{plainnat}
+\bibdata{../related_work_papers/references}
+\bibcite{assefa2025dycon}{{1}{2025}{{Assefa et~al.}}{{Assefa, Naseer, Ganapathi, Ali, Seghier, and Werghi}}}
+\bibcite{bai2023bcp}{{2}{2023}{{Bai et~al.}}{{Bai, Chen, Li, Shen, and Wang}}}
+\bibcite{carion2026sam3}{{3}{2026}{{Carion et~al.}}{{Carion, Gustafson, Hu, Debnath, Hu, Suris, Ryali, Alwala, Khedr, Huang, et~al.}}}
+\bibcite{chen2021cps}{{4}{2021}{{Chen et~al.}}{{Chen, Yuan, Zeng, and Wang}}}
+\bibcite{chi2024abd}{{5}{2024}{{Chi et~al.}}{{Chi, Pang, Zhang, and Liu}}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7}任务模型审核与 SAM3 适配}{6}{subsection.3.7}\protected@file@percent }
+\newlabel{sec:collaboration-zh}{{3.7}{6}{任务模型审核与 SAM3 适配}{subsection.3.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.8}保持路径不变的第二轮传播与最终推理}{6}{subsection.3.8}\protected@file@percent }
+\newlabel{sec:repropagation-zh}{{3.8}{6}{保持路径不变的第二轮传播与最终推理}{subsection.3.8}{}}
+\bibcite{kirillov2023segment}{{6}{2023}{{Kirillov et~al.}}{{Kirillov, Mintun, Ravi, Mao, Rolland, Gustafson, Xiao, Whitehead, Berg, Lo, Doll{\'a}r, and Girshick}}}
+\bibcite{liu2023matcher}{{7}{2023}{{Liu et~al.}}{{Liu, Zhu, Li, Chen, Wang, and Shen}}}
+\bibcite{luo2022crossteaching}{{8}{2022}{{Luo et~al.}}{{Luo, Hu, Song, Wang, and Zhang}}}
+\bibcite{ma2024medsam}{{9}{2024}{{Ma et~al.}}{{Ma, He, Li, Han, You, and Wang}}}
+\bibcite{mao2025opsam}{{10}{2025}{{Mao et~al.}}{{Mao, Xing, Meng, Liu, Bai, Nie, and Meng}}}
+\bibcite{mazurowski2023samexperiment}{{11}{2023}{{Mazurowski et~al.}}{{Mazurowski, Dong, Gu, Yang, Konz, and Zhang}}}
+\bibcite{miao2024cpcsam}{{12}{2024}{{Miao et~al.}}{{Miao, Chen, Zhang, Chuai, Li, and Heng}}}
+\bibcite{ravi2025sam2}{{13}{2025}{{Ravi et~al.}}{{Ravi, Gabeur, Hu, Hu, Ryali, Ma, Khedr, R{\"a}dle, Rolland, Gustafson, et~al.}}}
+\bibcite{tang2024dacl}{{14}{2024}{{Tang et~al.}}{{Tang, Xu, Hu, Li, Xia, Zhong, Wu, Su, and Ge}}}
+\bibcite{tarvainen2017meanteacher}{{15}{2017}{{Tarvainen and Valpola}}{{}}}
+\bibcite{vu2026scsam}{{16}{2026}{{Vu et~al.}}{{Vu, Nguyen, Nguyen, Lam, Nguyen, Wang, Li, and Xu}}}
+\bibcite{wang2024graphcl}{{17}{2024}{{Wang et~al.}}{{Wang, Li, Su, Yin, Yang, and Li}}}
+\bibcite{wu2022mcnet}{{18}{2022}{{Wu et~al.}}{{Wu, Ge, Zhang, Xu, Zhang, Xia, and Cai}}}
+\bibcite{xu2024samatch}{{19}{2024}{{Xu et~al.}}{{Xu, Qian, Shao, Luo, Lu, and Zhang}}}
+\bibcite{you2022action}{{20}{2022}{{You et~al.}}{{You, Dai, Min, Staib, and Duncan}}}
+\bibcite{zhang2026yoloseg}{{21}{2026}{{Zhang et~al.}}{{Zhang, Gu, Wang, Mou, Zhang, and Zhao}}}
+\bibcite{zhang2023persam}{{22}{2023}{{Zhang et~al.}}{{Zhang, Jiang, Guo, Yan, Pan, Ma, Dong, Gao, and Li}}}
+\bibcite{zhang2023semisam}{{23}{2024}{{Zhang et~al.}}{{Zhang, Yang, Liu, Cheng, and Qi}}}
+\bibcite{zhang2025semisamplus}{{24}{2025}{{Zhang et~al.}}{{Zhang, Lv, Xue, Zhang, Liu, Fu, Cheng, and Qi}}}
+\bibcite{zhang2026cppssam}{{25}{2026}{{Zhang and He}}{{}}}
+\gdef \@abspage@last{8}

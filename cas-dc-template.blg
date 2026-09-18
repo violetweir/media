@@ -1,0 +1,54 @@
+This is BibTeX, Version 0.99e
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: cas-dc-template.aux
+Reallocating 'name_of_file' (item size: 1) to 17 items.
+The style file: cas-model2-names.bst
+Reallocating 'name_of_file' (item size: 1) to 31 items.
+Database file #1: related_work_papers/references.bib
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Warning--empty pages in carion2026sam3
+Warning--empty pages in mao2025opsam
+Warning--empty pages in ravi2025sam2
+Warning--empty pages in tarvainen2017meanteacher
+You've used 25 entries,
+            2990 wiz_defined-function locations,
+            870 strings with 12673 characters,
+and the built_in function-call counts, 22085 in all, are:
+= -- 1528
+> -- 1346
+< -- 9
++ -- 513
+- -- 486
+* -- 2648
+:= -- 3242
+add.period$ -- 79
+call.type$ -- 25
+change.case$ -- 285
+chr.to.int$ -- 25
+cite$ -- 29
+duplicate$ -- 1486
+empty$ -- 1316
+format.name$ -- 565
+if$ -- 4030
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 317
+newline$ -- 144
+num.names$ -- 100
+pop$ -- 573
+preamble$ -- 1
+purify$ -- 260
+quote$ -- 0
+skip$ -- 486
+stack$ -- 0
+substring$ -- 648
+swap$ -- 1233
+text.length$ -- 7
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 225
+warning$ -- 4
+while$ -- 102
+width$ -- 0
+write$ -- 371
+(There were 4 warnings)

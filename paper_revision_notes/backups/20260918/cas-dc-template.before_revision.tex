@@ -1,0 +1,285 @@
+%% 
+%% Copyright 2019-2024 Elsevier Ltd
+%% 
+%% This file is part of the 'CAS Bundle'.
+%% --------------------------------------
+%% 
+%% It may be distributed under the conditions of the LaTeX Project Public
+%% License, either version 1.3c of this license or (at your option) any
+%% later version.  The latest version of this license is in
+%%    http://www.latex-project.org/lppl.txt
+%% and version 1.3c or later is part of all distributions of LaTeX
+%% version 1999/12/01 or later.
+%% 
+%% The list of all files belonging to the 'CAS Bundle' is
+%% given in the file `manifest.txt'.
+%% 
+%% Template article for cas-dc documentclass for 
+%% double column output.
+
+\documentclass[a4paper,fleqn]{cas-dc}
+
+% If the frontmatter runs over more than one page
+% use the longmktitle option.
+
+%\documentclass[a4paper,fleqn,longmktitle]{cas-dc}
+
+%\usepackage[numbers]{natbib}
+%\usepackage[authoryear]{natbib}
+\usepackage[authoryear,longnamesfirst]{natbib}
+
+%%%Author macros
+\def\tsc#1{\csdef{#1}{\textsc{\lowercase{#1}}\xspace}}
+\tsc{WGM}
+\tsc{QE}
+%%%
+
+% Uncomment and use as if needed
+%\newtheorem{theorem}{Theorem}
+%\newtheorem{lemma}[theorem]{Lemma}
+%\newdefinition{rmk}{Remark}
+%\newproof{pf}{Proof}
+%\newproof{pot}{Proof of Theorem \ref{thm}}
+
+\begin{document}
+\let\WriteBookmarks\relax
+\def\floatpagepagefraction{1}
+\def\textpagefraction{.001}
+
+% Short title
+\shorttitle{}    
+
+% Short author
+\shortauthors{}  
+
+% Main title of the paper
+\title [mode = title]{RouteSAM: Semantic Routing for Semi-Supervised 2D Medical Image Segmentation via Cross-Image Propagation}  
+
+
+% Title footnote mark
+% eg: \tnotemark[1]
+\tnotemark[1] 
+
+% Title footnote 1.
+% eg: \tnotetext[1]{Title footnote text}
+\tnotetext[1]{} 
+
+% First author
+%
+% Options: Use if required
+% eg: \author[1,3]{Author Name}[type=editor,
+%       style=chinese,
+%       auid=000,
+%       bioid=1,
+%       prefix=Sir,
+%       orcid=0000-0000-0000-0000,
+%       facebook=<facebook id>,
+%       twitter=<twitter id>,
+%       linkedin=<linkedin id>,
+%       gplus=<gplus id>]
+
+\author[1]{}%[<options>]
+
+% Corresponding author indication
+\cormark[1]
+
+% Footnote of the first author
+\fnmark[1]
+
+% Email id of the first author
+\ead{}
+
+% URL of the first author
+\ead[url]{}
+
+% Credit authorship
+% eg: \credit{Conceptualization of this study, Methodology, Software}
+\credit{}
+
+% Address/affiliation
+\affiliation[1]{organization={},
+            addressline={}, 
+            city={},
+%          citysep={}, % Uncomment if no comma needed between city and postcode
+            postcode={}, 
+            state={},
+            country={}}
+
+\author[2]{}%[]
+
+% Footnote of the second author
+\fnmark[2]
+
+% Email id of the second author
+\ead{}
+
+% URL of the second author
+\ead[url]{}
+
+% Credit authorship
+\credit{}
+
+% Address/affiliation
+\affiliation[2]{organization={},
+            addressline={}, 
+            city={},
+%          citysep={}, % Uncomment if no comma needed between city and postcode
+            postcode={}, 
+            state={},
+            country={}}
+
+% Corresponding author text
+\cortext[1]{Corresponding author}
+
+% Footnote text
+\fntext[1]{}
+
+% For a title note without a number/mark
+%\nonumnote{}
+
+% Here goes the abstract
+\begin{abstract} The Segment Anything Model (SAM) family provides a powerful foundation for general-purpose image segmentation, yet substantial domain gaps still limit its reliability in medical scenarios. Existing SAM-assisted semi-supervised methods often transfer limited labeled supervision directly to unlabeled targets, which can be difficult when large semantic differences exist between the labeled samples and the targets. We propose RouteSAM, a semantic routing and cross-image propagation framework for semi-supervised 2D medical image segmentation. RouteSAM exploits the latent semantic continuity within abundant unlabeled data to identify intermediate samples that gradually connect a labeled anchor to a queried target, decomposing a difficult direct supervision transfer into a sequence of smoother semantic transitions. Under a fixed annotation budget, representative samples with broad coverage of the training distribution are first selected as labeled anchors. For each target, lesion-aware cross-image matching identifies a suitable anchor and several semantically related unlabeled bridges, forming an ordered Anchor--Bridge--Target route. SAM3 progressively propagates segmentation information along the route to generate cross-image pseudo supervision. To further reduce domain bias and propagation errors, we introduce a multi-stage generalist--specialist collaborative strategy, where a task-specific U-Net audits propagated supervision and guides SAM3 adaptation, followed by re-propagation along the same routes to refine pseudo labels. Semantic routing is used only during training, while final models perform direct single-image inference without reference retrieval or route construction. Experiments on Kvasir-SEG, BUSI, and ISIC2018 demonstrate the effectiveness of RouteSAM under extremely limited annotation budgets, \textbf{[final quantitative results to be inserted]}. \end{abstract}
+
+% Use if graphical abstract is present
+%\begin{graphicalabstract}
+%\includegraphics{}
+%\end{graphicalabstract}
+
+% Research highlights
+\begin{highlights}
+\item We propose a cross-image semantic routing and supervision propagation mechanism for semi-supervised 2D medical image segmentation. Instead of treating unlabeled samples as independent training instances, RouteSAM explicitly exploits cross-sample semantic relationships within the training set and constructs an ordered semantic route for each queried target, consisting of a labeled anchor, several semantically related unlabeled bridge images, and the target itself. SAM3 progressively transfers segmentation information along these routes, thereby expanding sparse manual annotations into large-scale cross-image pseudo supervision.
+
+\item We introduce a coverage-aware propagation source selection strategy to improve semantic routing under extremely limited annotation budgets. In RouteSAM, labeled samples serve not only as direct supervision but also as starting points for cross-image propagation. We therefore select samples with broad coverage of the training distribution for annotation, providing more representative propagation sources across diverse lesion appearances and data variations.
+
+\item We develop a propagation-oriented multi-stage generalist–specialist collaborative learning strategy between SAM3 and a task-specific U-Net. Route-derived pseudo supervision is first used to train the specialist, whose medical-domain predictions are then employed to audit the propagated supervision and guide SAM3 adaptation. The adapted SAM3 subsequently re-propagates supervision along the same semantic routes, producing refined pseudo labels for further specialist learning. This process progressively absorbs cross-image propagation knowledge into the segmentation models, enabling direct single-image inference without reference retrieval or semantic route construction at test time. 
+\end{highlights}
+
+
+%\nocite{*}
+
+% Keywords
+% Each keyword is seperated by \sep
+\begin{keywords}
+ \sep \sep \sep
+\end{keywords}
+
+\maketitle
+
+% Main text
+
+
+
+\section{Introduction}
+
+The emergence of the Segment Anything Model (SAM) family~\cite{kirillov2023segment, ravi2025sam, carion2026sam} has introduced a new paradigm for general-purpose image segmentation. Benefiting from large-scale pretraining and prompt-driven segmentation capabilities, SAM can leverage general visual knowledge to segment diverse targets with simple prompts, without requiring complete retraining for each individual task. This foundation model-driven segmentation paradigm substantially reduces the dependence of traditional segmentation tasks on large-scale pixel-level annotations and provides new opportunities for label-efficient medical image segmentation. However, medical images exhibit significant differences from natural images in imaging mechanisms, target morphology, texture characteristics, and data distributions, making the direct application of SAM to medical scenarios still challenging, often resulting in inaccurate target localization, unstable boundary quality, and degraded cross-dataset generalization. Therefore, recent studies have increasingly explored the integration of SAM with semi-supervised medical image segmentation, aiming to effectively transfer foundation model capabilities to medical domains using limited labeled data and abundant unlabeled images.
+
+
+Existing SAM-assisted semi-supervised medical image segmentation methods mainly exploit unlabeled data from two perspectives. One line of research utilizes SAM to generate or refine pseudo labels, extending supervision from limited labeled samples to unlabeled images. Another line introduces interaction or collaborative learning between SAM and task-specific segmentation networks, enabling complementary supervision between generalist and specialist models. Furthermore, some studies investigate the propagation capability of foundation models to further enlarge the influence of limited annotations \cite{semisamplus,scsam,sammatch}. Although these methods have significantly improved the adaptability of SAM under low-label medical segmentation scenarios, their primary focus remains on improving pseudo-supervision quality and enhancing information exchange between different models. When large visual and semantic discrepancies exist between labeled samples and queried targets, directly transferring limited supervision to target images remains challenging. Therefore, how to further exploit the latent information within abundant unlabeled data and reduce the semantic discrepancy during cross-image supervision transfer remains an important research question.
+
+
+
+\begin{figure}[pos=t]
+    \centering
+    \includegraphics[width=1\linewidth]{figs/figure1.png}
+    \caption{
+    Motivation of semantic routing in RouteSAM.
+    Existing direct supervision transfer attempts to propagate segmentation information directly from a labeled Anchor to a Target, where a large semantic distance may limit propagation quality.
+    RouteSAM exploits semantic continuity within abundant unlabeled data and introduces intermediate Bridge samples to construct a gradual semantic transition:
+    $A \rightarrow B_1 \rightarrow B_2 \rightarrow \cdots \rightarrow T$.
+    The unlabeled images serve as semantic bridges that progressively reduce the gap between labeled supervision sources and target images.
+    }
+    \label{fig:motivation}
+\end{figure}
+
+
+Our key observation is that large-scale unlabeled medical images are not isolated instances, but exhibit potential semantic continuity in terms of lesion morphology, texture characteristics, scale variations, and deep visual representations. For a queried target image, directly transferring supervision from a limited labeled sample may suffer from a large semantic distance, making effective information propagation difficult. In contrast, the unlabeled data pool often contains samples located at different semantic states, which can provide continuous semantic transitions between existing supervision and unknown targets. As illustrated in Fig.~\ref{fig:motivation}, direct Anchor-to-Target transfer requires crossing a large semantic gap, while intermediate unlabeled samples can serve as semantic bridges to decompose this process into multiple gradual transitions.
+
+
+Based on this observation, we propose to view unlabeled data as a semantic transition space connecting supervision sources and target samples, rather than merely independent objects for pseudo-label generation. For each queried target, RouteSAM selects a labeled Anchor from the dataset and further identifies semantically related Bridge samples from the unlabeled pool to construct an ordered Anchor--Bridge--Target semantic route:
+\begin{equation}
+A \rightarrow B_1 \rightarrow B_2 \rightarrow \cdots \rightarrow T .
+\end{equation}
+Here, the Anchor provides the initial supervision, while Bridge samples gradually reduce the semantic distance between the Anchor and Target, transforming the difficult one-step supervision transfer into a sequence of progressive cross-image information propagation. In this way, unlabeled medical images are no longer passive prediction targets, but active semantic bridges that participate in supervision expansion and knowledge propagation.
+
+
+Based on this observation, we propose 
+\textbf{RouteSAM: Semantic Routing for Semi-Supervised 2D Medical Image Segmentation via Cross-Image Propagation}. 
+RouteSAM transforms semantic continuity within unlabeled data into executable cross-image propagation routes, progressively expanding limited supervision under a fixed annotation budget. Specifically, RouteSAM first selects representative samples according to the training data distribution as propagation Anchors, improving the coverage of supervision sources under extremely limited annotations. For each queried target, lesion-aware cross-image matching identifies a relevant Anchor, and semantically related Bridge samples are selected from the unlabeled pool to construct an ordered Anchor--Bridge--Target semantic route. Along these routes, SAM3 progressively propagates segmentation information across gradually changing semantic states, expanding sparse annotations into cross-image pseudo supervision. To alleviate medical domain bias and error accumulation during propagation, we further introduce a multi-stage generalist--specialist collaborative learning strategy between SAM3 and a task-specific U-Net. Route-derived pseudo labels are first used to train U-Net, enabling the specialist model to learn lesion characteristics and boundary information from the target medical domain. Subsequently, predictions from U-Net are used to evaluate propagated supervision and guide SAM3 adaptation. The adapted SAM3 then re-propagates supervision along the same semantic routes to further improve pseudo-label quality and optimize the final segmentation model. Through this process, semantic routing serves only as a training-stage supervision expansion mechanism, while the final model performs direct single-image segmentation during inference without additional reference retrieval or route construction.
+
+
+To validate the effectiveness of RouteSAM in exploiting unlabeled data under extremely limited annotation budgets, we conduct comprehensive experiments on three 2D medical image segmentation datasets, including Kvasir-SEG, BUSI, and ISIC2018, covering diverse imaging characteristics and lesion types. We evaluate RouteSAM under different annotation budgets and compare it with representative semi-supervised medical segmentation approaches and SAM-based low-label segmentation methods. Extensive ablation studies further analyze the contributions of propagation source selection, semantic route construction, and generalist--specialist collaborative learning. The experimental results demonstrate that exploiting semantic continuity within unlabeled data through cross-image routing can effectively improve segmentation performance under extremely limited annotation settings.
+
+
+The main contributions of this work are summarized as follows:
+
+\begin{itemize}
+
+\item 
+We propose \textbf{RouteSAM}, a semantic routing-based cross-image propagation framework for extremely low-label 2D medical image segmentation. Different from treating unlabeled images as independent pseudo-label generation targets, RouteSAM exploits semantic continuity within unlabeled data and constructs ordered propagation routes composed of labeled Anchors, semantically related Bridge samples, and queried Targets, transforming direct supervision transfer into gradual semantic transitions.
+
+\item 
+We introduce a coverage-aware propagation source selection strategy to improve the stability of semantic routing under extremely limited annotation budgets. Since Anchors determine the starting points of supervision propagation, representative samples with broad training-distribution coverage are selected as propagation sources to improve robustness under diverse lesion appearances and visual variations.
+
+\item 
+We design a SAM3--U-Net generalist--specialist collaborative learning strategy for propagation refinement and medical domain adaptation. Route-derived pseudo supervision is first used to train the task-specific U-Net, whose domain-specific knowledge subsequently guides SAM3 adaptation. The adapted SAM3 further propagates supervision along the same semantic routes, improving pseudo-label quality and final segmentation performance.
+
+\end{itemize}
+
+
+
+
+
+
+\section{Related Work}
+
+\subsection{Semi-Supervised Medical Image Segmentation}
+
+Semi-supervised medical image segmentation (SSMIS) aims to reduce annotation costs by jointly exploiting limited labeled data and abundant unlabeled images. Existing approaches mainly rely on pseudo-label learning, consistency regularization, and teacher--student paradigms. Cross Pseudo Supervision, Cross Teaching, and MC-Net+ improve unlabeled data utilization by enforcing prediction consistency among different networks or perturbations. Recent methods further enhance interactions between labeled and unlabeled samples. For example, BCP introduces bidirectional Copy--Paste augmentation, while ABD and DyCON improve robustness against pseudo-label uncertainty through adaptive perturbation and uncertainty-aware consistency learning.
+Although these methods have achieved promising performance, unlabeled images are generally treated as independent training instances that require reliable predictions or regularization. How to exploit the internal semantic structures among large-scale unlabeled datasets for organizing supervision transfer remains less explored.
+
+
+\subsection{Foundation Model-Assisted Label-Efficient Medical Segmentation}
+
+The emergence of Segment Anything Model (SAM) provides new opportunities for label-efficient medical image segmentation. However, the domain gap between natural and medical images limits its direct application, motivating recent studies to combine SAM with semi-supervised learning.
+SemiSAM and SemiSAM+ explore SAM-assisted semi-supervised segmentation by using task-specific models to generate prompts and leveraging SAM predictions as additional supervision. SemiSAM+ further introduces a Generalist--Specialist collaborative learning paradigm, where foundation models and task-specific networks provide complementary guidance. Other approaches, such as SAM-Match and CPAC-SAM, improve pseudo-label generation through SAM-based prompt interaction and adaptive sampling. Recent works including SC-SAM and CPPS-SAM further investigate bidirectional knowledge transfer between SAM and conventional segmentation networks.
+These studies mainly focus on improving pseudo supervision quality or enhancing interactions between foundation models and specialist models. However, they usually consider unlabeled images individually and do not explicitly investigate how unlabeled samples can provide intermediate semantic transitions for supervision propagation.
+
+
+\subsection{Cross-Image Semantic Modeling and Propagation}
+
+Several studies have explored relationships among medical images to improve semi-supervised representation learning. ACTION utilizes anatomical-aware contrastive distillation to capture global semantic relationships and local anatomical characteristics. DACL constructs density-aware neighbor graphs to improve feature compactness, while GraphCL exploits graph structures among samples for representation enhancement. These methods demonstrate that medical images contain valuable cross-sample information, but such relationships are mainly used to optimize feature representations rather than determine how segmentation supervision should propagate across images.
+Another line of research investigates cross-image knowledge transfer. OP-SAM generates semantic priors from support-query correlations and transfers knowledge from a single annotated image to target images. YoloSeg utilizes SAM2 propagation to expand one labeled image into multiple pseudo-labeled samples and reduces propagation noise through multi-view learning. However, these methods mainly focus on direct transfer between labeled sources and target images:
+\begin{equation}
+A \rightarrow T .
+\end{equation}
+In contrast, RouteSAM investigates whether abundant unlabeled images can serve as semantic bridges between a labeled Anchor and a Target. By constructing:
+\begin{equation}
+A \rightarrow B_1 \rightarrow B_2 \rightarrow \cdots \rightarrow T ,
+\end{equation}
+RouteSAM transforms unlabeled data from passive prediction targets into active components of supervision propagation, enabling gradual semantic transitions instead of direct supervision transfer.
+
+
+
+\section{}\label{}
+
+% To print the credit authorship contribution details
+\printcredits
+
+%% Loading bibliography style file
+%\bibliographystyle{model1-num-names}
+\bibliographystyle{cas-model2-names}
+
+% Loading bibliography database
+\bibliography{cas-refs.bib}
+
+% Biography
+%\bio{}
+% Here goes the biography details.
+%\endbio
+
+%\bio{pic1}
+% Here goes the biography details.
+%\endbio
+
+\end{document}
+
