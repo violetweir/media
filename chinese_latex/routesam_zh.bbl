@@ -1,4 +1,4 @@
-\begin{thebibliography}{23}
+\begin{thebibliography}{26}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -35,6 +35,23 @@ Hanyang Chi, Jian Pang, Bingfeng Zhang, and Weifeng Liu.
 \newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
   and Pattern Recognition}, pages 4070--4080, 2024.
 \newblock \doi{10.1109/CVPR52733.2024.00390}.
+
+\bibitem[Hesamian et~al.(2019)Hesamian, Jia, He, and Kennedy]{hesamian2019deep}
+Mohammad~Hesam Hesamian, Wenjing Jia, Xiangjian He, and Paul Kennedy.
+\newblock Deep learning techniques for medical image segmentation: Achievements
+  and challenges.
+\newblock \emph{Journal of Digital Imaging}, 32\penalty0 (4):\penalty0
+  582--596, 2019.
+\newblock \doi{10.1007/s10278-019-00227-x}.
+
+\bibitem[Jiao et~al.(2024)Jiao, Zhang, Ding, Xue, Zhang, Cai, and
+  Jin]{jiao2024learning}
+Rushi Jiao, Yichi Zhang, Le~Ding, Bingsen Xue, Jicong Zhang, Rong Cai, and
+  Cheng Jin.
+\newblock Learning with limited annotations: A survey on deep semi-supervised
+  learning for medical image segmentation.
+\newblock \emph{Computers in Biology and Medicine}, 169:\penalty0 107840, 2024.
+\newblock \doi{10.1016/j.compbiomed.2023.107840}.
 
 \bibitem[Kirillov et~al.(2023)Kirillov, Mintun, Ravi, Mao, Rolland, Gustafson,
   Xiao, Whitehead, Berg, Lo, Doll{\'a}r, and Girshick]{kirillov2023segment}
@@ -93,6 +110,15 @@ Juzheng Miao, Cheng Chen, Keli Zhang, Jie Chuai, Quanzheng Li, and Pheng-Ann
 \newblock In \emph{Medical Image Computing and Computer Assisted Intervention},
   pages 167--177, 2024.
 \newblock \doi{10.1007/978-3-031-72120-5_16}.
+
+\bibitem[Tajbakhsh et~al.(2020)Tajbakhsh, Jeyaseelan, Li, Chiang, Wu, and
+  Ding]{tajbakhsh2020embracing}
+Nima Tajbakhsh, Laura Jeyaseelan, Qian Li, Jeffrey~N. Chiang, Zhihao Wu, and
+  Xiaowei Ding.
+\newblock Embracing imperfect datasets: A review of deep learning solutions for
+  medical image segmentation.
+\newblock \emph{Medical Image Analysis}, 63:\penalty0 101693, 2020.
+\newblock \doi{10.1016/j.media.2020.101693}.
 
 \bibitem[Tang et~al.(2024)Tang, Xu, Hu, Li, Xia, Zhong, Wu, Su, and
   Ge]{tang2024dacl}

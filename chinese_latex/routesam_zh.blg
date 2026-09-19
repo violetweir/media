@@ -5,48 +5,44 @@ Reallocating 'name_of_file' (item size: 1) to 9 items.
 The style file: plainnat.bst
 Reallocating 'name_of_file' (item size: 1) to 34 items.
 Database file #1: ../related_work_papers/references.bib
-Warning--I didn't find a database entry for "hesamian2019deep"
-Warning--I didn't find a database entry for "tajbakhsh2020embracing"
-Warning--I didn't find a database entry for "jiao2024learning"
-You've used 23 entries,
+You've used 26 entries,
             2773 wiz_defined-function locations,
-            722 strings with 10703 characters,
-and the built_in function-call counts, 15399 in all, are:
-= -- 1272
-> -- 1329
+            741 strings with 11457 characters,
+and the built_in function-call counts, 17305 in all, are:
+= -- 1433
+> -- 1491
 < -- 11
-+ -- 443
-- -- 420
-* -- 1383
-:= -- 2403
-add.period$ -- 81
-call.type$ -- 23
-change.case$ -- 209
-chr.to.int$ -- 23
-cite$ -- 46
-duplicate$ -- 576
-empty$ -- 957
-format.name$ -- 447
-if$ -- 3178
++ -- 497
+- -- 471
+* -- 1571
+:= -- 2711
+add.period$ -- 93
+call.type$ -- 26
+change.case$ -- 235
+chr.to.int$ -- 26
+cite$ -- 52
+duplicate$ -- 639
+empty$ -- 1076
+format.name$ -- 501
+if$ -- 3561
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 23
-newline$ -- 135
-num.names$ -- 92
-pop$ -- 421
+missing$ -- 26
+newline$ -- 153
+num.names$ -- 104
+pop$ -- 464
 preamble$ -- 1
-purify$ -- 186
+purify$ -- 209
 quote$ -- 0
-skip$ -- 531
+skip$ -- 584
 stack$ -- 0
-substring$ -- 417
-swap$ -- 110
+substring$ -- 484
+swap$ -- 113
 text.length$ -- 9
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 253
+type$ -- 286
 warning$ -- 0
-while$ -- 96
+while$ -- 109
 width$ -- 0
-write$ -- 322
-(There were 3 warnings)
+write$ -- 367
