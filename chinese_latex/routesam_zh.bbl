@@ -1,4 +1,4 @@
-\begin{thebibliography}{25}
+\begin{thebibliography}{23}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -20,14 +20,6 @@ Yunhao Bai, Duowen Chen, Qingli Li, Wei Shen, and Yan Wang.
 \newblock In \emph{Proceedings of the IEEE/CVF Conference on Computer Vision
   and Pattern Recognition}, pages 11514--11524, 2023.
 \newblock \doi{10.1109/CVPR52729.2023.01108}.
-
-\bibitem[Carion et~al.(2026)Carion, Gustafson, Hu, Debnath, Hu, Suris, Ryali,
-  Alwala, Khedr, Huang, et~al.]{carion2026sam3}
-Nicolas Carion, Laura Gustafson, Yuan-Ting Hu, Shoubhik Debnath, Ronghang Hu,
-  Didac Suris, Chaitanya Ryali, Kalyan~Vasudev Alwala, Haitham Khedr, Andrew
-  Huang, et~al.
-\newblock {SAM} 3: Segment anything with concepts.
-\newblock In \emph{International Conference on Learning Representations}, 2026.
 
 \bibitem[Chen et~al.(2021)Chen, Yuan, Zeng, and Wang]{chen2021cps}
 Xiaokang Chen, Yuhui Yuan, Gang Zeng, and Jingdong Wang.
@@ -101,14 +93,6 @@ Juzheng Miao, Cheng Chen, Keli Zhang, Jie Chuai, Quanzheng Li, and Pheng-Ann
 \newblock In \emph{Medical Image Computing and Computer Assisted Intervention},
   pages 167--177, 2024.
 \newblock \doi{10.1007/978-3-031-72120-5_16}.
-
-\bibitem[Ravi et~al.(2025)Ravi, Gabeur, Hu, Hu, Ryali, Ma, Khedr, R{\"a}dle,
-  Rolland, Gustafson, et~al.]{ravi2025sam2}
-Nikhila Ravi, Valentin Gabeur, Yuan-Ting Hu, Ronghang Hu, Chaitanya Ryali,
-  Tengyu Ma, Haitham Khedr, Roman R{\"a}dle, Chloe Rolland, Laura Gustafson,
-  et~al.
-\newblock {SAM} 2: Segment anything in images and videos.
-\newblock In \emph{International Conference on Learning Representations}, 2025.
 
 \bibitem[Tang et~al.(2024)Tang, Xu, Hu, Li, Xia, Zhong, Wu, Su, and
   Ge]{tang2024dacl}

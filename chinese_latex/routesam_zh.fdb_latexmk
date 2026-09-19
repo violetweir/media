@@ -1,14 +1,13 @@
 # Fdb version 4
-["bibtex routesam_zh"] 1789733159.74215 "routesam_zh.aux" "routesam_zh.bbl" "routesam_zh" 1789738286.6848 0
+["bibtex routesam_zh"] 1789790582.1917 "routesam_zh.aux" "routesam_zh.bbl" "routesam_zh" 1789790585.97386 0
   "../related_work_papers/references.bib" 1789721170 12546 85cff9156b8b475a720346299d32627b ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/bibtex/bst/natbib/plainnat.bst" 1284455456 26816 ffe5423d2019860bad9f54bc402fac15 ""
-  "routesam_zh.aux" 1789738285 7502 e7ed6fbc7835cb0b8643439026a61f9d "pdflatex"
+  "routesam_zh.aux" 1789790584 6064 923cb4ae6ee288d73603b0c366fbeb04 "pdflatex"
   (generated)
   "routesam_zh.bbl"
   "routesam_zh.blg"
   (rewritten before read)
-["pdflatex"] 1789738284.47486 "f:/medsam3/Medical_Image_Analysis/chinese_latex/routesam_zh.tex" "routesam_zh.pdf" "routesam_zh" 1789738286.6852 0
-  "../figs/figure1.png" 1789676136 2014526 564a0b5460e167dc8856dbf6caf01fae ""
+["pdflatex"] 1789790582.54166 "f:/medsam3/Medical_Image_Analysis/chinese_latex/routesam_zh.tex" "routesam_zh.pdf" "routesam_zh" 1789790585.97443 0
   "C:/Users/viole/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1789733156 101724 fdb770b177acc4b3d63771958f58ce53 ""
   "C:/Users/viole/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1000.pk" 1789733158 11548 72f9c4fcb002284ba695be059afa6ed7 ""
   "C:/Users/viole/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1784060280 13333487 2e917ffffb0108517a1dbf0920981980 ""
@@ -75,7 +74,6 @@
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unihei/unihei67.tfm" 1247154072 1172 127372bbba8b4f4a65a26e565c0c6a2e ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unihei/unihei68.tfm" 1247154072 1172 a6e39128d14a2d8e22ed8239e864feff ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unihei/unihei6a.tfm" 1247154072 1172 ea35fa13ee483c308a0c68cffa2f52fb ""
-  "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unihei/unihei6b.tfm" 1247154072 1172 865a135040ed6ad7a3ce493fd0108ece ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unihei/unihei6c.tfm" 1247154072 1172 7dd7a6f05321dd25f399ebba47f53887 ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unihei/unihei6e.tfm" 1247154072 1172 bd56dfdf26ff6117dfce95c1a9273b69 ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unihei/unihei70.tfm" 1247154072 1172 37cb57ab58b65f2767baaede9a4fe5d2 ""
@@ -91,7 +89,6 @@
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unihei/unihei80.tfm" 1247154072 1172 7c53005410278de6d612480963dd5ced ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unihei/unihei88.tfm" 1247154072 1172 4b5747a6c0d911e39c45f758903a60d6 ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unihei/unihei89.tfm" 1247154072 1172 364fffd8ea27d98d6edb9222bf84c180 ""
-  "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unihei/unihei8a.tfm" 1247154072 1172 b8090cf7ab844b8c390669cbe8997c0c ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unihei/unihei8b.tfm" 1247154072 1172 bdf00141a2e7bd9848cfb6dae5c7e1ef ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unihei/unihei8d.tfm" 1247154072 1172 f0be8ff15d300dd67be1d65ad94ec80b ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unihei/unihei8f.tfm" 1247154072 1172 e5ac568cbbb10c21a8919c10147ccf70 ""
@@ -182,15 +179,14 @@
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unisong/unisongsl51.tfm" 1247154072 1172 e9e1a85766c22ca55ecf9abed58ba941 ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unisong/unisongsl53.tfm" 1247154072 1172 e9e43db2632c0fc2aa7731bb911e4e0a ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unisong/unisongsl5d.tfm" 1247154072 1172 d6324ad5c6c749b7ffb69c16eb1b81a4 ""
-  "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unisong/unisongsl5f.tfm" 1247154072 1172 529fe28751dbdf721f91e11d70dff27d ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unisong/unisongsl65.tfm" 1247154072 1172 8d21f161b244df6b4df9b2e5da9132a6 ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unisong/unisongsl6c.tfm" 1247154072 1172 4d321ca196474fffcb400ad136565a70 ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unisong/unisongsl73.tfm" 1247154072 1172 dd8e19d5286e241991375896d45a961b ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unisong/unisongsl76.tfm" 1247154072 1172 f8d1c03957ad51476071a47527f16c3c ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unisong/unisongsl80.tfm" 1247154072 1172 5dd503ec794d482b06529daea6f40dd4 ""
-  "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unisong/unisongsl8a.tfm" 1247154072 1172 5545851789994ef16f46d878adec045f ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb" 1247596666 34811 78b52f49e893bcba91bd7581cdc144c0 ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb" 1247596666 32080 340ef9bf63678554ee606688e7b5339d ""
+  "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx9.pfb" 1247596667 32298 c6d25bb16d1eac01ebdc6d7084126a1e ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb" 1247596667 30251 6afa5cb1d0204815a708a080681d4674 ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1247596667 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb" 1247596667 37912 07513ec114ac737ab54cea0152f4424b ""
@@ -300,11 +296,11 @@
   "C:/WINDOWS/Fonts/msyh.ttc" 1779221258 19704352 1e10e74402e59d54499af795caf0b135 ""
   "C:/WINDOWS/Fonts/simhei.ttf" 1779221265 9745792 5c7fd3058dea9b77be5049ff7efa9f34 ""
   "C:/WINDOWS/Fonts/simsun.ttc" 1779221258 18316748 0ba67eea91ba3af0ac4836d0e922d011 ""
-  "f:/medsam3/Medical_Image_Analysis/chinese_latex/routesam_zh.tex" 1789738285 24700 8044d923339310eb4e6e74feb3da43cb ""
-  "routesam_zh.aux" 1789738285 7502 e7ed6fbc7835cb0b8643439026a61f9d "pdflatex"
-  "routesam_zh.bbl" 1789733160 9945 86275bc8f897801a79ef5d05d8ff0a0a "bibtex routesam_zh"
-  "routesam_zh.out" 1789738285 1753 c1ade50b9dfe000b26ee9e9c9bf0b992 "pdflatex"
-  "routesam_zh.tex" 1789738285 24700 8044d923339310eb4e6e74feb3da43cb ""
+  "f:/medsam3/Medical_Image_Analysis/chinese_latex/routesam_zh.tex" 1789790573 24977 8a07e81a80795d2d7dfde486cc6f6fe1 ""
+  "routesam_zh.aux" 1789790584 6064 923cb4ae6ee288d73603b0c366fbeb04 "pdflatex"
+  "routesam_zh.bbl" 1789790582 9079 1c67b60c50d6a85e1f5855a8fe4809d9 "bibtex routesam_zh"
+  "routesam_zh.out" 1789790584 1797 6ac669866aa82b25172d2546c62e51be "pdflatex"
+  "routesam_zh.tex" 1789790573 24977 8a07e81a80795d2d7dfde486cc6f6fe1 ""
   (generated)
   "routesam_zh.aux"
   "routesam_zh.log"
