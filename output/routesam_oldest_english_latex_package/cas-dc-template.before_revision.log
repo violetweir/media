@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.7.15)  19 SEP 2026 00:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.7.15)  19 SEP 2026 16:15
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -894,31 +894,51 @@ Package hyperref Warning: Ignoring empty anchor on input line 171.
 Package hyperref Warning: Ignoring empty anchor on input line 171.
 
 
-Overfull \hbox (8.75046pt too wide) in paragraph at lines 179--180
-\T1/stix/m/n/10 men-ta-tion. Ben-e-fit-ing from large-scale pre-train-ing and p
-rompt-
+Package natbib Warning: Citation `hesamian2019deep' on page 1 undefined on inpu
+t line 179.
+
+
+Package natbib Warning: Citation `tajbakhsh2020embracing' on page 1 undefined o
+n input line 179.
+
+
+Package natbib Warning: Citation `jiao2024learning' on page 1 undefined on inpu
+t line 179.
+
+
+Package natbib Warning: Citation `zhang2025semisamplus' on page 1 undefined on 
+input line 183.
+
+
+Package natbib Warning: Citation `xu2024samatch' on page 1 undefined on input l
+ine 183.
+
+
+Underfull \hbox (badness 1168) in paragraph at lines 183--184
+\T1/stix/m/n/10 large-scale pre-training, and can seg-ment tar-get re-gions
  []
 
 
-Underfull \hbox (badness 1454) in paragraph at lines 179--180
-\T1/stix/m/n/10 and pro-vides new op-por-tu-ni-ties for label-efficient med-
+Underfull \hbox (badness 1142) in paragraph at lines 183--184
+\T1/stix/m/n/10 specific spe-cial-ist model; and SAMatch lever-ages SAM
  []
 
 
-Underfull \hbox (badness 1406) in paragraph at lines 179--180
-\T1/stix/m/n/10 i-cal im-age seg-men-ta-tion. How-ever, med-i-cal im-ages ex-
+Underfull \hbox (badness 1033) in paragraph at lines 183--184
+\T1/stix/m/n/10 to fur-ther re-fine ex-ist-ing pre-dic-tions [][]Zhang, Yang, L
+iu,
  []
 
-<figs/figure1.png, id=27, 3854.4pt x 2168.1pt>
-File: figs/figure1.png Graphic file (type png)
-<use figs/figure1.png>
-Package pdftex.def Info: figs/figure1.png  used on input line 188.
-(pdftex.def)             Requested size: 238.25444pt x 134.0172pt.
 [1
 
  <./thumbnails/cas-email.jpeg> <./thumbnails/cas-url.jpeg>]
-Underfull \hbox (badness 1888) in paragraph at lines 223--224
-\T1/stix/m/n/10 cross-image prop-a-ga-tion frame-work for ex-tremely
+Underfull \hbox (badness 1629) in paragraph at lines 200--201
+[]\T1/stix/m/n/10 We pro-pose Route-Seg, a cross-image su-per-vi-sion
+ []
+
+
+Underfull \hbox (badness 1184) in paragraph at lines 200--201
+\T1/stix/m/n/10 age seg-men-ta-tion un-der ex-tremely low an-no-ta-tion
  []
 
 
@@ -926,45 +946,46 @@ Underfull \hbox (badness 10000) has occurred while \output is active
 $[]$
  []
 
-[2 <./figs/figure1.png (PNG copy)>]
-Underfull \hbox (badness 1668) in paragraph at lines 229--230
-\T1/stix/m/n/10 specific U-Net, whose domain-specific knowl-edge
+[2]
+Overfull \hbox (0.92552pt too wide) in paragraph at lines 204--205
+\T1/stix/m/n/10 learn-ing and a generalist--specialist col-lab-o-ra-tion strat-
+
  []
 
 
-Underfull \hbox (badness 1062) in paragraph at lines 242--244
+Underfull \hbox (badness 1062) in paragraph at lines 212--214
 \T1/stix/m/n/10 prove un-la-beled data uti-liza-tion by en-forc-ing pre-dic-tio
 n
  []
 
 
-Underfull \hbox (badness 1694) in paragraph at lines 242--244
+Underfull \hbox (badness 1694) in paragraph at lines 212--214
 \T1/stix/m/n/10 promis-ing per-for-mance, un-la-beled im-ages are gen-er-ally
  []
 
 
-Underfull \hbox (badness 2111) in paragraph at lines 248--251
+Underfull \hbox (badness 2111) in paragraph at lines 218--221
 \T1/stix/m/n/10 a Generalist--Specialist col-lab-o-ra-tive learn-ing paradigm,
  []
 
 
-Underfull \hbox (badness 1210) in paragraph at lines 255--257
+Underfull \hbox (badness 1210) in paragraph at lines 225--227
 \T1/stix/m/n/10 neigh-bor graphs to im-prove fea-ture com-pact-ness, while
  []
 
 
-Underfull \hbox (badness 1107) in paragraph at lines 255--257
+Underfull \hbox (badness 1107) in paragraph at lines 225--227
 \T1/stix/m/n/10 rep-re-sen-ta-tions rather than de-ter-mine how seg-men-ta-tion
 
  []
 
 
-Underfull \hbox (badness 1210) in paragraph at lines 255--257
+Underfull \hbox (badness 1210) in paragraph at lines 225--227
 \T1/stix/m/n/10 of re-search in-ves-ti-gates cross-image knowl-edge trans-fer.
  []
 
 
-Underfull \hbox (badness 1688) in paragraph at lines 255--257
+Underfull \hbox (badness 1688) in paragraph at lines 225--227
 \T1/stix/m/n/10 OP-SAM gen-er-ates se-man-tic pri-ors from support-query
  []
 
@@ -973,13 +994,17 @@ Underfull \hbox (badness 10000) has occurred while \output is active
 $[]$
  []
 
-[3])
+[3{C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/inconsolata/i4-
+t1-0.enc}])
+
+Package natbib Warning: There were undefined citations.
+
+
 Underfull \hbox (badness 10000) has occurred while \output is active
 $[]$
  []
 
-[4{C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/inconsolata/i4-
-t1-0.enc}
+[4
 
 ] (cas-dc-template.before_revision.aux)
  ***********
@@ -991,29 +1016,27 @@ Package rerunfilecheck Info: File `cas-dc-template.before_revision.out' has not
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 16839 strings out of 467871
- 256766 string characters out of 5418376
- 669012 words of memory out of 5000000
- 45405 multiletter control sequences out of 15000+600000
- 729554 words of font info for 174 fonts, out of 8000000 for 9000
+ 16827 strings out of 467871
+ 256782 string characters out of 5418376
+ 668522 words of memory out of 5000000
+ 45392 multiletter control sequences out of 15000+600000
+ 724713 words of font info for 160 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 90i,9n,98p,1828b,584s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\viole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecsx
-0900.pk> <C:\Users\viole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi60
-0\ecss0900.pk><C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/public/
-inconsolata/Inconsolata-zi4r.pfb><C:/Users/viole/AppData/Local/Programs/MiKTeX/
-fonts/type1/public/stix/STIXGeneral-Bold.pfb><C:/Users/viole/AppData/Local/Prog
-rams/MiKTeX/fonts/type1/public/stix/STIXGeneral-Italic.pfb><C:/Users/viole/AppD
-ata/Local/Programs/MiKTeX/fonts/type1/public/stix/STIXGeneral-Regular.pfb><C:/U
-sers/viole/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/stix-mathit.pf
-b><C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/stix-ma
-thrm.pfb><C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/
-stix-mathscr.pfb><C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/publ
-ic/stix/stix-mathsf.pfb>
-Output written on cas-dc-template.before_revision.pdf (5 pages, 2235528 bytes).
-
+ 90i,9n,98p,1889b,585s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\viole\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecss
+0900.pk><C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/public/incons
+olata/Inconsolata-zi4r.pfb><C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/
+type1/public/stix/STIXGeneral-Bold.pfb><C:/Users/viole/AppData/Local/Programs/M
+iKTeX/fonts/type1/public/stix/STIXGeneral-Italic.pfb><C:/Users/viole/AppData/Lo
+cal/Programs/MiKTeX/fonts/type1/public/stix/STIXGeneral-Regular.pfb><C:/Users/v
+iole/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/stix-mathit.pfb><C:/
+Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/stix-mathrm.p
+fb><C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/stix-m
+athscr.pfb><C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/public/sti
+x/stix-mathsf.pfb>
+Output written on cas-dc-template.before_revision.pdf (5 pages, 210338 bytes).
 PDF statistics:
- 176 PDF objects out of 1000 (max. 8388607)
- 24 named destinations out of 1000 (max. 500000)
- 16 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 151 PDF objects out of 1000 (max. 8388607)
+ 26 named destinations out of 1000 (max. 500000)
+ 11 words of extra memory for PDF output out of 10000 (max. 10000000)
 

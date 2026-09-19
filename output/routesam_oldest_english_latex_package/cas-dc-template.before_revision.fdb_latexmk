@@ -1,16 +1,15 @@
 # Fdb version 4
-["bibtex cas-dc-template.before_revision"] 1789750138.57116 "cas-dc-template.before_revision.aux" "cas-dc-template.before_revision.bbl" "cas-dc-template.before_revision" 1789750140.02905 0
+["bibtex cas-dc-template.before_revision"] 1789805749.65238 "cas-dc-template.before_revision.aux" "cas-dc-template.before_revision.bbl" "cas-dc-template.before_revision" 1789805751.18606 0
   "./cas-model2-names.bst" 1789676138 31802 28b630660245c09f173aac55be552b29 ""
   "./cas-refs.bib" 1789741037 11815 16715e992c724d7528ccb4a31575b9ad ""
-  "cas-dc-template.before_revision.aux" 1789750139 3388 a07c24d41a743c4941a39ad743f13829 "pdflatex"
+  "cas-dc-template.before_revision.aux" 1789805750 2459 75dad3b51b2ea1db685a336527c74213 "pdflatex"
   (generated)
   "cas-dc-template.before_revision.bbl"
   "cas-dc-template.before_revision.blg"
   (rewritten before read)
-["pdflatex"] 1789750138.78311 "f:/medsam3/Medical_Image_Analysis/output/routesam_oldest_english_latex_package/cas-dc-template.before_revision.tex" "cas-dc-template.before_revision.pdf" "cas-dc-template.before_revision" 1789750140.02934 0
+["pdflatex"] 1789805749.89711 "f:/medsam3/Medical_Image_Analysis/output/routesam_oldest_english_latex_package/cas-dc-template.before_revision.tex" "cas-dc-template.before_revision.pdf" "cas-dc-template.before_revision" 1789805751.1864 0
   "C:/Users/viole/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1789733156 101724 fdb770b177acc4b3d63771958f58ce53 ""
   "C:/Users/viole/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecss0900.pk" 1785315587 17932 47de93b85a8f3507198d1639ddb826c4 ""
-  "C:/Users/viole/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecsx0900.pk" 1785315586 18372 ca6e052c0eb9c9f48190b0952702a55a ""
   "C:/Users/viole/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1784060280 13333487 2e917ffffb0108517a1dbf0920981980 ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/inconsolata/i4-t1-0.enc" 1557959318 7631 5169ff1acd97ff1c4ab83563c99f96f4 ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/stix/stix-t1.enc" 1356261742 7013 c55cc8669071ac14036c4a0c96c16202 ""
@@ -18,7 +17,6 @@
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/jknappen/ec/ecrm1000.tfm" 993062122 3148 7e594c8240c71e432203f65ab5f95a51 ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/jknappen/ec/ecss0900.tfm" 993062232 3172 f4c246f493a9716483a2fec90fe5af0d ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/jknappen/ec/ecss1000.tfm" 993062234 3140 7eb06dfefee71119860002af13820d26 ""
-  "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/jknappen/ec/ecsx0900.tfm" 993062272 3160 ebf5076c2772cc0b2af30126a72da1c2 ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/public/amsfonts/symbols/msam10.tfm" 1233951854 916 f87d7c45f9c908e672703b83b72241a3 ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/public/amsfonts/symbols/msam5.tfm" 1233951854 924 9904cf1d39e9767e7a3622f2a125a565 ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/public/amsfonts/symbols/msam7.tfm" 1233951854 928 2dc8d444221b7a635bb58038579b861a ""
@@ -147,14 +145,13 @@
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/tex/latex/xkeyval/xkeyval.sty" 1656236919 4937 4ce600ce9bd4ec84d0250eb6892fcf4f ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/tex/latex/xstring/xstring.sty" 1693735632 123 a302f2c651a95033260db60e51527ae8 ""
   "cas-common.sty" 1789676136 76688 c602be3da196cb506acc84d1fa26b134 ""
-  "cas-dc-template.before_revision.abs" 1789750139 1904 b18e64b214e7745236c6d3eb7b09dbc2 "pdflatex"
-  "cas-dc-template.before_revision.aux" 1789750139 3388 a07c24d41a743c4941a39ad743f13829 "pdflatex"
-  "cas-dc-template.before_revision.bbl" 1789750138 4424 30dd2c061f5798ac193d2aa707d36d8a "bibtex cas-dc-template.before_revision"
-  "cas-dc-template.before_revision.out" 1789750139 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "cas-dc-template.before_revision.tex" 1789750135 21244 dc7f250748ca6d042ab4f0df7f740b2c ""
+  "cas-dc-template.before_revision.abs" 1789805750 1904 b18e64b214e7745236c6d3eb7b09dbc2 "pdflatex"
+  "cas-dc-template.before_revision.aux" 1789805750 2459 75dad3b51b2ea1db685a336527c74213 "pdflatex"
+  "cas-dc-template.before_revision.bbl" 1789805749 5674 88e3960d00af8ed888b4e85370055d48 "bibtex cas-dc-template.before_revision"
+  "cas-dc-template.before_revision.out" 1789805750 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "cas-dc-template.before_revision.tex" 1789805747 21689 69bab858948c015e45eec39b1eb42d4d ""
   "cas-dc.cls" 1789676138 4395 40b8ed97981966f9bde1c9d1561f114f ""
-  "f:/medsam3/Medical_Image_Analysis/output/routesam_oldest_english_latex_package/cas-dc-template.before_revision.tex" 1789750135 21244 dc7f250748ca6d042ab4f0df7f740b2c ""
-  "figs/figure1.png" 1789676136 2014526 564a0b5460e167dc8856dbf6caf01fae ""
+  "f:/medsam3/Medical_Image_Analysis/output/routesam_oldest_english_latex_package/cas-dc-template.before_revision.tex" 1789805747 21689 69bab858948c015e45eec39b1eb42d4d ""
   "thumbnails/cas-email.jpeg" 1789676136 8764 ae276cc9956197082d008c18ae4cbb28 ""
   "thumbnails/cas-url.jpeg" 1789676136 7736 ef75ae5d7195a5176d102b6aea09b729 ""
   (generated)
