@@ -1,0 +1,308 @@
+% RouteSAM English manuscript, translated and updated from
+% ../chinese_latex/routesam_zh_twocolumn.tex (29 September 2026).
+% Elsevier CAS double-column template. Compile with latexmk -pdf.
+\documentclass[a4paper,fleqn]{cas-dc}
+\usepackage[authoryear,longnamesfirst]{natbib}
+\usepackage{bm}
+
+\begin{document}
+\let\WriteBookmarks\relax
+\def\floatpagepagefraction{1}
+\def\textpagefraction{.001}
+
+\shorttitle{RouteSAM}
+\shortauthors{Authors}
+\title[mode=title]{RouteSAM: Semi-Supervised 2D Medical Image Segmentation via Cross-Image Semantic Routes}
+\author[1]{Author details to be added}
+\affiliation[1]{organization={Affiliation to be added},country={}}
+
+\begin{abstract}
+The high cost of medical image annotation makes semi-supervised learning an important direction for medical image segmentation. However, when a limited labeled set does not adequately cover diverse lesion appearances, segmentation performance can decline substantially. In particular, a large semantic gap between an unlabeled image and the available labeled examples makes it difficult to transfer the limited supervision reliably, reducing the quality of the resulting pseudo supervision.
+We propose RouteSAM, a semantic-routing approach to progressive supervision propagation. To extend limited supervision across as much of the training distribution as possible, RouteSAM first selects representative training images as propagation sources. For each unlabeled target, it then constructs a route of semantically related images between a labeled source and the target. Supervision travels progressively between neighboring images, replacing a difficult direct transfer with a sequence of smaller cross-image steps.
+Because propagation reliability varies across targets, we model consistency within the propagation process to estimate the reliability of each pseudo label and adjust its contribution to semi-supervised training. This strategy leaves the primary-route pseudo label unchanged while reducing the influence of unreliable propagation on the task-specific model.
+We evaluate RouteSAM on ACDC, Kvasir-SEG, BUSI, and ISIC2018, which differ in imaging characteristics and segmentation targets. The experiments indicate that RouteSAM can use unlabeled data effectively under limited annotation and provide consistent gains across medical segmentation tasks, \textbf{[final quantitative results to be inserted]}.
+\end{abstract}
+
+\begin{keywords}
+Semi-supervised medical image segmentation \sep Segment Anything Model \sep Cross-image propagation \sep Semantic routing \sep Pseudo-label learning
+\end{keywords}
+\maketitle
+
+\section{Introduction}
+
+Medical image segmentation precisely delineates lesions, organs, and other clinically relevant anatomical structures. It underpins computer-aided diagnosis, quantitative disease assessment, and treatment planning. Deep learning has substantially improved segmentation, but strong models usually require many high-quality pixel-level annotations. Compared with natural images, accurate medical annotations demand both clinical expertise and considerable time, making large labeled datasets difficult and costly to obtain~\cite{hesamian2019deep,tajbakhsh2020embracing}. Semi-supervised medical image segmentation (SSMIS) addresses this constraint by learning jointly from a small labeled set and a larger unlabeled set~\cite{jiao2024learning}.
+
+Existing SSMIS methods mainly extract additional supervision through pseudo-label learning and consistency regularization. Some construct pseudo labels from model predictions and update them through teacher--student training or collaboration among networks. Others perturb the input, feature representation, or model and enforce consistent predictions. Cross Teaching, MC-Net+, and BCP, for example, improve the use of unlabeled data through mutual supervision between heterogeneous networks, uncertainty-aware consistency, and bidirectional mixing of labeled and unlabeled samples, respectively~\cite{luo2022crossteaching,wu2022mcnet,bai2023bcp}. When the labeled set becomes even smaller, however, the task knowledge learned from it is less reliable, and self-generated pseudo labels become more vulnerable to prediction errors and uncertainty.
+
+Promptable segmentation foundation models offer another source of supervision. The Segment Anything Model (SAM) and its successors acquire general visual representations and prompt-conditioned segmentation priors through large-scale pretraining; they can segment a target from point, box, or mask prompts~\cite{kirillov2023segment}. Although the domain gap between natural and medical images makes direct SAM segmentation inconsistent across medical tasks~\cite{mazurowski2023samexperiment,ma2024medsam}, its general segmentation knowledge remains useful. Recent SSMIS methods therefore use task-specific models to generate prompts and SAM predictions to construct or improve pseudo supervision. SemiSAM prompts SAM with a specialist model; SemiSAM+ strengthens collaboration between a generalist foundation model and a task-specific specialist; and SAMatch refines existing predictions with SAM~\cite{zhang2023semisam,zhang2025semisamplus,xu2024samatch}. These studies show that a foundation model can supply supervision for unlabeled medical images. Most, however, concentrate on improving the prediction or pseudo label of each unlabeled image individually, leaving semantic relationships among training images underused.
+
+Medical images are not independent: the same anatomy or lesion class can exhibit related semantic patterns across samples. ACTION, for example, models both global semantic relations and local anatomical information for semi-supervised representation learning, showing the value of cross-sample structure~\cite{you2022action}. YoloSeg uses SAM2 to propagate a segmentation from one labeled image to unlabeled images, demonstrating the potential of cross-image transfer with very few labels~\cite{zhang2026yoloseg}. Such propagation is nevertheless primarily a single step from the labeled image to the target. If their lesion morphology, scale, or appearance differs substantially, that step must bridge a large semantic gap and can yield unstable pseudo supervision. This motivates a question: can relationships within the unlabeled set provide semantically related intermediate images that break a difficult direct transfer into smaller propagation steps?
+
+We study how to organize cross-image transfer of limited supervision using semantic relationships among training images. Our framework, \textbf{RouteSAM}, plans a propagation route from a labeled source to each target. It first identifies representative sources so that a small annotation budget covers the training distribution. For a target image, it then selects and orders semantically related intermediate images to form a route
+\begin{equation}
+a\rightarrow x_1\rightarrow x_2\rightarrow\cdots\rightarrow x_b\rightarrow t.
+\end{equation}
+Segmentation information starts at the labeled source and travels progressively through the intermediate images to the target.
+
+RouteSAM uses a frozen SAM3 to propagate along this route. Intermediate images divide a large source-to-target transition into smaller steps. Consequently, an unlabeled image can serve both as a target for pseudo-label generation and as an intermediate semantic node on another target's route. Since the resulting propagation is not equally reliable for every target, RouteSAM assesses consistency in the propagation process and uses it to weight pseudo supervision. Human annotations and reliability-weighted pseudo labels then train a task-specific segmentation model. Source selection, routing, SAM3 propagation, and reliability estimation are training-time operations; inference requires only the trained task-specific model on a single image.
+
+We evaluate RouteSAM on ACDC, Kvasir-SEG, BUSI, and ISIC2018 under several low-label settings. Comparisons include representative SSMIS methods, foundation-model-assisted low-label approaches, and direct cross-image propagation. We also analyze source selection, intermediate images, route construction, and reliability estimation to assess their influence on pseudo-label quality and final segmentation performance.
+
+Our main contributions are as follows:
+\begin{itemize}
+\item We formulate supervision expansion under extreme label scarcity as a cross-image propagation problem. Unlabeled images serve both as pseudo-labeling targets and as semantic intermediates connecting sparse supervision to difficult targets.
+\item We propose coverage-aware labeled-source selection and semantic routing. Representative sources and ordered intermediate images divide a large direct transfer into smaller cross-image steps.
+\item We use a frozen SAM3 for progressive propagation along routes of different lengths, extending human supervision without additional manual prompts on intermediate images.
+\item We weight pseudo supervision by propagation reliability. Return consistency and multi-route agreement yield image-level weights that limit the impact of unreliable pseudo labels on specialist training.
+\end{itemize}
+
+\section{Related Work}
+
+\subsection{Semi-Supervised Medical Image Segmentation}
+
+SSMIS reduces annotation cost by combining a few pixel-labeled images with many unlabeled images. A central challenge is obtaining reliable supervision from the latter. Mean Teacher forms a teacher by exponentially averaging student parameters and enforces prediction consistency under perturbations~\cite{tarvainen2017meanteacher}. Cross Pseudo Supervision uses two independently initialized networks to generate pseudo labels for each other~\cite{chen2021cps}. Cross Teaching exploits the different inductive biases of a CNN and a Transformer for mutual supervision~\cite{luo2022crossteaching}, while MC-Net+ uses diverse decoders to model prediction uncertainty and impose mutual consistency~\cite{wu2022mcnet}. These methods extend from a single teacher to complementary supervision among multiple or heterogeneous models, but their training signals still originate primarily from the models' own predictions on unlabeled images.
+
+Later work emphasizes pseudo-supervision reliability and interaction between labeled and unlabeled data. BCP uses bidirectional Copy--Paste to mix their regions and reduce the empirical distribution gap~\cite{bai2023bcp}. ABD uses prediction confidence to guide adaptive bidirectional region replacement and control pseudo-label noise under perturbation~\cite{chi2024abd}. DyCON combines dynamic uncertainty-aware consistency with contrastive learning to optimize unlabeled regions according to their reliability~\cite{assefa2025dycon}. These approaches improve unlabeled-data use through consistency, pseudo-label quality, perturbation, or local sample interaction. RouteSAM instead explicitly organizes the propagation of sparse segmentation supervision across multiple semantically related images.
+
+\subsection{Foundation-Model-Assisted Label-Efficient Medical Segmentation}
+
+The segmentation priors acquired by generalist models such as SAM have been used to strengthen supervision with limited medical annotations. SemiSAM introduces a frozen SAM branch into a conventional semi-supervised framework: task-model predictions generate prompts, and SAM outputs provide additional consistency supervision~\cite{zhang2023semisam}. SemiSAM+ develops confidence-aware collaboration between a generalist and a specialist and can draw supervision from one or more frozen foundation models~\cite{zhang2025semisamplus}. SAMatch combines weak-to-strong consistency with a task-adapted SAM; teacher-generated prompts elicit more complete pseudo labels for student training~\cite{xu2024samatch}. These methods use general segmentation priors to complement or correct localization cues and initial predictions on individual unlabeled images.
+
+Other studies increase the exchange of knowledge between generalist and specialist models. CPC-SAM combines cross-prompting and consistency between SAM decoder branches~\cite{miao2024cpcsam}. SC-SAM uses a task-specific U-Net to provide point prompts and pseudo labels for parameter-efficient SAM adaptation, while SAM predictions constrain the U-Net~\cite{vu2026scsam}. CPPS-SAM applies cross-prompting and cross-pseudo supervision to a CNN expert and a SAM generalist~\cite{zhang2026cppssam}. Their complementary knowledge can improve learning with few labels, but their collaboration is primarily organized around prompting, prediction correction, and model interaction on the same image. RouteSAM extends the use of a foundation model to propagation among different images.
+
+\subsection{Cross-Image Relation Modeling and Supervision Propagation}
+
+Beyond single-image consistency and pseudo-label refinement, several methods exploit relationships among samples. ACTION distills global semantic relations and local anatomical contrast~\cite{you2022action}. DACL builds density-aware neighborhoods and aggregates sparse-region features toward dense class regions~\cite{tang2024dacl}. GraphCL models inter-sample structure through an instance graph and graph clustering~\cite{wang2024graphcl}. These studies show that the neighborhoods and semantic structure of unlabeled medical images can aid learning. They mainly use those relations for feature constraints, contrastive learning, or clustering, however, rather than directly propagating segmentation supervision between images.
+
+More closely related approaches transfer segmentation information from a reference or labeled image to a target. PerSAM personalizes SAM with a single reference image and mask~\cite{zhang2023persam}. Matcher transfers target regions under one-shot conditions using general visual feature matching~\cite{liu2023matcher}. OP-SAM transfers a polyp prior through support--query feature correlations and iterative prompting~\cite{mao2025opsam}. YoloSeg uses SAM2 to propagate from one labeled sample, suppresses noise through multiview consensus and disagreement-region learning, and ultimately trains a task-specific model~\cite{zhang2026yoloseg}. These methods establish the feasibility of foundation-model-based cross-image transfer, but chiefly rely on a direct relation between labeled source and target.
+
+RouteSAM examines whether unlabeled images can provide a semantic transition between a labeled source and a difficult target. It treats the unlabeled dataset as a propagation space defined by inter-image semantic relationships and deliberately selects and orders intermediate images along a source--bridge--target route. An unlabeled image thereby becomes both a pseudo-labeling target and a semantic node connecting sparse annotations to other targets.
+
+\section{Method}
+\label{sec:method}
+
+\subsection{Problem Formulation and Framework Overview}
+\label{sec:framework-overview}
+
+SSMIS trains a segmentation model with a small pixel-labeled set and a larger unlabeled set. Let
+\begin{equation}
+\mathcal{D}_{\mathrm{tr}}=\mathcal{D}_{L}\cup\mathcal{D}_{U},
+\end{equation}
+where
+\begin{equation}
+\mathcal{D}_{L}=\{(x_i,y_i)\}_{i=1}^{K}
+\end{equation}
+contains human segmentation annotations and
+\begin{equation}
+\mathcal{D}_{U}=\{x_j\}_{j=1}^{N-K}
+\end{equation}
+contains the remaining training images. When labeled images comprise only a very small fraction of the set, they may cover only a limited range of lesion morphology, scale, and appearance. Large differences between an unlabeled target and the labeled images can lead either a task network or a promptable foundation model to produce incomplete, displaced, or distorted masks. Training on these predictions can reinforce their errors. The central challenge is therefore to extend the limited reliable supervision across the training distribution in a stable manner.
+
+Rather than treating each unlabeled image as an independent pseudo-labeling target, we use semantic relationships among training images to construct routes from labeled samples to targets. If a target differs markedly from the available labeled sources, semantically related intermediate images break the difficult direct transfer into smaller transitions. The unlabeled images thus also participate as intermediate nodes. RouteSAM feeds images to SAM3 in route order and exploits its cross-frame propagation capability to carry segmentation information to the target. We then estimate the reliability of the resulting pseudo supervision from propagation consistency and train a task-specific model jointly on human labels and reliability-weighted pseudo labels.
+
+The framework comprises four stages. First, we select representative images for annotation so the limited source set covers the training distribution. Second, for each target we select and order semantically related intermediate images into a route from a labeled source. Third, frozen SAM3 propagates segmentation information along that route to produce pseudo supervision. Finally, propagation consistency determines the contribution of each pseudo label to task-specific model training. All four stages expand supervision during training. At test time, the trained model segments an individual image without source selection, routing, or cross-image propagation.
+
+\subsection{Coverage-Aware Automatic Selection of Labeled Sources}
+\label{sec:support-selection}
+
+With very few annotations, the distribution of the selected source images strongly affects the range that subsequent propagation can reach. Sources concentrated in one part of the data distribution leave some unlabeled images semantically distant and make errors more likely to accumulate. We therefore select representative images before annotation, aiming to cover different lesion morphologies, scales, and imaging appearances.
+
+We extract local features from every training image using the frozen SAM3 visual encoder. Its feature map contains dense spatial tokens with substantial redundancy between nearby positions. We uniformly sample 64 locations and $L_2$-normalize their local tokens, retaining information from different regions without using the entire dense map.
+
+The sampled tokens from all training images are pooled, and MiniBatch K-Means forms a shared vocabulary of $M=64$ visual words. Each token is assigned to its nearest word, yielding per-image word frequencies. To downweight patterns that occur repeatedly across many images, we apply TF-IDF. The normalized weight of word $m$ in image $x_i$ is
+\begin{equation}
+p_{im}=
+\frac{\operatorname{tf}_{im}\operatorname{idf}_{m}}
+{\sum_{l=1}^{M}\operatorname{tf}_{il}\operatorname{idf}_{l}},
+\qquad
+\operatorname{idf}_{m}=
+\log\frac{N+1}{\operatorname{df}_{m}+1}+1,
+\end{equation}
+where $N$ is the number of training images, $\operatorname{tf}_{im}$ is the frequency of word $m$ in $x_i$, and $\operatorname{df}_{m}$ is the number of images containing that word. This gives an image-level distribution $\mathbf{p}_i=(p_{i1},p_{i2},\ldots,p_{iM})$.
+
+We compare images through similarity between their Hellinger-mapped visual-word distributions:
+\begin{equation}
+k(i,j)=\sum_{m=1}^{M}\sqrt{p_{im}p_{jm}}.
+\end{equation}
+A larger $k(i,j)$ indicates more similar compositions of local visual patterns. This is the Bhattacharyya coefficient between the two distributions, replacing direct comparison of high-dimensional local features with a comparison of their pattern frequencies.
+
+We then select sources representative of the training set. For a selected set $\mathcal{A}$, the similarity between any training image and its nearest selected source measures how well it is covered. We define
+\begin{equation}
+F(\mathcal{A})=
+\frac{1}{N}\sum_{i=1}^{N}\max_{a\in\mathcal{A}}k(i,a).
+\end{equation}
+Greedy search repeatedly adds the image with the largest increase in $F(\mathcal{A})$ until the annotation budget is reached. The resulting set supplies the initial supervision for semantic routing and SAM3 propagation.
+
+\subsection{Target-Aware Semantic Route Construction}
+\label{sec:semantic-routing}
+
+Even representative labeled sources may differ considerably from a particular target in lesion morphology, scale, or imaging appearance. Direct transfer across that gap may be unstable. We insert semantically related intermediate images between the source and target. For target $t$, a route with six intermediate images has the form
+\begin{equation}
+r=(a,x_1,x_2,\ldots,x_6,t),
+\end{equation}
+where $a$ is a labeled source and $x_1,\ldots,x_6$ are selected training images. The route specifies both which images propagation visits and their order.
+
+Route construction first assesses whether a training image contains content related to the annotated region of a source. At $256\times256$ resolution, we extract spatial local features with the frozen SAM3 visual encoder and denote the $L_2$-normalized feature at location $p$ of source $a$ by $\mathbf{z}_{ap}$. We map its manual mask to the feature grid, obtaining the set $\Omega_a$ of annotated locations. Their mean, after normalization, gives
+\begin{equation}
+\mathbf{u}_a=
+\operatorname{norm}\left(
+\frac{1}{|\Omega_a|}\sum_{p\in\Omega_a}\mathbf{z}_{ap}
+\right).
+\end{equation}
+This descriptor summarizes the labeled region and helps identify related content in other images.
+
+For any training image $x_i$, let $\{\mathbf{z}_{ip}\}$ be its normalized local features. We measure the similarity of each feature to $\mathbf{u}_a$ and use it for attention-weighted aggregation:
+\begin{equation}
+\alpha_{aip}=
+\frac{\exp\left(\tau\,\mathbf{u}_a^{\mathrm T}\mathbf{z}_{ip}\right)}
+{\sum_q\exp\left(\tau\,\mathbf{u}_a^{\mathrm T}\mathbf{z}_{iq}\right)},
+\end{equation}
+where $\tau$ is a temperature parameter. The source-conditioned image descriptor is
+\begin{equation}
+\mathbf{h}_{a,i}=
+\operatorname{norm}\left(\sum_p\alpha_{aip}\mathbf{z}_{ip}\right).
+\end{equation}
+Features closer to the annotated region receive greater weight, so $\mathbf{h}_{a,i}$ focuses on source-relevant content in $x_i$. We define its region relevance as
+\begin{equation}
+s(a,i)=\mathbf{h}_{a,i}^{\mathrm T}\mathbf{u}_a.
+\end{equation}
+
+Relevance scores from different sources can have different overall biases: one source may score many training images relatively highly. We therefore center each source's scores around its mean over the training set:
+\begin{equation}
+\widetilde{s}(a,i)=s(a,i)-
+\frac{1}{|\mathcal{D}_{\mathrm{tr}}|}
+\sum_{x_j\in\mathcal{D}_{\mathrm{tr}}}s(a,j).
+\end{equation}
+The centered score indicates how strongly $x_i$ relates to the source's annotated region relative to an average training image. Subsequent route construction uses $\widetilde{s}(a,i)$.
+
+Source relevance alone does not guarantee a smooth route. Two images can each resemble the labeled region while differing greatly from one another in overall structure or appearance. We therefore also measure visual continuity between adjacent images. For image $x_i$, the normalized mean of its $P$ local features is
+\begin{equation}
+\mathbf{g}_i=
+\operatorname{norm}\left(
+\frac{1}{P}\sum_{p=1}^{P}\mathbf{z}_{ip}
+\right),
+\end{equation}
+and adjacent-image similarity is
+\begin{equation}
+s_{\mathrm{adj}}(i,j)=\mathbf{g}_i^{\mathrm T}\mathbf{g}_j.
+\end{equation}
+A useful route must retain relevance to the source's labeled region and avoid pronounced visual jumps between consecutive images.
+
+We combine these relationships to assess a candidate route
+\begin{equation}
+r=(a,x_1,\ldots,x_6,t).
+\end{equation}
+Let
+\begin{equation}
+\begin{aligned}
+V(r)=&\{\widetilde{s}(a,x_1),\ldots,
+\widetilde{s}(a,x_6),\widetilde{s}(a,t)\}\\
+&\cup\{s_{\mathrm{adj}}(a,x_1),
+s_{\mathrm{adj}}(x_1,x_2),\ldots,
+s_{\mathrm{adj}}(x_6,t)\}.
+\end{aligned}
+\end{equation}
+Since one poor transition may undermine all later propagation, we prioritize the weakest score and then the route's mean score:
+\begin{equation}
+Q(r)=\left(
+\min_{v\in V(r)}v,\,
+\frac{1}{|V(r)|}\sum_{v\in V(r)}v
+\right).
+\end{equation}
+Candidate routes are compared lexicographically by $Q(r)$: the larger minimum wins, and the mean breaks ties. Thus a pronounced cross-image jump cannot be hidden by other high similarities.
+
+Exhaustively enumerating all intermediate-image combinations would be expensive. We instead use beam search, retaining the 32 highest-scoring partial routes at each step. Sources, intermediate images, and targets are distinct within a route, and all intermediate images come from the training set.
+
+For target $t$, we search separately for each number of intermediate images $b\in\{0,1,\ldots,6\}$. The best route of length $b$ is
+\[
+r_t^{(b)}=
+\left(a_t^{(b)},x_1^{(b)},\ldots,x_b^{(b)},t\right).
+\]
+When $b=0$, the source connects directly to the target. Routes of different lengths are optimized independently and need not share a source or intermediate images. We use $r_t^{(6)}$ as the primary route that produces the pseudo label for training. Routes $r_t^{(0)},\ldots,r_t^{(5)}$ provide additional predictions for measuring stability under route variation.
+
+\subsection{Progressive Cross-Image Propagation with SAM3}
+\label{sec:sam3-propagation}
+
+The preceding stage gives each target $t$ seven routes, one for each $b=0,\ldots,6$. The six-intermediate route is primary; the others support reliability estimation. Because routes of different lengths are constructed independently, their sources and intermediate images may differ. We run SAM3 propagation independently along each route, following its specified image order.
+
+Initial supervision is provided only at the route's labeled source. For route $r_t^{(b)}$, source $a_t^{(b)}$ has a manual mask $Y_{a_t^{(b)}}$. We form a tight bounding box around its annotated region and use that box as SAM3's initial prompt on the first image. Intermediate images and the target receive no additional mask, box, or text prompts. Thus the human annotation enters explicitly only at the start; SAM3 produces subsequent masks by propagation along the route.
+
+All route images are resized to $256\times256$. The ordered input for a route with $b$ intermediate images is
+\begin{equation}
+\left[I_{a_t^{(b)}},I_{x_1^{(b)}},\ldots,
+I_{x_b^{(b)}},I_t\right].
+\end{equation}
+SAM3 remains frozen throughout propagation. It first identifies the object from the source box, then processes the intermediate images in semantic-route order and carries the segmentation to later images through its cross-frame propagation capability. The intermediate images let supervision reach the target progressively rather than by a single direct transfer.
+
+We denote the target mask produced by route $r_t^{(b)}$ as
+\begin{equation}
+C_t^{(b)},\qquad b\in\{0,1,\ldots,6\}.
+\end{equation}
+Each target therefore has seven propagation results:
+\begin{equation}
+\mathcal{C}_t=
+\left\{C_t^{(0)},C_t^{(1)},\ldots,C_t^{(6)}\right\}.
+\end{equation}
+Here $C_t^{(0)}$ comes from direct source-to-target transfer, whereas $C_t^{(1)},\ldots,C_t^{(6)}$ use increasing numbers of intermediate images.
+
+For subsequent semi-supervised learning, we always use the six-intermediate result as the initial pseudo label:
+\begin{equation}
+\widehat{Y}_t=C_t^{(6)}.
+\end{equation}
+The other results do not vote on, fuse with, or reconstruct that label. They are retained solely to evaluate its stability under changes to the propagation route.
+
+\subsection{Propagation-Reliability-Aware Semi-Supervised Learning}
+\label{sec:reliability-learning}
+
+Each target now has a fixed primary-route pseudo label $\widehat{Y}_t$ and the results from other route lengths. Their reliability can vary substantially. Giving every pseudo label equal strength would allow a task-specific model to learn low-quality propagation results. We therefore leave the primary pseudo label unchanged and use propagation consistency to weight its training contribution.
+
+First, we assess closed-loop stability by reversing propagation along the primary route. Forward propagation on $r_t^{(6)}$ produces $\widehat{Y}_t$. In a fresh SAM3 propagation state, we reinitialize the object on target $t$ from this prediction and propagate in reverse route order back to the labeled source. Let $R_t^{(6)}$ be the returned mask. Because the source has a manual annotation, return consistency is
+\begin{equation}
+q_{\mathrm{return}}(t)=
+\operatorname{Dice}\left(
+R_t^{(6)},Y_{a_t^{(6)}}
+\right).
+\end{equation}
+
+This score measures whether the segmentation survives a full forward-and-backward trip and recovers the known source mask. A high score indicates closed-loop stability, but does not prove that the target pseudo label is correct. We use it as a proxy for identifying reliable propagation rather than as a continuous weight. Specifically, we rank targets by $q_{\mathrm{return}}(t)$ and place the top $30\%$ in a high-return-consistency set $\mathcal{H}$.
+
+For the remaining targets, agreement across routes measures sensitivity to route choice. We calculate Dice for all pairs among $C_t^{(0)},\ldots,C_t^{(6)}$ and define
+\begin{equation}
+q_{\mathrm{multi}}(t)=
+\frac{1}{21}\sum_{0\le i<j\le6}
+\operatorname{Dice}\left(C_t^{(i)},C_t^{(j)}\right).
+\end{equation}
+Agreement indicates relative stability, while large differences indicate dependence on a particular route. Like return consistency, it reflects propagation stability rather than accuracy against the target's unknown ground truth.
+
+The image-level pseudo-supervision weight is
+\begin{equation}
+w_t=
+\begin{cases}
+1,&t\in\mathcal{H},\\[4pt]
+0,&t\notin\mathcal{H}\ \text{and}\ C_t^{(6)}=\varnothing,\\[4pt]
+q_{\mathrm{multi}}(t),&\text{otherwise}.
+\end{cases}
+\end{equation}
+Thus high-return-consistency images receive full weight. Other images with nonempty primary-route pseudo labels are weighted continuously by multi-route agreement. An image with no valid primary-route foreground outside $\mathcal{H}$ contributes no pseudo-supervision gradient. The weight applies to the whole image; we do not introduce pixel-level confidence.
+
+We train a task-specific U-Net jointly on manually labeled and propagated pseudo-labeled images. Labeled data receive weaker augmentation and pseudo-labeled data stronger augmentation. The supervised loss $\mathcal{L}_{\mathrm{sup}}$ is the sum of cross-entropy and Dice loss on manual labels. For each pseudo-labeled image, the same cross-entropy and foreground Dice loss terms are scaled by its image-level reliability weight:
+\begin{equation}
+\mathcal{L}_{\mathrm{pseudo}}=
+\frac{1}{B_u}\sum_{t=1}^{B_u}w_t
+\left(\mathcal{L}_{\mathrm{CE}}^{t}
++\mathcal{L}_{\mathrm{Dice}}^{t}\right),
+\end{equation}
+where $B_u$ is the number of pseudo-labeled images in a mini-batch. The complete objective is
+\begin{equation}
+\mathcal{L}=\mathcal{L}_{\mathrm{sup}}
++\lambda(k)\mathcal{L}_{\mathrm{pseudo}},
+\end{equation}
+where $\lambda(k)$ increases over training. It limits reliance on pseudo labels at the beginning and increases their contribution after the model has acquired basic segmentation ability. The schedule and remaining optimization settings will be specified in the experimental setup.
+
+The primary-route pseudo label $\widehat{Y}_t$ remains fixed throughout training. Return and multi-route consistency estimate only its image-level reliability; they do not vote on, fuse, or regenerate it. This retains pseudo-label coverage while reducing interference from unreliable propagation.
+
+\bibliographystyle{cas-model2-names}
+\bibliography{references}
+\end{document}
+
+

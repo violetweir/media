@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex routesam_zh_twocolumn"] 1790664669.49318 "routesam_zh_twocolumn.aux" "routesam_zh_twocolumn.bbl" "routesam_zh_twocolumn" 1790664672.25939 0
+["bibtex routesam_zh_twocolumn"] 1790665672.67466 "routesam_zh_twocolumn.aux" "routesam_zh_twocolumn.bbl" "routesam_zh_twocolumn" 1790665675.26209 0
   "../related_work_papers/references.bib" 1789806739 13772 2c681a7d4abef83c4298f02c3d902d47 ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/bibtex/bst/natbib/plainnat.bst" 1284455456 26816 ffe5423d2019860bad9f54bc402fac15 ""
-  "routesam_zh_twocolumn.aux" 1790664670 5586 8cda492ba4024b49bbac4f9b100a7d79 "pdflatex"
+  "routesam_zh_twocolumn.aux" 1790665673 5586 e928c8692549116dece32240a2ca2dcb "pdflatex"
   (generated)
   "routesam_zh_twocolumn.bbl"
   "routesam_zh_twocolumn.blg"
   (rewritten before read)
-["pdflatex"] 1790664669.81996 "f:/medsam3/Medical_Image_Analysis/chinese_latex/routesam_zh_twocolumn.tex" "routesam_zh_twocolumn.pdf" "routesam_zh_twocolumn" 1790664672.25979 0
+["pdflatex"] 1790665672.93203 "f:/medsam3/Medical_Image_Analysis/chinese_latex/routesam_zh_twocolumn.tex" "routesam_zh_twocolumn.pdf" "routesam_zh_twocolumn" 1790665675.26252 0
   "C:/Users/viole/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1789993647 298830 7de8bfca84a94cb6b923c18ba23a8b69 ""
   "C:/Users/viole/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1784060280 13333487 2e917ffffb0108517a1dbf0920981980 ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1001775420 2900 1537cc8184ad1792082cd229ecc269f4 ""
@@ -95,22 +95,6 @@
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unihei/unihei97.tfm" 1247154072 1172 909826a1f69146e1bd8f119157e28fcd ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unihei/unihei98.tfm" 1247154072 1172 1261ce7302f6ac3352bb5ce3d475a0d8 ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unihei/uniheiff.tfm" 1247154072 1172 753ad64262b81ffe372ea0e0ce61c8b9 ""
-  "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unikai/unikai4e.tfm" 1247154072 1172 e4e06d6f1e84d28bfcd86fa041ead712 ""
-  "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unikai/unikai4f.tfm" 1247154072 1172 8c8dbd4c88f73fa5916173eba96c1998 ""
-  "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unikai/unikai50.tfm" 1247154072 1172 4a99dd8b390795da62a3956a66ac1c3f ""
-  "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unikai/unikai56.tfm" 1247154072 1172 1d8021fc01787b825c2b8705882c4d72 ""
-  "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unikai/unikai5f.tfm" 1247154072 1172 b4b325627313a1f5e43fd1b5ea9c5f36 ""
-  "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unikai/unikai64.tfm" 1247154072 1172 d4357f33dffe553da3e2fbe3561d1c60 ""
-  "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unikai/unikai68.tfm" 1247154072 1172 75e03a44185a12dfc0bf232fcade7174 ""
-  "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unikai/unikai6e.tfm" 1247154072 1172 0301f9ec8432b85d49ad2a28d9ed5efd ""
-  "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unikai/unikai75.tfm" 1247154072 1172 2f7a4b0c52102520d004395339c53006 ""
-  "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unikai/unikai76.tfm" 1247154072 1172 59ccc09a32bc1065dcb7437925eb1275 ""
-  "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unikai/unikai77.tfm" 1247154072 1172 cb20f7ee877b58ab75550c6704380f58 ""
-  "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unikai/unikai7b.tfm" 1247154072 1172 24787e626a4658aa0badf81d8fb205c2 ""
-  "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unikai/unikai8b.tfm" 1247154072 1172 d65cb106123a92c5ee00b1e4fe33aea2 ""
-  "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unikai/unikai8d.tfm" 1247154072 1172 e6018378825d1ef17d762352d6fd052e ""
-  "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unikai/unikai8f.tfm" 1247154072 1172 2b6a796bc4d45afca76262badd037b4b ""
-  "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unikai/unikaiff.tfm" 1247154072 1172 d8c52947a0b26d01fe0320bba2062d01 ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unisong/unisong30.tfm" 1247154072 1172 87d6ba1aff8b955258f6ef7a5d8e86e5 ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unisong/unisong4e.tfm" 1247154072 1172 89be830028b08964827966f204abf065 ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/zhmetrics/unisong/unisong4f.tfm" 1247154072 1172 dd7ec0fe171ece0b66015cb8929849f0 ""
@@ -307,13 +291,12 @@
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/tex/latex/zhnumber/zhnumber.sty" 1657817710 38160 aafa8d740e4f21b62a4acd4835e54359 ""
   "C:/WINDOWS/Fonts/msyh.ttc" 1779221258 19704352 1e10e74402e59d54499af795caf0b135 ""
   "C:/WINDOWS/Fonts/simhei.ttf" 1779221265 9745792 5c7fd3058dea9b77be5049ff7efa9f34 ""
-  "C:/WINDOWS/Fonts/simkai.ttf" 1779221265 11779732 2eee64ad5f44858f339bcf248bda95d0 ""
   "C:/WINDOWS/Fonts/simsun.ttc" 1779221258 18316748 0ba67eea91ba3af0ac4836d0e922d011 ""
-  "f:/medsam3/Medical_Image_Analysis/chinese_latex/routesam_zh_twocolumn.tex" 1790664666 38886 886428747979413fa81c01e4a21a4fb1 ""
-  "routesam_zh_twocolumn.aux" 1790664670 5586 8cda492ba4024b49bbac4f9b100a7d79 "pdflatex"
-  "routesam_zh_twocolumn.bbl" 1790664669 10341 1183f7b61a3596d89001eb351896f7cc "bibtex routesam_zh_twocolumn"
-  "routesam_zh_twocolumn.out" 1790664670 1479 0955b2550f5294e5d7fd838d94e31871 "pdflatex"
-  "routesam_zh_twocolumn.tex" 1790664666 38886 886428747979413fa81c01e4a21a4fb1 ""
+  "f:/medsam3/Medical_Image_Analysis/chinese_latex/routesam_zh_twocolumn.tex" 1790665669 39325 c1f0fff92ba901b0d0130a7c2f960fa3 ""
+  "routesam_zh_twocolumn.aux" 1790665673 5586 e928c8692549116dece32240a2ca2dcb "pdflatex"
+  "routesam_zh_twocolumn.bbl" 1790665672 10341 1183f7b61a3596d89001eb351896f7cc "bibtex routesam_zh_twocolumn"
+  "routesam_zh_twocolumn.out" 1790665673 1479 0955b2550f5294e5d7fd838d94e31871 "pdflatex"
+  "routesam_zh_twocolumn.tex" 1790665669 39325 c1f0fff92ba901b0d0130a7c2f960fa3 ""
   (generated)
   "routesam_zh_twocolumn.aux"
   "routesam_zh_twocolumn.log"

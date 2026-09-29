@@ -1,0 +1,52 @@
+This is BibTeX, Version 0.99e
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: routesam_en_twocolumn.aux
+Reallocating 'name_of_file' (item size: 1) to 17 items.
+The style file: cas-model2-names.bst
+Reallocating 'name_of_file' (item size: 1) to 11 items.
+Database file #1: references.bib
+Reallocating 'singl_function' (item size: 4) to 100 items.
+Warning--empty pages in mao2025opsam
+Warning--empty pages in tarvainen2017meanteacher
+You've used 26 entries,
+            2990 wiz_defined-function locations,
+            883 strings with 12888 characters,
+and the built_in function-call counts, 22450 in all, are:
+= -- 1579
+> -- 1308
+< -- 9
++ -- 499
+- -- 471
+* -- 2670
+:= -- 3279
+add.period$ -- 85
+call.type$ -- 26
+change.case$ -- 287
+chr.to.int$ -- 26
+cite$ -- 28
+duplicate$ -- 1523
+empty$ -- 1369
+format.name$ -- 553
+if$ -- 4110
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 321
+newline$ -- 152
+num.names$ -- 104
+pop$ -- 577
+preamble$ -- 1
+purify$ -- 261
+quote$ -- 0
+skip$ -- 492
+stack$ -- 0
+substring$ -- 720
+swap$ -- 1255
+text.length$ -- 7
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 234
+warning$ -- 2
+while$ -- 109
+width$ -- 0
+write$ -- 391
+(There were 2 warnings)
