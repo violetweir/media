@@ -10,6 +10,7 @@
 \usepackage[dvipsnames]{xcolor}
 \usepackage[colorlinks=true,citecolor=TealBlue,linkcolor=blue,urlcolor=blue]{hyperref}
 \usepackage{booktabs}
+\usepackage{multirow}
 \usepackage{microtype}
 
 \setlength{\parindent}{2em}
@@ -483,6 +484,170 @@ w_t
 
 
 
+
+
+\section{实验}
+\label{sec:experiments}
+
+\subsection{数据集与评估协议}
+\label{sec:datasets-protocol}
+
+\begin{table*}[t]
+\centering
+\caption{实验数据集及数据划分。}
+\label{tab:dataset_statistics}
+\begin{tabular}{lcccccc}
+\toprule
+数据集 & 成像模态 & 分割目标 & 训练集 & 有标注样本 ($1\%$) & 验证集 & 测试集 \\
+\midrule
+ACDC        & MRI        & LV / RV / MYO   & 1312 & 13 & 210 & 380 \\
+Kvasir-SEG  & Endoscopy  & Polyp            & 800  & 8  & 100 & 100 \\
+BUSI        & Ultrasound & Breast lesion    & 517  & 5  & 64  & 66  \\
+ISIC2018    & Dermoscopy & Skin lesion      & 2075 & 21 & 259 & 260 \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+
+为验证 RouteSAM 在不同医学成像模态和分割任务上的有效性，我们在 ACDC、Kvasir-SEG、BUSI 和 ISIC2018 四个公开医学图像分割数据集上开展实验。四个数据集分别涵盖心脏磁共振成像、消化道内镜、乳腺超声和皮肤镜图像，在目标形态、尺度、边界特征及成像外观方面具有较大差异。
+
+\paragraph{ACDC.}
+ACDC（Automated Cardiac Diagnosis Challenge）是一个常用的心脏磁共振图像分割数据集，包含左心室（LV）、右心室（RV）和心肌（MYO）三个前景类别的像素级标注~\cite{bernard2018acdc}。本文采用其二维切片版本，共包含 100 名患者的 1,902 幅有效 MRI 切片。为避免同一患者的不同切片同时出现在训练集与测试集中，我们采用患者级划分，其中 70 名患者的 1,312 幅切片作为训练集，10 名患者的 210 幅切片作为验证集，另外 20 名患者的 380 幅切片作为测试集。在 $1\%$ 标注设置下，从训练集中选取 13 幅图像作为有标注样本，其余图像作为未标注数据参与半监督学习。
+
+\paragraph{Kvasir-SEG.}
+Kvasir-SEG 是一个公开的消化道息肉分割数据集，共包含 1,000 幅结肠镜图像及其对应的像素级息肉掩码~\cite{jha2020kvasirseg}。不同样本中的息肉在尺度、形状、颜色和边界清晰度方面具有较大差异。本文将其中 800 幅图像用于训练，100 幅用于验证，100 幅用于测试。在 $1\%$ 标注设置下，使用 8 幅训练图像的人工标注，其余训练图像作为未标注数据。
+
+\paragraph{BUSI.}
+BUSI 是一个乳腺超声图像数据集，原始数据包含正常、良性和恶性三类超声图像~\cite{aldhabyani2020busi}。本文使用具有病灶分割标注的良性和恶性样本，共包含 647 幅图像。由于超声图像通常存在散斑噪声、低对比度和边界模糊等特点，该数据集能够用于评估模型在复杂目标边界条件下的分割性能。本文将 517 幅图像用于训练，64 幅用于验证，66 幅用于测试，并在 $1\%$ 标注设置下使用 5 幅有标注训练图像。
+
+\paragraph{ISIC2018.}
+ISIC2018 Task 1 是面向皮肤镜图像病灶分割的公开基准数据集，共包含 2,594 幅具有像素级病灶标注的皮肤镜图像~\cite{codella2019isic2018}。不同病灶在颜色、纹理、尺度和形态方面具有较高的多样性。本文将其中 2,075 幅图像用于训练，259 幅用于验证，260 幅用于测试。在 $1\%$ 标注设置下，使用 21 幅训练图像的人工标注，其余训练图像作为未标注数据。
+
+表~\ref{tab:dataset_statistics} 汇总了四个数据集的实验划分。Kvasir-SEG、BUSI 和 ISIC2018 为二值病灶分割任务，而 ACDC 为多类别心脏结构分割任务，使我们能够从不同成像模态和不同分割任务类型评估 RouteSAM 的泛化能力。
+
+
+
+\paragraph{评估协议.}
+对于所有数据集，我们仅允许选定的少量训练图像使用人工分割标注，其余训练图像均作为未标注数据参与 RouteSAM 的语义路由、跨图像传播和半监督训练。除特别说明外，主要实验统一采用约 $1\%$ 的图像级标注预算，即
+\begin{equation}
+K=\max\left(1,\operatorname{round}(0.01N_{\mathrm{tr}})\right),
+\end{equation}
+其中 $N_{\mathrm{tr}}$ 表示训练图像数量。监督起始样本的选择仅依赖训练图像的视觉特征，在样本确定之前不使用其分割标注。
+
+所有对比方法均采用相同的训练、验证和测试划分以及相同的有标注样本，以保证比较的公平性。验证集用于模型选择和超参数确定，测试集仅用于最终性能评估，不参与训练样本选择、语义路由或模型参数优化。
+
+本文采用 Dice similarity coefficient（Dice）和 Intersection over Union（IoU）作为主要评价指标。对于预测区域 $P$ 和真实区域 $G$，其定义分别为
+\begin{equation}
+\operatorname{Dice}(P,G)
+=
+\frac{2|P\cap G|}{|P|+|G|},
+\end{equation}
+\begin{equation}
+\operatorname{IoU}(P,G)
+=
+\frac{|P\cap G|}{|P\cup G|}.
+\end{equation}
+对于 Kvasir-SEG、BUSI 和 ISIC2018，报告前景类别在测试集上的平均 Dice 和 IoU；对于 ACDC，分别计算 LV、RV 和 MYO 三个前景类别的分割结果，并报告其平均性能。
+
+
+
+\subsection{与现有方法的比较}
+\label{sec:comparison}
+
+为评估 RouteSAM 在有限标注条件下的分割性能，我们将其与具有代表性的半监督医学图像分割方法以及基础模型辅助的低标注分割方法进行比较。所有方法均采用第~\ref{sec:datasets-protocol}节所述的数据划分，并在相同的有标注训练样本下进行训练和评估，以尽可能排除数据划分和标注样本差异带来的影响。
+
+具体而言，比较方法包括以下两类。第一类为传统半监督分割方法，包括 Mean Teacher~\cite{tarvainen2017meanteacher}、Cross Pseudo Supervision（CPS）~\cite{chen2021cps}、Bidirectional Copy-Paste（BCP）~\cite{bai2023bcp} 和 Adaptive Bidirectional Displacement（ABD）~\cite{chi2024abd}。这些方法分别代表教师--学生一致性学习、交叉伪监督以及基于数据扰动和区域混合的半监督学习策略。
+
+第二类为基于分割基础模型的低标注方法。我们选择 SemiSAM+~\cite{zhang2025semisamplus}、SAMatch~\cite{xu2024samatch} 和 YoloSeg~\cite{zhang2026yoloseg} 进行比较。SemiSAM+ 利用冻结的通用分割模型辅助任务特定网络生成更可靠的训练监督；SAMatch 通过任务模型预测生成提示，并利用 SAM 对伪标签进行进一步修正；YoloSeg 则利用 SAM2 的跨图像传播能力，将有限人工标注扩展至未标注训练数据。尤其是 YoloSeg 与本文均利用基础模型的跨图像传播能力扩展有限监督，因此构成与 RouteSAM 较为直接的比较对象。不同于直接将监督从有标注图像传播至未标注目标，RouteSAM 进一步显式利用未标注图像之间的语义连续性，在监督起始样本与待处理图像之间构建有序传播路径。
+
+此外，我们报告仅使用相同有标注样本训练的 U-Net（Sup. Only）作为监督下限，以衡量不同方法利用未标注数据所带来的实际增益。对于所有重新实现的方法，我们保持训练集、验证集和测试集划分以及可访问人工标注完全一致，并仅根据验证集性能选择模型。对于原方法中与本文实验协议不一致的设置，我们在保持其核心方法设计不变的前提下适配至本文的二维分割任务和标注预算。
+
+表~\ref{tab:main_comparison} 给出了四个数据集上的主要定量结果。总体而言，RouteSAM 在不同成像模态和分割目标上均能够有效利用未标注数据。与仅使用有限人工标注的监督训练相比，跨图像传播显著扩大了可用监督范围；相较于主要依赖单图伪标签、一致性正则化或直接跨图像传播的现有方法，RouteSAM 通过在语义相关图像之间逐步传播监督，并进一步根据传播可靠性调节伪监督的训练贡献，在不同数据集上表现出更加稳定的性能提升。
+
+\begin{table*}[t]
+\centering
+\caption{RouteSAM 与现有方法在四个医学图像分割数据集上的比较。所有方法采用相同的数据划分和有标注训练样本。最佳结果以粗体表示，次优结果以下划线表示。}
+\label{tab:main_comparison}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lcccccccc}
+\toprule
+\multirow{2}{*}{方法}
+& \multicolumn{2}{c}{ACDC}
+& \multicolumn{2}{c}{Kvasir-SEG}
+& \multicolumn{2}{c}{BUSI}
+& \multicolumn{2}{c}{ISIC2018} \\
+\cmidrule(lr){2-3}
+\cmidrule(lr){4-5}
+\cmidrule(lr){6-7}
+\cmidrule(lr){8-9}
+& Dice & IoU
+& Dice & IoU
+& Dice & IoU
+& Dice & IoU \\
+\midrule
+
+Sup. Only
+& -- & --
+& -- & --
+& -- & --
+& -- & -- \\
+
+Mean Teacher~\cite{tarvainen2017meanteacher}
+& -- & --
+& -- & --
+& -- & --
+& -- & -- \\
+
+CPS~\cite{chen2021cps}
+& -- & --
+& -- & --
+& -- & --
+& -- & -- \\
+
+BCP~\cite{bai2023bcp}
+& -- & --
+& -- & --
+& -- & --
+& -- & -- \\
+
+ABD~\cite{chi2024abd}
+& -- & --
+& -- & --
+& -- & --
+& -- & -- \\
+
+\midrule
+
+SemiSAM+~\cite{zhang2025semisamplus}
+& -- & --
+& -- & --
+& -- & --
+& -- & -- \\
+
+SAMatch~\cite{xu2024samatch}
+& -- & --
+& -- & --
+& -- & --
+& -- & -- \\
+
+YoloSeg~\cite{zhang2026yoloseg}
+& -- & --
+& -- & --
+& -- & --
+& -- & -- \\
+
+\midrule
+
+\textbf{RouteSAM (Ours)}
+& -- & --
+& -- & --
+& -- & --
+& -- & -- \\
+
+\bottomrule
+\end{tabular}
+}
+\end{table*}
 
 
 

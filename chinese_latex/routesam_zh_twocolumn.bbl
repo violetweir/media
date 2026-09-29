@@ -1,9 +1,16 @@
-\begin{thebibliography}{26}
+\begin{thebibliography}{30}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Al-Dhabyani et~al.(2020)Al-Dhabyani, Gomaa, Khaled, and
+  Fahmy]{aldhabyani2020busi}
+Walid Al-Dhabyani, Mohammed Gomaa, Hussien Khaled, and Aly Fahmy.
+\newblock Dataset of breast ultrasound images.
+\newblock \emph{Data in Brief}, 28:\penalty0 104863, 2020.
+\newblock \doi{10.1016/j.dib.2019.104863}.
 
 \bibitem[Assefa et~al.(2025)Assefa, Naseer, Ganapathi, Ali, Seghier, and
   Werghi]{assefa2025dycon}
@@ -36,6 +43,16 @@ Hanyang Chi, Jian Pang, Bingfeng Zhang, and Weifeng Liu.
   and Pattern Recognition}, pages 4070--4080, 2024.
 \newblock \doi{10.1109/CVPR52733.2024.00390}.
 
+\bibitem[Codella et~al.(2019)Codella, Rotemberg, Tschandl, Celebi, Dusza,
+  Gutman, Helba, Kalloo, Liopyris, Marchetti, Kittler, and
+  Halpern]{codella2019isic2018}
+Noel Codella, Veronica Rotemberg, Philipp Tschandl, M.~Emre Celebi, Stephen
+  Dusza, David Gutman, Brian Helba, Aadi Kalloo, Konstantinos Liopyris, Michael
+  Marchetti, Harald Kittler, and Allan Halpern.
+\newblock Skin lesion analysis toward melanoma detection 2018: A challenge
+  hosted by the international skin imaging collaboration.
+\newblock \emph{arXiv preprint arXiv:1902.03368}, 2019.
+
 \bibitem[Hesamian et~al.(2019)Hesamian, Jia, He, and Kennedy]{hesamian2019deep}
 Mohammad~Hesam Hesamian, Wenjing Jia, Xiangjian He, and Paul Kennedy.
 \newblock Deep learning techniques for medical image segmentation: Achievements
@@ -43,6 +60,14 @@ Mohammad~Hesam Hesamian, Wenjing Jia, Xiangjian He, and Paul Kennedy.
 \newblock \emph{Journal of Digital Imaging}, 32\penalty0 (4):\penalty0
   582--596, 2019.
 \newblock \doi{10.1007/s10278-019-00227-x}.
+
+\bibitem[Jha et~al.(2020)Jha, Smedsrud, Riegler, Halvorsen, de~Lange, Johansen,
+  and Johansen]{jha2020kvasirseg}
+Debesh Jha, Pia~H. Smedsrud, Michael~A. Riegler, P{\aa}l Halvorsen, Thomas
+  de~Lange, Dag Johansen, and H{\aa}vard~D. Johansen.
+\newblock {Kvasir-SEG}: A segmented polyp dataset.
+\newblock In \emph{MultiMedia Modeling}, pages 451--462, 2020.
+\newblock \doi{10.1007/978-3-030-37752-6_40}.
 
 \bibitem[Jiao et~al.(2024)Jiao, Zhang, Ding, Xue, Zhang, Cai, and
   Jin]{jiao2024learning}
@@ -110,6 +135,14 @@ Juzheng Miao, Cheng Chen, Keli Zhang, Jie Chuai, Quanzheng Li, and Pheng-Ann
 \newblock In \emph{Medical Image Computing and Computer Assisted Intervention},
   pages 167--177, 2024.
 \newblock \doi{10.1007/978-3-031-72120-5_16}.
+
+\bibitem[Ronneberger et~al.(2015)Ronneberger, Fischer, and
+  Brox]{ronneberger2015unet}
+Olaf Ronneberger, Philipp Fischer, and Thomas Brox.
+\newblock U-net: Convolutional networks for biomedical image segmentation.
+\newblock In \emph{Medical Image Computing and Computer-Assisted Intervention},
+  pages 234--241, 2015.
+\newblock \doi{10.1007/978-3-319-24574-4_28}.
 
 \bibitem[Tajbakhsh et~al.(2020)Tajbakhsh, Jeyaseelan, Li, Chiang, Wu, and
   Ding]{tajbakhsh2020embracing}
