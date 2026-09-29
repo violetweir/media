@@ -45,26 +45,8 @@
 \newlabel{sec:semantic-routing}{{3.3}{4}{面向待处理图像的语义路由构建}{subsection.3.3}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4}基于 SAM3 的渐进式跨图像传播}{5}{subsection.3.4}\protected@file@percent }
 \newlabel{sec:sam3-propagation}{{3.4}{5}{基于 SAM3 的渐进式跨图像传播}{subsection.3.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}基于传播可靠性的加权半监督学习}{5}{subsection.3.5}\protected@file@percent }
-\newlabel{sec:reliability-weighted-learning}{{3.5}{5}{基于传播可靠性的加权半监督学习}{subsection.3.5}{}}
-\@writefile{toc}{\contentsline {paragraph}{返回一致性.}{5}{paragraph*.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {paragraph}{多路线一致性.}{6}{paragraph*.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}问题定义与整体框架}{6}{subsection.3.6}\protected@file@percent }
-\newlabel{sec:method:overview}{{3.6}{6}{问题定义与整体框架}{subsection.3.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.7}覆盖感知的监督起点选择}{6}{subsection.3.7}\protected@file@percent }
-\newlabel{sec:method:anchor}{{3.7}{6}{覆盖感知的监督起点选择}{subsection.3.7}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces RouteSAM 的整体框架。给定极少量人工标注，RouteSAM 首先通过覆盖感知选择确定监督起点；随后为每幅未标注图像构建由 Anchor、Bridge 和 Target 组成的有序语义路径；再沿该路径执行基于 SAM3 的渐进式跨图像传播，生成路由伪标签；最终，人工标注与路由伪标签共同用于训练任务特定分割网络。前三个步骤仅在训练阶段使用；推理阶段仅使用训练完成的 U-Net，不再依赖 SAM3 或语义路径。}}{7}{figure.1}\protected@file@percent }
-\newlabel{fig:framework}{{1}{7}{RouteSAM 的整体框架。给定极少量人工标注，RouteSAM 首先通过覆盖感知选择确定监督起点；随后为每幅未标注图像构建由 Anchor、Bridge 和 Target 组成的有序语义路径；再沿该路径执行基于 SAM3 的渐进式跨图像传播，生成路由伪标签；最终，人工标注与路由伪标签共同用于训练任务特定分割网络。前三个步骤仅在训练阶段使用；推理阶段仅使用训练完成的 U-Net，不再依赖 SAM3 或语义路径。}{figure.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.8}覆盖感知的监督起点选择}{7}{subsection.3.8}\protected@file@percent }
-\newlabel{sec:method:anchor}{{3.8}{7}{覆盖感知的监督起点选择}{subsection.3.8}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.9}覆盖感知的监督起点选择}{8}{subsection.3.9}\protected@file@percent }
-\newlabel{sec:method:anchor}{{3.9}{8}{覆盖感知的监督起点选择}{subsection.3.9}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.10}面向待处理图像的语义路由构建}{8}{subsection.3.10}\protected@file@percent }
-\newlabel{sec:method:route}{{3.10}{8}{面向待处理图像的语义路由构建}{subsection.3.10}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.11}基于 SAM3 的渐进式跨图像传播}{9}{subsection.3.11}\protected@file@percent }
-\newlabel{sec:method:propagation}{{3.11}{9}{基于 SAM3 的渐进式跨图像传播}{subsection.3.11}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.12}路由伪监督学习与最终推理}{9}{subsection.3.12}\protected@file@percent }
-\newlabel{sec:method:training}{{3.12}{9}{路由伪监督学习与最终推理}{subsection.3.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}基于传播可靠性的半监督学习}{5}{subsection.3.5}\protected@file@percent }
+\newlabel{sec:reliability-learning}{{3.5}{5}{基于传播可靠性的半监督学习}{subsection.3.5}{}}
 \bibstyle{plainnat}
 \bibdata{../related_work_papers/references}
 \bibcite{assefa2025dycon}{{1}{2025}{{Assefa et~al.}}{{Assefa, Naseer, Ganapathi, Ali, Seghier, and Werghi}}}
@@ -93,4 +75,4 @@
 \bibcite{zhang2023semisam}{{24}{2024}{{Zhang et~al.}}{{Zhang, Yang, Liu, Cheng, and Qi}}}
 \bibcite{zhang2025semisamplus}{{25}{2025}{{Zhang et~al.}}{{Zhang, Lv, Xue, Zhang, Liu, Fu, Cheng, and Qi}}}
 \bibcite{zhang2026cppssam}{{26}{2026}{{Zhang and He}}{{}}}
-\gdef \@abspage@last{11}
+\gdef \@abspage@last{7}
