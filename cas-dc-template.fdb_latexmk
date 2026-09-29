@@ -1,17 +1,16 @@
 # Fdb version 4
-["bibtex cas-dc-template"] 1789806739.74119 "cas-dc-template.aux" "cas-dc-template.bbl" "cas-dc-template" 1789806740.11613 0
+["bibtex cas-dc-template"] 1790570594.88716 "cas-dc-template.aux" "cas-dc-template.bbl" "cas-dc-template" 1790570596.29683 0
   "./cas-model2-names.bst" 1789676138 31802 28b630660245c09f173aac55be552b29 ""
   "./related_work_papers/references.bib" 1789806739 13772 2c681a7d4abef83c4298f02c3d902d47 ""
-  "cas-dc-template.aux" 1789736466 8357 45a64f695cba2fb4b3802daaa130e89c "pdflatex"
+  "cas-dc-template.aux" 1790570595 8357 0248d69f34b5e8db4dab15b2b8791df8 "pdflatex"
   (generated)
   "cas-dc-template.bbl"
   "cas-dc-template.blg"
   (rewritten before read)
-["pdflatex"] 1789736464.75929 "f:/medsam3/Medical_Image_Analysis/cas-dc-template.tex" "cas-dc-template.pdf" "cas-dc-template" 1789806740.11625 0
-  "C:/Users/viole/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1789733156 101724 fdb770b177acc4b3d63771958f58ce53 ""
-  "C:/Users/viole/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecss0900.pk" 1785315587 17932 47de93b85a8f3507198d1639ddb826c4 ""
-  "C:/Users/viole/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ecsx0900.pk" 1785315586 18372 ca6e052c0eb9c9f48190b0952702a55a ""
+["pdflatex"] 1790570595.11219 "f:/medsam3/Medical_Image_Analysis/cas-dc-template.tex" "cas-dc-template.pdf" "cas-dc-template" 1790570596.29718 0
+  "C:/Users/viole/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1789993647 298830 7de8bfca84a94cb6b923c18ba23a8b69 ""
   "C:/Users/viole/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1784060280 13333487 2e917ffffb0108517a1dbf0920981980 ""
+  "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1001775420 2971 def0b6c1f0b107b3b936def894055589 ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/inconsolata/i4-t1-0.enc" 1557959318 7631 5169ff1acd97ff1c4ab83563c99f96f4 ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/stix/stix-t1.enc" 1356261742 7013 c55cc8669071ac14036c4a0c96c16202 ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/stix/stix-ts1.enc" 1356261742 2836 154e6b0061f9b8cb549144b55b268339 ""
@@ -43,6 +42,8 @@
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/public/stix/t1-stixgeneral.tfm" 1362145614 11184 42ce9dfc058df87da7094b2e2fab1260 ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/public/stix/t1-stixgeneralsc.tfm" 1362144176 7908 4583c612db3c8fd343150284264803c2 ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/tfm/public/stix/ts1-stixgeneral.tfm" 1362145614 1420 a3fb73e1fffd188e53dd5a0b1edb271e ""
+  "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/public/cm-super/sfss0900.pfb" 1215618300 94648 5f9c40876a1f66bd23698cfef2370b2d ""
+  "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/public/cm-super/sfsx0900.pfb" 1215618300 154664 6c6e5d31bf2dde94fef94044a9997285 ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/public/inconsolata/Inconsolata-zi4r.pfb" 1557879974 55526 866691d4af8dece5424ad744e8c0133d ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/STIXGeneral-Bold.pfb" 1356261742 250376 bf3a400e1273354c5c26332493ec1650 ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/STIXGeneral-Italic.pfb" 1356261742 221139 9f909fb310c9861a9dcd561488bde33b ""
@@ -150,14 +151,14 @@
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/tex/latex/xkeyval/xkeyval.sty" 1656236919 4937 4ce600ce9bd4ec84d0250eb6892fcf4f ""
   "C:/Users/viole/AppData/Local/Programs/MiKTeX/tex/latex/xstring/xstring.sty" 1693735632 123 a302f2c651a95033260db60e51527ae8 ""
   "cas-common.sty" 1789676136 76688 c602be3da196cb506acc84d1fa26b134 ""
-  "cas-dc-template.abs" 1789736465 2843 8510caaf97d9ee754819245dc4eb433f "pdflatex"
-  "cas-dc-template.aux" 1789736466 8357 45a64f695cba2fb4b3802daaa130e89c "pdflatex"
-  "cas-dc-template.bbl" 1789806740 14777 8904c78fa2e6258a80bee5aee651d039 "bibtex cas-dc-template"
-  "cas-dc-template.out" 1789736465 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "cas-dc-template.tex" 1789732854 31561 a6d4e0989a3f0cc579d3dd23a2fa6f2f ""
+  "cas-dc-template.abs" 1790570595 2843 8510caaf97d9ee754819245dc4eb433f "pdflatex"
+  "cas-dc-template.aux" 1790570595 8357 0248d69f34b5e8db4dab15b2b8791df8 "pdflatex"
+  "cas-dc-template.bbl" 1790570595 14777 8904c78fa2e6258a80bee5aee651d039 "bibtex cas-dc-template"
+  "cas-dc-template.out" 1790570595 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "cas-dc-template.tex" 1790570593 31679 85db79bd025a8343151aa406724914d3 ""
   "cas-dc.cls" 1789676138 4395 40b8ed97981966f9bde1c9d1561f114f ""
-  "f:/medsam3/Medical_Image_Analysis/cas-dc-template.tex" 1789732854 31561 a6d4e0989a3f0cc579d3dd23a2fa6f2f ""
-  "figs/figure1.png" 1789676136 2014526 564a0b5460e167dc8856dbf6caf01fae ""
+  "f:/medsam3/Medical_Image_Analysis/cas-dc-template.tex" 1790570593 31679 85db79bd025a8343151aa406724914d3 ""
+  "figs/figure1.pdf" 1790570530 237579 3479a4dc1cfa5ebfc0264d80e0bf0ca0 ""
   "thumbnails/cas-email.jpeg" 1789676136 8764 ae276cc9956197082d008c18ae4cbb28 ""
   "thumbnails/cas-url.jpeg" 1789676136 7736 ef75ae5d7195a5176d102b6aea09b729 ""
   (generated)

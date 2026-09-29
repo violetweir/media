@@ -29,7 +29,7 @@
 在此基础上，我们进一步设计了一种多阶段的通用模型--专用模型协同机制，利用 SAM3 的通用分割能力与任务特定 U-Net 的医学域知识，通过伪监督的迭代筛选与模型间的协同适配，逐步提高监督信息的可靠性并增强模型对目标医学任务的适应能力。
 在 Kvasir-SEG、BUSI 和 ISIC2018 数据集上的实验结果表明，RouteSAM 在极少量标注数据下能够有效提升半监督医学图像分割性能，\textbf{[最终定量结果待补充]}。
 
-\noindent\textbf{关键词：}半监督医学图像分割；Segment Anything Model；跨图像传播；语义路径；伪标签学习
+\noindent\textbf{关键词：}半监督医学图像分割；sSegment Anything Model；跨图像传播；语义路径；伪标签学习
 \end{abstract}
 
 
@@ -91,141 +91,810 @@ RouteSeg 进一步关注在标注源与困难目标之间是否存在可用于�
 \section{方法}
 \label{sec:method-zh}
 
-\subsection{问题定义与整体思路}
 
-设训练图像集合为 $\mathcal{D}_{\mathrm{tr}}=\{x_i\}_{i=1}^{N}$，固定的验证集和测试集分别为 $\mathcal{D}_{\mathrm{val}}$ 与 $\mathcal{D}_{\mathrm{te}}$。在约 1\% 的标注预算下，我们从训练集中选择
+\subsection{问题定义与整体框架}
+
+本文研究极低标注条件下的半监督二维医学图像分割。设训练集为
+\[
+\mathcal{D}_{\mathrm{tr}}=\{x_i\}_{i=1}^{N},
+\]
+其中仅允许对极少量训练图像获取像素级人工标注，其余图像在训练过程中均不使用真实分割掩码。给定固定的标注预算 \(K\)，本文首先从训练集中确定 \(K\) 幅图像并获得其人工标注，将这些图像记为有标注集合
+\[
+\mathcal{D}_{L}
+=
+\{(x_a,y_a)\}_{a=1}^{K},
+\]
+其余训练图像构成未标注集合
+\[
+\mathcal{D}_{U}
+=
+\{x_t\}_{t=1}^{N-K}.
+\]
+本文主要考虑约 \(1\%\) 的标注比例，即只有训练集中极少部分图像能够直接提供可靠的像素级监督。
+
+在这种条件下，一个直接的思路是利用已有标注图像中的分割信息，为未标注图像生成伪标签。随着 SAM 等可提示分割基础模型的发展，这种跨图像监督迁移成为可能：给定一幅具有人工标注的图像，可以利用其目标信息辅助基础模型在另一幅未标注图像上寻找对应区域。然而，这种直接传播隐含了一个较强的假设，即提供监督的已标注图像与待处理图像之间具有足够相近的目标外观。当两幅图像在病灶形态、尺度、位置或成像特征上存在较大差异时，从已标注图像直接传播到待处理图像需要一次跨越较大的图像间变化，传播得到的目标区域因而容易出现偏移、缺失或形态失真。
+
+以一幅有标注图像 \(x_a\) 和一幅未标注图像 \(x_t\) 为例，直接跨图像传播可以表示为
+\[
+x_a \rightarrow x_t.
+\]
+这一过程将监督从 \(x_a\) 一次性迁移到 \(x_t\)。然而，大规模未标注训练集并不只包含最终需要生成伪标签的图像。在 \(x_a\) 与 \(x_t\) 之间，往往还存在一些在目标外观上逐渐发生变化的训练样本。如果这些图像能够作为中间状态参与传播，则原本跨度较大的直接迁移可以被拆分为若干更加局部的跨图像变化。
+
+基于这一观察，本文提出 RouteSAM。其核心思想是将未标注训练集不仅视为需要生成伪标签的样本集合，同时视为可用于连接有限人工监督与不同未标注图像的潜在传播空间。对于待处理图像 \(x_t\)，RouteSAM 不直接从某一有标注图像向其传播分割信息，而是在二者之间寻找若干语义相关的未标注图像，并按照图像间的相关性将其组织为有序的传播路径。记这些中间图像为
+\[
+x_{b_1},x_{b_2},\ldots,x_{b_L},
+\]
+则一条传播路径可表示为
+\[
+x_a
+\rightarrow
+x_{b_1}
+\rightarrow
+x_{b_2}
+\rightarrow
+\cdots
+\rightarrow
+x_{b_L}
+\rightarrow
+x_t.
+\]
+本文将位于传播起点与待处理图像之间的这些中间样本称为语义中间图像，并将上述有序图像序列称为语义路径。通过这种方式，一次较困难的直接跨图像传播被分解为多个相邻样本之间的渐进传播过程，使分割信息能够沿训练数据中的语义连续关系逐步到达待处理图像。
+
+基于这一思想，RouteSAM 的整体框架包含三个相互衔接的步骤。首先，由于人工标注数量十分有限，需要使这些有限监督尽可能覆盖训练数据中不同的视觉模式，因此本文从训练集中选择具有较好分布覆盖性的图像作为人工监督来源。随后，对于每一幅未标注图像，根据其目标特征从已有标注样本中确定合适的传播起点，并进一步在未标注训练集中搜索与传播过程相关的中间图像，构建从有标注样本到待处理图像的有序语义路径。最后，将该路径中的图像按照顺序输入 SAM3，使分割信息从人工标注图像出发，经过若干中间图像逐步传播至待处理图像，从而得到其伪分割掩码。
+
+对未标注训练集中的图像重复上述过程后，可以得到路由传播产生的伪标注集合
+\[
+\widehat{\mathcal{D}}_{U}
+=
+\{(x_t,\hat y_t)\mid x_t\in\mathcal D_U\},
+\]
+其中 \(\hat y_t\) 表示沿语义路径传播得到的伪标签。最终，人工标注数据 \(\mathcal D_L\) 与路由伪标注数据 \(\widehat{\mathcal D}_U\) 被共同用于训练任务特定的分割网络。语义路径构建和 SAM3 跨图像传播仅用于训练阶段的监督扩展；测试时，训练完成的分割网络直接接收单幅图像并输出分割结果，不再需要参考图像、语义路径或额外人工提示。
+
+
+
+
+
+
+\subsection{覆盖感知的监督起点选择}
+\label{sec:coverage-aware-selection-zh}
+
+在极低标注条件下，可获得人工标注的训练样本数量十分有限。这些样本不仅用于提供直接的像素级监督，同时也是后续跨图像传播的起点。因此，如果少量有标注样本集中于相似的病灶外观或局部数据区域，即使后续传播过程保持不变，一些与这些样本差异较大的未标注图像仍然需要从较远的监督来源开始传播。为减小这种由监督起点覆盖不足带来的影响，本文不采用独立随机抽样，而是在固定标注预算下，从训练候选池中选择一组能够共同表征主要图像外观模式的样本。
+
+记经过数据集级预处理并冻结后的训练候选池为
 \begin{equation}
-K=\max\left(1,\operatorname{round}(0.01N)\right)
+\mathcal{C}=\{x_i\}_{i=1}^{N_c},
 \end{equation}
-张图像作为锚点并获取人工掩码，其余训练图像构成未标注池 $\mathcal{U}$。验证集标签只用于拟合和选择质量估计模块；所有测试预测冻结之前，测试标签始终不可见。
+需要选择的样本集合记为 $\mathcal{A}\subseteq\mathcal{C}$，其中 $|\mathcal{A}|=K$。候选池冻结以后，选择过程仅使用训练图像的 RGB 信息，不读取候选样本的分割掩码，也不利用验证集、测试集或下游分割性能。由于本模块的目的并不是预测病灶位置，而是衡量不同训练图像所包含局部视觉模式的相似程度，因此我们利用冻结的 SAM3 视觉骨干提取局部表征，并进一步将其转换为图像级视觉词分布。
 
-RouteSAM 分为三个阶段。阶段 0 在不知道任何训练掩码的前提下，从训练图像中选择尽可能覆盖数据分布的锚点。阶段 1 针对每个目标检索合适的锚点和桥接图像，构造不同深度的传播路径，并使用冻结的 SAM3 生成与路径相关的目标候选掩码。阶段 2 用这些伪标签训练单图像任务模型，再由任务模型审核传播结果并辅助 SAM3 适配；适配后的 SAM3 沿固定路径重新传播，最终训练部署模型。
-
-\subsection{覆盖感知的锚点选择}
-\label{sec:anchor-selection-zh}
-
-锚点不仅是一张标注样本，还是许多传播路径的起点。如果少量锚点都集中在相似外观上，那么其他类型的目标只能从很不匹配的起点获得监督。因此，我们不进行独立随机抽样，而是选择能够共同覆盖训练分布的图像。整个选择过程只读取 RGB 图像；锚点列表完全冻结后才打开对应掩码。
-
-\paragraph{全局描述。}
-每张训练图像以 $1008\times1008$ 的分辨率输入冻结的 SAM3 图像骨干。设其 patch token 为 $\mathbf{P}_i=\{\mathbf{p}_{i,r}\}_{r=1}^{72\times72}$。先归一化每个 token，再进行平均，得到全局描述：
+对于候选图像 $x_i$，首先将其缩放至 $1008\times1008$，并输入冻结的 SAM3 图像编码器，得到空间分辨率为 $72\times72$、通道维度为 1024 的特征图
 \begin{equation}
-\mathbf{g}_i=\operatorname{norm}\left(\frac{1}{|\mathbf{P}_i|}\sum_r
-\operatorname{norm}(\mathbf{p}_{i,r})\right),
+\mathbf{X}_i\in\mathbb{R}^{72\times72\times1024}.
 \end{equation}
-其中 $\operatorname{norm}(\mathbf{v})=\mathbf{v}/\lVert\mathbf{v}\rVert_2$。
-
-\paragraph{局部描述。}
-仅使用全局平均可能忽略小目标和局部纹理，因此我们从每张图像均匀采样 $8\times8$ 个 patch token，并在训练集上拟合包含 64 个聚类中心的 MiniBatch K-Means 视觉词典。记 $h_{i,c}$ 为图像 $i$ 中视觉词 $c$ 的归一化频数，并定义
+该特征图中的每一个空间位置对应一个 1024 维局部视觉 token。直接使用全部 $72\times72$ 个 token 会产生大量高度相关的局部表示，因此本文沿两个空间方向分别均匀选取 8 个位置，并由其组合形成固定的 $8\times8$ 采样网格。由此，每幅图像获得 64 个覆盖不同空间区域的局部 token。需要指出的是，这里的 $8\times8$ 表示在 $72\times72$ token 网格上的均匀位置采样，而非将原始图像重新划分为 $8\times8$ 个图像块。记图像 $x_i$ 的第 $r$ 个采样 token 为 $\mathbf{x}_{ir}$，在构建视觉词典之前对其进行 $L_2$ 归一化：
 \begin{equation}
-\operatorname{idf}_c=\log\frac{N+1}{\operatorname{df}_c+1}+1.
+\widehat{\mathbf{x}}_{ir}
+=
+\frac{\mathbf{x}_{ir}}
+{\max\left(\|\mathbf{x}_{ir}\|_2,\epsilon\right)},
+\qquad
+r=1,\ldots,64,
 \end{equation}
-局部描述为经过 Hellinger 变换并归一化的直方图：
+其中 $\epsilon$ 为防止数值不稳定而引入的极小常数。
+
+为了将不同图像中的局部表征转换为可比较的统计表示，我们汇总候选池中所有采样 token，并采用 MiniBatch K-Means 学习包含 $M=64$ 个聚类中心的共享视觉词典。每个局部 token 被分配到距离最近的聚类中心，由此可以统计一幅图像中不同视觉词的出现频率。对于第 $m$ 个视觉词，图像 $x_i$ 的词频定义为
 \begin{equation}
-\mathbf{l}_i=\operatorname{norm}\left(\sqrt{\mathbf{h}_i\odot\mathbf{idf}}\right).
+\operatorname{tf}_{im}
+=
+\frac{1}{64}
+\sum_{r=1}^{64}
+\mathbb{I}
+\left[
+q\left(\widehat{\mathbf{x}}_{ir}\right)=m
+\right],
 \end{equation}
-综合全局与局部外观，图像相似度定义为
+其中 $q(\cdot)$ 表示最近视觉词分配函数，$\mathbb{I}[\cdot]$ 为指示函数。
+
+由于部分局部模式可能广泛存在于大多数训练图像中，例如相似的背景、组织纹理或成像结构，仅根据出现频率会使这些高频模式在图像相似度中占据过大权重。为降低此类共有模式的影响，我们进一步根据整个训练候选池统计逆文档频率。设包含视觉词 $m$ 的图像数量为
 \begin{equation}
-S(i,j)=\frac{1}{2}\left[\mathbf{g}_i^{\top}\mathbf{g}_j\right]_+
-+\frac{1}{2}\left[\mathbf{l}_i^{\top}\mathbf{l}_j\right]_+,
+\operatorname{df}_m
+=
+\sum_{i=1}^{N_c}
+\mathbb{I}
+\left[
+\operatorname{tf}_{im}>0
+\right],
 \end{equation}
-其中 $[z]_+=\max(z,0)$。
-
-\paragraph{贪心覆盖。}
-对于锚点集合 $\mathcal{A}$，使用设施选址形式的覆盖目标：
+则其逆文档频率定义为
 \begin{equation}
-F(\mathcal{A})=\frac{1}{N}\sum_{i=1}^{N}\max_{a\in\mathcal{A}}S(i,a).
+\operatorname{idf}_m
+=
+\log
+\frac{N_c+1}{\operatorname{df}_m+1}
++1.
 \end{equation}
-从空集合开始，每次加入使 $F$ 的边际增益最大的图像，直到选出 $K$ 个锚点。完全重复的图像文件不作为重复候选，但仍保留在覆盖目标中。相同得分按照固定样本编号打破平局。最终锚点列表及其哈希在读取掩码之前冻结。
-
-\subsection{面向目标的锚点检索}
-\label{sec:target-pooling-zh}
-
-覆盖选择回答“哪些图像值得被标注”，但不同目标需要的起点并不相同。阶段 1 因而使用目标感知的检索方法，从锚点集合中找到与当前目标最相关的一个或两个锚点。
-
-检索与传播使用独立的 $256\times256$ 表示。SAM3 骨干为每张图像产生 $18\times18$ 个 1024 维 patch token，记为 $\{\mathbf{x}_{i,j}\}_{j=1}^{324}$。对于锚点 $a$，把其掩码缩放到 patch 网格，并平均前景位置 $\Omega_a$ 内的 token，得到前景原型
+由此得到图像 $x_i$ 在第 $m$ 个视觉词上的加权响应
 \begin{equation}
-\mathbf{p}_a=\operatorname{norm}\left(
-\frac{1}{|\Omega_a|}\sum_{j\in\Omega_a}\operatorname{norm}(\mathbf{x}_{a,j})
+w_{im}
+=
+\operatorname{tf}_{im}\operatorname{idf}_m,
+\end{equation}
+并将其归一化为视觉词概率分布
+\begin{equation}
+p_{im}
+=
+\frac{w_{im}}
+{\sum_{l=1}^{M}w_{il}}.
+\end{equation}
+因此，每幅图像最终由一个 $M$ 维离散分布
+\begin{equation}
+\mathbf{p}_i
+=
+\left(
+p_{i1},
+p_{i2},
+\ldots,
+p_{iM}
+\right)
+\end{equation}
+描述。该表示反映了不同局部视觉模式在整幅图像中的组成关系，而不依赖任何病灶掩码或预先指定的目标区域。
+
+在此基础上，我们采用 Hellinger 映射对视觉词分布进行变换：
+\begin{equation}
+\boldsymbol{\phi}_i
+=
+\left(
+\sqrt{p_{i1}},
+\sqrt{p_{i2}},
+\ldots,
+\sqrt{p_{iM}}
 \right).
 \end{equation}
-若缩放后前景为空，则退化为整幅图像的 patch 均值。
-
-对于目标 $t$，将锚点前景原型与目标各 patch 的相似度转化为注意力权重：
+由于
 \begin{equation}
-w_{a,t,j}=\frac{\exp(\beta\mathbf{p}_a^{\top}\mathbf{x}_{t,j})}
-{\sum_k\exp(\beta\mathbf{p}_a^{\top}\mathbf{x}_{t,k})},
-\qquad \beta=10.
+\sum_{m=1}^{M}p_{im}=1,
 \end{equation}
-由此得到锚点条件下的目标描述和 Target Pooling 分数：
+因此有 $\|\boldsymbol{\phi}_i\|_2=1$。两幅图像 $x_i$ 和 $x_j$ 的相似度可表示为
 \begin{equation}
-\mathbf{z}(a,t)=\operatorname{norm}\left(\sum_jw_{a,t,j}\mathbf{x}_{t,j}\right),
+k(i,j)
+=
+\boldsymbol{\phi}_i^{\top}\boldsymbol{\phi}_j
+=
+\sum_{m=1}^{M}
+\sqrt{p_{im}p_{jm}}.
+\end{equation}
+该相似度即两个视觉词分布之间的 Bhattacharyya 系数，并与平方 Hellinger 距离满足
+\begin{equation}
+H^2(\mathbf{p}_i,\mathbf{p}_j)
+=
+1-k(i,j).
+\end{equation}
+因此，$k(i,j)$ 越大，说明两幅图像包含的局部视觉模式及其分布越接近。相比直接平均所有局部特征，该表示更关注图像中不同视觉模式的组成，同时降低在整个数据集中普遍出现的高频模式对相似度计算的影响。
+
+得到候选图像之间的相似度后，需要进一步从中选择 $K$ 幅能够共同覆盖训练数据主要视觉模式的图像。为此，我们采用 facility-location 形式的集合覆盖目标。对于任意候选集合 $\mathcal{A}$，定义
+\begin{equation}
+F(\mathcal{A})
+=
+\frac{1}{N_c}
+\sum_{i=1}^{N_c}
+\max_{a\in\mathcal{A}}k(i,a).
+\end{equation}
+其中，$\max_{a\in\mathcal{A}}k(i,a)$ 表示训练图像 $x_i$ 与当前所选样本中最相近图像之间的相似度。因此，$F(\mathcal{A})$ 衡量的是整个候选池能够在多大程度上被所选样本集合表征。当多个入选样本具有高度相似的视觉词分布时，它们对于 $F(\mathcal{A})$ 的新增贡献较小；相反，能够覆盖当前集合尚未充分表示的数据区域的样本会获得更大的边际增益。
+
+在固定基数约束 $|\mathcal{A}|=K$ 下，我们采用贪心策略逐步构造最终集合。设第 $t-1$ 次迭代后已选择集合为 $\mathcal{A}_{t-1}$，则下一幅图像由
+\begin{equation}
+a_t
+=
+\arg\max_{j\notin\mathcal{A}_{t-1}}
+\left[
+F\left(\mathcal{A}_{t-1}\cup\{j\}\right)
+-
+F\left(\mathcal{A}_{t-1}\right)
+\right]
+\end{equation}
+确定，并更新
+\begin{equation}
+\mathcal{A}_t
+=
+\mathcal{A}_{t-1}\cup\{a_t\}.
+\end{equation}
+由于本文使用的相似度非负，$F(\mathcal{A})$ 构成单调次模的 facility-location 目标。在固定集合大小约束下，标准贪心选择具有经典的 $1-1/e$ 近似保证。需要说明的是，该理论保证针对所定义的视觉覆盖目标，而非直接针对后续分割性能。
+
+经过 $K$ 次迭代后得到最终监督起点集合 $\mathcal{A}$。只有在该集合完全确定后，才获取这些入选图像对应的人工分割掩码，并据此生成后续跨图像传播所需的目标提示。这样，少量人工监督在进入语义路由之前首先获得较为分散的训练分布覆盖，为后续针对不同未标注图像选择合适传播来源提供更多具有差异性的起始条件。
+
+
+
+
+
+\subsection{面向待处理图像的语义路由构建}
+\label{sec:semantic-route-construction-zh}
+
+上一节得到的监督起点集合旨在从整体上覆盖训练数据中的不同视觉模式，但对于某一具体的未标注图像，并非所有起始样本都具有相同的传播价值。若直接根据整幅图像的全局相似性选择传播来源，背景、成像区域或其他与分割目标无关的结构可能对匹配结果产生较大影响。相比之下，已有人工标注能够提供关于目标区域的更直接信息。因此，对于每一幅待处理图像，本文首先利用已标注样本中的前景区域构造目标条件下的相似性度量，再在此基础上搜索由若干语义相关图像组成的有序传播路径。
+
+与第~\ref{sec:coverage-aware-selection-zh} 节用于监督起点选择的 $1008\times1008$ 表征不同，语义路由阶段统一在 $256\times256$ 分辨率下提取特征，以与后续传播过程保持一致。对于任意图像 $x_i$，将其输入冻结的 SAM3 视觉骨干，并记输出的 $P$ 个局部 token 为
+\begin{equation}
+\mathbf{Z}_i
+=
+\left\{
+\mathbf{z}_{ip}
+\right\}_{p=1}^{P},
 \qquad
-r(a,t)=\mathbf{p}_a^{\top}\mathbf{z}(a,t).
+\|\mathbf{z}_{ip}\|_2=1.
 \end{equation}
-默认使用 $r(a,t)$ 排序锚点。我们同时研究中心化分数 $r(a,t)-\mu_a$，其中 $\mu_a$ 是锚点 $a$ 在训练 RGB 图像上的平均 Target Pooling 分数。中心化只作为锚点排序的校准消融，不改变后续路径目标。最终保留排名最高的一个或两个锚点。
-
-\subsection{有序语义路径构造}
-\label{sec:route-construction-zh}
-
-对于每个保留的锚点--目标组合，RouteSAM 分别构造包含 0 至 6 张桥接图像的路径：
+同时，对所有局部 token 取均值并进行 $L_2$ 归一化，得到图像级描述子
 \begin{equation}
-\mathcal{R}_{b}: A\rightarrow B_1\rightarrow\cdots\rightarrow B_b\rightarrow T,
-\qquad b\in\{0,\ldots,6\}.
+\mathbf{g}_i
+=
+\operatorname{norm}
+\left(
+\frac{1}{P}
+\sum_{p=1}^{P}
+\mathbf{z}_{ip}
+\right),
 \end{equation}
-所有桥接图像只能来自训练划分，目标图像不能出现在自己的桥接链中。相邻图像之间的亲和度由归一化全图 patch 均值描述的余弦相似度计算。对于一条候选路径，我们同时考虑中间节点及目标的 Target Pooling 分数，以及所有相邻边的亲和度，并用下式评分：
+其中 $\operatorname{norm}(\mathbf{v})=\mathbf{v}/\|\mathbf{v}\|_2$。该描述子用于刻画候选中间图像之间的整体视觉连续性。
+
+对于任一已标注起始样本 $x_a\in\mathcal{A}$，首先将其人工分割掩码映射到 SAM3 的 token 网格，并记前景位置集合为 $\Omega_a$。利用这些前景位置对应的局部 token，可以得到该起始样本的前景原型
 \begin{equation}
-Q(\mathcal{R})=\left(\min_{v\in\mathcal{V}(\mathcal{R})}v,
-\frac{1}{|\mathcal{V}(\mathcal{R})|}\sum_{v\in\mathcal{V}(\mathcal{R})}v\right).
+\mathbf{u}_a
+=
+\operatorname{norm}
+\left(
+\frac{1}{|\Omega_a|}
+\sum_{p\in\Omega_a}
+\mathbf{z}_{ap}
+\right).
 \end{equation}
-该二元组按字典序比较：首先最大化路径中最弱的节点或转移，再最大化平均相关性。直观上，它避免某一段严重不匹配的路径，而不是只追求较高的平均分。每种深度分别使用宽度为 32 的束搜索，避免短路径与长路径相互挤占搜索空间。
+与直接使用整幅起始图像相比，$\mathbf{u}_a$ 主要描述人工标注目标区域的视觉特征，从而使后续匹配更加关注需要传播的分割对象。
 
-\subsection{SAM3 渐进传播}
-\label{sec:sam3-propagation-zh}
-
-每条路径被视作一段短伪视频，各帧按照式（10）的顺序排列。SAM3 在锚点帧上由人工掩码的紧致外接框初始化，不使用文本提示。模型随后在 $256\times256$ 画布上将目标掩码依次传播经过各个桥接帧，最终目标帧上的二值掩码被保存为路径候选 $\hat{y}_{t,\mathcal{R}}$。
-
-由于目标真值不可见，我们还执行一次反向传播来获得无标签质量信号。具体而言，用预测得到的目标掩码初始化逆序路径，并把返回锚点的预测与已知锚点掩码比较，得到循环一致性 $q_{\mathrm{cycle}}$。该比较只发生在有标注的锚点，因此既能用于未标注训练目标，也能用于独立测试目标。
-
-\subsection{路径候选质量估计}
-\label{sec:router-zh}
-
-若保留 $M$ 个锚点，则每个目标共有 $7M$ 个候选掩码。RouteSAM 使用 28 个不依赖目标真值的特征描述候选。7 个基础特征包括路径深度、路径最小与平均亲和度、最终 SAM 分数、候选数量及深度--亲和度交互；另外 21 个传播特征刻画反向传播的一致性与成功状态、掩码面积变化、空掩码与连通分量、质心和外接框漂移、相邻帧掩码一致性、SAM 分数轨迹以及候选数量轨迹。
-
-这些特征标准化后输入 $\alpha=1$ 的 Ridge 回归器，在验证集上预测候选 Dice。五折拟合时，同一验证图像的全部候选始终属于同一组，从而避免候选级信息泄漏。推理时选择预测质量最高的候选，并用固定的锚点排名和路径深度规则打破平局。所有测试选择在读取测试真值之前冻结。同一候选池上的逐目标 Oracle 仅作为诊断上界，不参与部署。
-
-\subsection{任务模型审核与 SAM3 适配}
-\label{sec:collaboration-zh}
-
-阶段 1 选出的掩码形成第一轮伪标注集合
+给定起始样本 $x_a$ 和任意候选图像 $x_i$，我们首先计算前景原型 $\mathbf{u}_a$ 与 $x_i$ 中各局部 token 之间的相似度，并通过 softmax 进行加权聚合。具体而言，令
 \begin{equation}
-\widehat{\mathcal{D}}_{U}^{(1)}=
-\{(x_t,\hat{y}_t^{(1)},q_t^{(1)})\mid x_t\in\mathcal{U}\},
+m_{ai}
+=
+\max_{p}
+\mathbf{u}_a^{\top}\mathbf{z}_{ip},
 \end{equation}
-其中 $q_t^{(1)}$ 是预测的路径质量。任务专用 U-Net $f_{\theta}$ 使用锚点真值和通过筛选的伪标签训练：
+则第 $p$ 个局部位置的权重为
 \begin{equation}
-\begin{aligned}
-\mathcal{L}_{\mathrm{sup}}&=\frac{1}{K}\sum_{a\in\mathcal{A}}
-\ell(f_{\theta}(x_a),y_a),\\
-\mathcal{L}_{\mathrm{pseudo}}&=\frac{1}{|\widehat{\mathcal{D}}_{U}^{(1)}|}
-\sum_t q_t^{(1)}\ell(f_{\theta}(x_t),\hat{y}_t^{(1)}),\\
-\mathcal{L}_{\mathrm{student}}&=\mathcal{L}_{\mathrm{sup}}
-+\lambda_u\mathcal{L}_{\mathrm{pseudo}},
-\end{aligned}
+\alpha_{aip}
+=
+\frac{
+\exp\left[
+\beta
+\left(
+\mathbf{u}_a^{\top}\mathbf{z}_{ip}
+-
+m_{ai}
+\right)
+\right]
+}{
+\sum_{q}
+\exp\left[
+\beta
+\left(
+\mathbf{u}_a^{\top}\mathbf{z}_{iq}
+-
+m_{ai}
+\right)
+\right]
+},
 \end{equation}
-其中 $\ell$ 由二元交叉熵和 soft Dice 损失组成。
+其中温度系数固定为 $\beta=10$。由此得到起始样本条件下的候选图像表示
+\begin{equation}
+\mathbf{h}_{a,i}
+=
+\operatorname{norm}
+\left(
+\sum_{p}
+\alpha_{aip}\mathbf{z}_{ip}
+\right),
+\end{equation}
+并定义目标相关得分
+\begin{equation}
+s(a,i)
+=
+\mathbf{h}_{a,i}^{\top}\mathbf{u}_a.
+\end{equation}
+该得分衡量候选图像中是否存在与起始样本前景目标相近的局部区域。整个计算过程仅使用起始样本的人工掩码；对于中间图像和待处理图像，只读取其 RGB 信息。
 
-U-Net 随后作为独立的领域审核者。对每个路径候选，我们综合传播质量估计和候选掩码与 U-Net 预测之间的一致性。接受阈值及组合权重只根据验证集选择。其目的不是简单地让两个模型互相确认，而是发现那些沿路径看似自洽、却不符合目标领域外观的传播结果。
+不同起始样本对应的前景原型可能具有不同的相似度基线。例如，某些原型可能对大量训练图像都产生偏高的匹配得分，从而在跨起始样本比较时获得不合理的优势。为减小这种固定偏移，我们仅利用训练图像的 RGB 特征对每个起始样本进行中心化校准。具体定义
+\begin{equation}
+\mu_a
+=
+\frac{1}{|\mathcal{D}_{\mathrm{tr}}|}
+\sum_{x_i\in\mathcal{D}_{\mathrm{tr}}}
+s(a,i),
+\end{equation}
+并将校准后的目标相关得分表示为
+\begin{equation}
+\widetilde{s}(a,i)
+=
+s(a,i)-\mu_a.
+\end{equation}
+中心化操作仅消除不同起始样本之间的整体分数偏移，不改变同一起始样本下不同图像之间的相对关系，也不使用验证集、测试集或未标注图像的真实分割信息。
 
-通过审核的伪标签和锚点掩码用于参数高效的 SAM3 适配。为了把“模型适配收益”与“重新搜索路径的收益”区分开，适配之前冻结锚点身份、桥接成员、路径顺序和候选选择策略。
+在得到起始样本条件下的目标相关性后，RouteSAM 并不直接将得分最高的起始样本与待处理图像连接，而是进一步利用未标注训练数据中的中间状态构造语义连续的传播路径。对于待处理图像 $x_t$，一条包含 $L$ 个中间图像的候选路径记为
+\begin{equation}
+\mathcal{R}
+=
+\left(
+x_a,
+x_{b_1},
+x_{b_2},
+\ldots,
+x_{b_L},
+x_t
+\right),
+\end{equation}
+其中 $x_a\in\mathcal{A}$ 为人工标注的传播起点，
+$x_{b_l}\in\mathcal{D}_{\mathrm{tr}}$ 为训练集中选取的中间图像。路径中的起始样本、待处理图像以及各中间图像均不重复。
 
-% TODO（阶段 2）：自动锚点闭环实现后，冻结审核公式、阈值、PEFT 模块和优化日程。
+一条有效的传播路径需要同时满足两个条件。一方面，其中的中间图像应持续包含与起始目标相关的视觉区域，因此我们利用中心化后的目标相关得分
+$\widetilde{s}(a,b_l)$ 和 $\widetilde{s}(a,t)$
+衡量各路径节点相对于起始目标的相关程度。另一方面，相邻图像之间不应发生过大的视觉跳变。为此，对于任意相邻图像 $x_i$ 和 $x_j$，根据其图像级描述子定义
+\begin{equation}
+s_{\mathrm{rgb}}(i,j)
+=
+\mathbf{g}_i^{\top}\mathbf{g}_j.
+\end{equation}
+前者保证路径中的图像始终围绕需要传播的目标语义，后者则约束监督传播过程中相邻图像之间的整体视觉变化。
 
-\subsection{保持路径不变的第二轮传播与最终推理}
-\label{sec:repropagation-zh}
+将一条候选路径中的目标相关得分与相邻图像相似度统一记为数值集合
+\begin{equation}
+\mathcal{V}(\mathcal{R})
+=
+\left\{
+\widetilde{s}(a,b_1),
+\ldots,
+\widetilde{s}(a,b_L),
+\widetilde{s}(a,t),
+s_{\mathrm{rgb}}(x_a,x_{b_1}),
+\ldots,
+s_{\mathrm{rgb}}(x_{b_L},x_t)
+\right\}.
+\end{equation}
+如果仅最大化这些数值的平均值，一条路径可能在大多数位置具有较高相似度，却仍包含某一次明显的语义跳变。对于逐步传播而言，这样的局部失配可能成为整条路径中最容易发生传播错误的位置。因此，本文首先关注路径中的最弱环节，并在此基础上进一步比较路径的整体相关性。候选路径的评分定义为
+\begin{equation}
+Q(\mathcal{R})
+=
+\left(
+\min_{v\in\mathcal{V}(\mathcal{R})}v,\;
+\frac{1}{|\mathcal{V}(\mathcal{R})|}
+\sum_{v\in\mathcal{V}(\mathcal{R})}v
+\right).
+\end{equation}
+两个分量按照字典序进行比较，即优先选择最小路径值更高的候选；仅当最小值相同时，再比较其平均得分。该设计使路径搜索优先避免局部出现明显不匹配的中间状态，而不是仅依赖较高的整体平均相似度。
 
-将适配后的 SAM3 应用于相同的冻结路径，得到第二轮候选 $\hat{y}_{t,\mathcal{R}}^{(2)}$。随后按照预先在验证集确定的策略再次执行质量估计和任务模型审核，构造 $\widehat{\mathcal{D}}_{U}^{(2)}$。最终 U-Net 使用锚点真值和第二轮伪监督训练，目标函数仍采用式（13）。
+由于在整个训练集中穷举所有可能的中间图像组合计算开销较大，我们采用束搜索逐步扩展候选路径。每次扩展时，根据图像级描述子 $\mathbf{g}_i$ 的余弦相似度从训练集中获得与当前节点相近的候选图像，并利用上述路径评分保留得分最高的部分候选。本文将束宽固定为 32，并在不同起始样本对应的候选路径之间使用相同的评分准则进行比较，最终为每一幅待处理图像确定一条传播路径。
 
-语义检索和 SAM3 传播都是训练阶段的监督扩展机制。测试时，最终 U-Net 只接收一张图像并直接输出分割掩码；它不检索锚点、不构造路径，也不需要人工提示。这样既可以在训练阶段利用较复杂的跨图像推理扩大监督，又能保持部署阶段的轻量和稳定。
+在正式方法中，我们在所有数据集和待处理图像上统一使用 $L=6$ 个中间图像，因此最终路径写为
+\begin{equation}
+\mathcal{R}_t^{*}
+=
+\left(
+x_a,
+x_{b_1},
+x_{b_2},
+\ldots,
+x_{b_6},
+x_t
+\right).
+\end{equation}
+中间图像数量在测试阶段不根据目标图像、真实标注或预测结果进行动态调整。不同路径长度的影响将在实验部分通过消融实验进一步分析。得到的有序图像序列随后作为下一节渐进式跨图像传播的输入。
+
+
+
+
+
+
+
+\subsection{基于 SAM3 的渐进式跨图像传播}
+\label{sec:progressive-sam3-propagation-zh}
+
+经过上一节的语义路由构建后，每一幅待处理图像 $x_t$ 均对应一条由人工标注起始样本、若干语义中间图像以及待处理图像组成的有序路径
+\begin{equation}
+\mathcal{R}_t^{*}
+=
+\left(
+x_a,
+x_{b_1},
+x_{b_2},
+\ldots,
+x_{b_6},
+x_t
+\right).
+\end{equation}
+该路径确定了监督信息从已有人工标注逐步到达待处理图像的传播顺序。与直接将 $x_a$ 和 $x_t$ 构造成单次跨图像迁移不同，RouteSAM 将路径中的中间图像显式纳入传播过程，使目标信息能够沿相邻图像之间较为连续的视觉变化逐步传递。
+
+为利用 SAM3 已有的时序掩码传播能力，我们将路径 $\mathcal{R}_t^{*}$ 中的图像按照既定顺序组织为一段短伪视频：
+\begin{equation}
+\mathcal{V}_t
+=
+\left[
+x_a,
+x_{b_1},
+x_{b_2},
+\ldots,
+x_{b_6},
+x_t
+\right].
+\end{equation}
+这里的“伪视频”并不要求这些图像来源于真实连续视频，而是将经过语义路由排序后的独立训练图像视为一个有序帧序列。其目的在于利用 SAM3 的跨帧目标保持与掩码传播能力，将起始样本中的目标信息沿所构建的语义路径逐步传递。
+
+所有路径帧均双线性缩放至 $256\times256$，该分辨率与上一节中的路由特征提取保持一致。对于首帧 $x_a$，人工分割掩码 $y_a$ 仅用于生成目标的紧致外接框
+\begin{equation}
+\mathbf{b}_a
+=
+\operatorname{Box}(y_a),
+\end{equation}
+其中 $\operatorname{Box}(\cdot)$ 表示包含前景区域的最小轴对齐外接框。该外接框作为 SAM3 在首帧上的正框提示，用于初始化需要沿路径跟踪和传播的目标。除首帧外，中间图像和待处理图像均不提供人工点、框或掩码提示，整个传播过程也不使用文本提示。
+
+在完成首帧初始化后，冻结的 SAM3 按照路径顺序执行前向传播。记第 $l$ 个中间图像上的预测掩码为
+$\widehat{y}_{b_l}$，则整个传播过程可写为
+\begin{equation}
+(x_a,y_a)
+\rightarrow
+\widehat{y}_{b_1}
+\rightarrow
+\widehat{y}_{b_2}
+\rightarrow
+\cdots
+\rightarrow
+\widehat{y}_{b_6}
+\rightarrow
+\widehat{y}_{t}.
+\end{equation}
+其中，前一帧中建立的目标状态被持续传递到后续帧，使 SAM3 能够在新的图像内容中更新目标位置和分割区域。需要强调的是，中间图像的预测掩码仅作为传播过程中内部维护的目标状态，不被视为人工监督，也不会读取其对应的真实分割标注。
+
+从概率角度看，直接传播可以理解为试图一次完成
+\begin{equation}
+p\left(
+y_t
+\mid
+x_a,y_a,x_t
+\right),
+\end{equation}
+而 RouteSAM 将其展开为沿语义路径进行的连续条件传播：
+\begin{equation}
+p\left(
+y_t
+\mid
+x_a,y_a,x_{b_1},\ldots,x_{b_6},x_t
+\right).
+\end{equation}
+通过在起始样本与待处理图像之间引入若干语义相关的中间状态，原本较大的跨图像变化被分散到多个相邻传播步骤中。这样，SAM3 在每一步所面对的目标外观变化相对更加局部，从而为监督信息逐步到达困难样本提供了更稳定的传播条件。
+
+对于每一幅待处理图像，本文仅保留语义路径末端得到的目标掩码作为最终传播结果，即
+\begin{equation}
+\widehat{y}_t
+=
+\operatorname{SAM3Propagate}
+\left(
+\mathcal{R}_t^{*},
+\mathbf{b}_a
+\right).
+\end{equation}
+若 SAM3 在目标帧产生多个候选对象，则选取模型内部置信度最高的预测作为该路径的最终输出。整个传播过程中 SAM3 参数保持冻结，不对其进行微调，也不利用待处理图像的真实掩码参与传播或结果选择。
+
+因此，对于未标注集合中的全部样本，可以得到由语义路径传播生成的伪标注集合
+\begin{equation}
+\widehat{\mathcal{D}}_{U}
+=
+\left\{
+\left(
+x_t,\widehat{y}_t
+\right)
+\mid
+x_t\in\mathcal{D}_{U}
+\right\}.
+\end{equation}
+这些伪标签将与少量人工标注共同构成后续任务分割网络的训练监督。需要指出的是，语义路由与 SAM3 传播的作用仅在于训练阶段扩展有限人工监督，其本身不参与最终单图像分割模型的测试推理。
+
+
+
+
+
+
+\subsection{路由伪监督学习与最终推理}
+\label{sec:route-pseudo-supervision-zh}
+
+经过前述语义路由与渐进式跨图像传播后，未标注训练集中的每一幅图像 $x_t\in\mathcal{D}_{U}$ 均获得一个由固定六桥路径传播得到的伪分割掩码 $\widehat{y}_t$。这些伪标签将原本仅存在于少量人工标注样本中的像素级监督扩展到更大范围的训练数据，从而为任务特定分割模型提供额外的训练信号。本文不再对不同传播深度产生的候选结果进行额外筛选，而是统一采用第~\ref{sec:progressive-sam3-propagation-zh} 节得到的固定六桥传播结果作为未标注样本的训练监督。
+
+记人工标注数据为
+\begin{equation}
+\mathcal{D}_{L}
+=
+\left\{
+(x_a,y_a)
+\mid
+x_a\in\mathcal{A}
+\right\},
+\end{equation}
+路由传播产生的伪标注数据为
+\begin{equation}
+\widehat{\mathcal{D}}_{U}
+=
+\left\{
+(x_t,\widehat{y}_t)
+\mid
+x_t\in\mathcal{D}_{U}
+\right\}.
+\end{equation}
+最终训练集由二者共同组成：
+\begin{equation}
+\mathcal{D}^{*}
+=
+\mathcal{D}_{L}
+\cup
+\widehat{\mathcal{D}}_{U}.
+\end{equation}
+
+为使最终性能提升尽可能归因于前述监督路由过程，而非额外的复杂分割结构，本文采用标准 U-Net 作为任务特定分割模型，记为 $f_{\theta}(\cdot)$。对于人工标注样本，其监督损失定义为
+\begin{equation}
+\mathcal{L}_{\mathrm{sup}}
+=
+\frac{1}{|\mathcal{D}_{L}|}
+\sum_{(x_a,y_a)\in\mathcal{D}_{L}}
+\ell
+\left(
+f_{\theta}(x_a),
+y_a
+\right),
+\end{equation}
+其中 $\ell(\cdot)$ 由像素级交叉熵损失和 soft Dice 损失共同组成。对于未标注训练样本，则利用 RouteSAM 产生的伪标签构造
+\begin{equation}
+\mathcal{L}_{\mathrm{pseudo}}
+=
+\frac{1}{|\widehat{\mathcal{D}}_{U}|}
+\sum_{(x_t,\widehat{y}_t)\in\widehat{\mathcal{D}}_{U}}
+\ell
+\left(
+f_{\theta}(x_t),
+\widehat{y}_t
+\right).
+\end{equation}
+最终优化目标写为
+\begin{equation}
+\mathcal{L}
+=
+\mathcal{L}_{\mathrm{sup}}
++
+\lambda_{u}
+\mathcal{L}_{\mathrm{pseudo}},
+\end{equation}
+其中 $\lambda_{u}$ 用于平衡少量人工监督与大规模路由伪监督对模型优化的影响。
+
+这种训练方式有意保持下游分割学习过程的简单性。RouteSAM 的主要作用并不是重新设计伪标签学习损失或构造新的任务分割网络，而是改善未标注数据上监督信号的来源。与直接利用单跳跨图像传播获得伪标签相比，本文首先根据训练数据内部的语义关系构建传播路径，再利用 SAM3 沿该路径逐步扩展人工监督。因此，最终 U-Net 接收到的附加监督主要由前述跨图像监督路由过程决定，而无需进一步依赖候选质量预测、模型间审核或多轮伪标签更新。
+
+语义路由和 SAM3 传播均只用于训练阶段。给定测试图像 $x$，最终预测直接由训练完成的 U-Net 得到：
+\begin{equation}
+\widehat{y}
+=
+f_{\theta}(x).
+\end{equation}
+测试过程中不再访问人工标注起始样本，不需要在训练数据中检索语义相近图像，也无需重新构建传播路径或调用 SAM3。由此，RouteSAM 将计算开销相对较高的跨图像关系建模集中在离线训练阶段，而在实际推理时仍保持标准单图像分割模型的预测形式。
+
+
+
+
+
+
+
+% \subsection{问题定义与整体思路}
+
+% 设训练图像集合为 $\mathcal{D}_{\mathrm{tr}}=\{x_i\}_{i=1}^{N}$，固定的验证集和测试集分别为 $\mathcal{D}_{\mathrm{val}}$ 与 $\mathcal{D}_{\mathrm{te}}$。在约 1\% 的标注预算下，我们从训练集中选择
+% \begin{equation}
+% K=\max\left(1,\operatorname{round}(0.01N)\right)
+% \end{equation}
+% 张图像作为锚点并获取人工掩码，其余训练图像构成未标注池 $\mathcal{U}$。验证集标签只用于拟合和选择质量估计模块；所有测试预测冻结之前，测试标签始终不可见。
+
+% RouteSAM 分为三个阶段。阶段 0 在不知道任何训练掩码的前提下，从训练图像中选择尽可能覆盖数据分布的锚点。阶段 1 针对每个目标检索合适的锚点和桥接图像，构造不同深度的传播路径，并使用冻结的 SAM3 生成与路径相关的目标候选掩码。阶段 2 用这些伪标签训练单图像任务模型，再由任务模型审核传播结果并辅助 SAM3 适配；适配后的 SAM3 沿固定路径重新传播，最终训练部署模型。
+
+
+
+
+% \subsection{覆盖感知的锚点自动选择}
+% \label{sec:anchor-selection-zh}
+
+% 在极低标注条件下，少量已标注图像不仅提供直接监督，还将作为后续跨图像传播的起始节点。因此，如果这些图像集中于相似的外观模式，其监督信息将难以覆盖训练集中具有明显差异的样本。为此，我们不采用独立随机抽样，而是在不给定任何训练掩码的条件下，从训练图像中自动选择一组能够共同表征主要数据分布的锚点。
+
+% 具体而言，我们首先使用冻结的 SAM3 视觉编码器提取训练图像的局部视觉特征。每幅图像被调整至 $1008\times1008$，并由视觉骨干生成大小为 $72\times72\times1024$ 的特征图。考虑到直接保留全部局部 token 会产生较强的特征冗余，同时容易受到局部纹理和采集差异的影响，我们在特征图上按照固定的 $8\times8$ 网格均匀采样 64 个局部 token，并分别进行 $L_2$ 归一化。记图像 $x_i$ 的第 $r$ 个采样 token 为 $\mathbf{x}_{i,r}$，则
+% \begin{equation}
+% \hat{\mathbf{x}}_{i,r}
+% =
+% \frac{\mathbf{x}_{i,r}}
+% {\left\|\mathbf{x}_{i,r}\right\|_2},
+% \qquad
+% r=1,\ldots,64.
+% \end{equation}
+% 随后，将全部训练图像的归一化局部特征输入 MiniBatch K-Means，学习包含 $M=64$ 个聚类中心的共享视觉词典，并将每个局部 token 分配至距离最近的视觉词。
+
+% 在此基础上，图像 $x_i$ 在第 $m$ 个视觉词上的词频定义为
+% \begin{equation}
+% \operatorname{tf}_{i,m}
+% =
+% \frac{1}{64}
+% \sum_{r=1}^{64}
+% \mathbb{I}
+% \left[
+% q\left(\hat{\mathbf{x}}_{i,r}\right)=m
+% \right],
+% \end{equation}
+% 其中，$q(\cdot)$ 表示视觉词分配函数，$\mathbb{I}[\cdot]$ 为指示函数。为了降低在大量训练图像中普遍出现的视觉模式对相似度计算的影响，我们进一步引入逆文档频率
+% \begin{equation}
+% \operatorname{idf}_{m}
+% =
+% \log
+% \frac{N+1}
+% {\operatorname{df}_{m}+1}
+% +1,
+% \end{equation}
+% 并构造 TF-IDF 加权后的视觉词分布
+% \begin{equation}
+% w_{i,m}
+% =
+% \operatorname{tf}_{i,m}\operatorname{idf}_{m},
+% \qquad
+% p_{i,m}
+% =
+% \frac{w_{i,m}}
+% {\sum_{l=1}^{M}w_{i,l}}.
+% \end{equation}
+% 由此，每幅图像被表示为反映其局部视觉模式组成的归一化分布 $\mathbf{p}_i$。
+
+% 为了衡量不同图像之间局部视觉分布的相似程度，我们对 $\mathbf{p}_i$ 进行平方根变换，得到 Hellinger 描述子
+% \begin{equation}
+% \boldsymbol{\phi}_i
+% =
+% \left(
+% \sqrt{p_{i,1}},
+% \sqrt{p_{i,2}},
+% \ldots,
+% \sqrt{p_{i,M}}
+% \right).
+% \end{equation}
+% 由于 $\sum_m p_{i,m}=1$，有 $\|\boldsymbol{\phi}_i\|_2=1$。因此，图像 $x_i$ 与 $x_j$ 之间的相似度定义为
+% \begin{equation}
+% k(i,j)
+% =
+% \boldsymbol{\phi}_i^{\top}\boldsymbol{\phi}_j
+% =
+% \sum_{m=1}^{M}
+% \sqrt{p_{i,m}p_{j,m}},
+% \end{equation}
+% 其对应于两个视觉词分布之间的 Bhattacharyya coefficient，并与平方 Hellinger 距离满足
+% \begin{equation}
+% H^2(\mathbf{p}_i,\mathbf{p}_j)
+% =
+% 1-k(i,j).
+% \end{equation}
+% 因此，$k(i,j)$ 越大，表示两幅图像具有越接近的局部视觉模式组成。
+
+% 仅根据单幅图像的代表性独立排序仍可能同时选中多个相似样本，因此我们进一步从集合层面优化锚点的整体覆盖能力。对于锚点集合 $\mathcal{A}$，定义设施选址形式的覆盖目标为
+% \begin{equation}
+% F(\mathcal{A})
+% =
+% \frac{1}{N}
+% \sum_{i=1}^{N}
+% \max_{a\in\mathcal{A}}
+% k(i,a).
+% \end{equation}
+% 该目标为训练集中的每幅图像寻找当前锚点集合中与其最相近的样本，因此衡量的是有限锚点对整个训练分布的平均代表程度。我们从空集合开始，以贪心方式逐步加入能够带来最大边际覆盖增益的图像：
+% \begin{equation}
+% a_t
+% =
+% \arg\max_{j\notin\mathcal{A}_{t-1}}
+% \left[
+% F\left(\mathcal{A}_{t-1}\cup\{j\}\right)
+% -
+% F\left(\mathcal{A}_{t-1}\right)
+% \right],
+% \end{equation}
+% 直至达到预设的标注数量 $K$。由于该设施选址目标具有单调子模性质，贪心优化能够在固定数量约束下获得具有良好代表性的近似解。
+
+% 整个自动选择过程仅依赖训练图像的 RGB 内容以及冻结视觉编码器产生的特征，不访问任何训练图像的分割掩码。只有当锚点集合 $\mathcal{A}$ 完全确定并冻结后，我们才获取这些入选图像的人工分割标注，并将其作为后续面向目标的锚点检索与跨图像监督传播的起始监督。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% \subsection{面向目标的锚点检索}
+% \label{sec:target-pooling-zh}
+
+% 覆盖选择回答“哪些图像值得被标注”，但不同目标需要的起点并不相同。阶段 1 因而使用目标感知的检索方法，从锚点集合中找到与当前目标最相关的一个或两个锚点。
+
+% 检索与传播使用独立的 $256\times256$ 表示。SAM3 骨干为每张图像产生 $18\times18$ 个 1024 维 patch token，记为 $\{\mathbf{x}_{i,j}\}_{j=1}^{324}$。对于锚点 $a$，把其掩码缩放到 patch 网格，并平均前景位置 $\Omega_a$ 内的 token，得到前景原型
+% \begin{equation}
+% \mathbf{p}_a=\operatorname{norm}\left(
+% \frac{1}{|\Omega_a|}\sum_{j\in\Omega_a}\operatorname{norm}(\mathbf{x}_{a,j})
+% \right).
+% \end{equation}
+% 若缩放后前景为空，则退化为整幅图像的 patch 均值。
+
+% 对于目标 $t$，将锚点前景原型与目标各 patch 的相似度转化为注意力权重：
+% \begin{equation}
+% w_{a,t,j}=\frac{\exp(\beta\mathbf{p}_a^{\top}\mathbf{x}_{t,j})}
+% {\sum_k\exp(\beta\mathbf{p}_a^{\top}\mathbf{x}_{t,k})},
+% \qquad \beta=10.
+% \end{equation}
+% 由此得到锚点条件下的目标描述和 Target Pooling 分数：
+% \begin{equation}
+% \mathbf{z}(a,t)=\operatorname{norm}\left(\sum_jw_{a,t,j}\mathbf{x}_{t,j}\right),
+% \qquad
+% r(a,t)=\mathbf{p}_a^{\top}\mathbf{z}(a,t).
+% \end{equation}
+% 默认使用 $r(a,t)$ 排序锚点。我们同时研究中心化分数 $r(a,t)-\mu_a$，其中 $\mu_a$ 是锚点 $a$ 在训练 RGB 图像上的平均 Target Pooling 分数。中心化只作为锚点排序的校准消融，不改变后续路径目标。最终保留排名最高的一个或两个锚点。
+
+% \subsection{有序语义路径构造}
+% \label{sec:route-construction-zh}
+
+% 对于每个保留的锚点--目标组合，RouteSAM 分别构造包含 0 至 6 张桥接图像的路径：
+% \begin{equation}
+% \mathcal{R}_{b}: A\rightarrow B_1\rightarrow\cdots\rightarrow B_b\rightarrow T,
+% \qquad b\in\{0,\ldots,6\}.
+% \end{equation}
+% 所有桥接图像只能来自训练划分，目标图像不能出现在自己的桥接链中。相邻图像之间的亲和度由归一化全图 patch 均值描述的余弦相似度计算。对于一条候选路径，我们同时考虑中间节点及目标的 Target Pooling 分数，以及所有相邻边的亲和度，并用下式评分：
+% \begin{equation}
+% Q(\mathcal{R})=\left(\min_{v\in\mathcal{V}(\mathcal{R})}v,
+% \frac{1}{|\mathcal{V}(\mathcal{R})|}\sum_{v\in\mathcal{V}(\mathcal{R})}v\right).
+% \end{equation}
+% 该二元组按字典序比较：首先最大化路径中最弱的节点或转移，再最大化平均相关性。直观上，它避免某一段严重不匹配的路径，而不是只追求较高的平均分。每种深度分别使用宽度为 32 的束搜索，避免短路径与长路径相互挤占搜索空间。
+
+% \subsection{SAM3 渐进传播}
+% \label{sec:sam3-propagation-zh}
+
+% 每条路径被视作一段短伪视频，各帧按照式（10）的顺序排列。SAM3 在锚点帧上由人工掩码的紧致外接框初始化，不使用文本提示。模型随后在 $256\times256$ 画布上将目标掩码依次传播经过各个桥接帧，最终目标帧上的二值掩码被保存为路径候选 $\hat{y}_{t,\mathcal{R}}$。
+
+% 由于目标真值不可见，我们还执行一次反向传播来获得无标签质量信号。具体而言，用预测得到的目标掩码初始化逆序路径，并把返回锚点的预测与已知锚点掩码比较，得到循环一致性 $q_{\mathrm{cycle}}$。该比较只发生在有标注的锚点，因此既能用于未标注训练目标，也能用于独立测试目标。
+
+% \subsection{路径候选质量估计}
+% \label{sec:router-zh}
+
+% 若保留 $M$ 个锚点，则每个目标共有 $7M$ 个候选掩码。RouteSAM 使用 28 个不依赖目标真值的特征描述候选。7 个基础特征包括路径深度、路径最小与平均亲和度、最终 SAM 分数、候选数量及深度--亲和度交互；另外 21 个传播特征刻画反向传播的一致性与成功状态、掩码面积变化、空掩码与连通分量、质心和外接框漂移、相邻帧掩码一致性、SAM 分数轨迹以及候选数量轨迹。
+
+% 这些特征标准化后输入 $\alpha=1$ 的 Ridge 回归器，在验证集上预测候选 Dice。五折拟合时，同一验证图像的全部候选始终属于同一组，从而避免候选级信息泄漏。推理时选择预测质量最高的候选，并用固定的锚点排名和路径深度规则打破平局。所有测试选择在读取测试真值之前冻结。同一候选池上的逐目标 Oracle 仅作为诊断上界，不参与部署。
+
+% \subsection{任务模型审核与 SAM3 适配}
+% \label{sec:collaboration-zh}
+
+% 阶段 1 选出的掩码形成第一轮伪标注集合
+% \begin{equation}
+% \widehat{\mathcal{D}}_{U}^{(1)}=
+% \{(x_t,\hat{y}_t^{(1)},q_t^{(1)})\mid x_t\in\mathcal{U}\},
+% \end{equation}
+% 其中 $q_t^{(1)}$ 是预测的路径质量。任务专用 U-Net $f_{\theta}$ 使用锚点真值和通过筛选的伪标签训练：
+% \begin{equation}
+% \begin{aligned}
+% \mathcal{L}_{\mathrm{sup}}&=\frac{1}{K}\sum_{a\in\mathcal{A}}
+% \ell(f_{\theta}(x_a),y_a),\\
+% \mathcal{L}_{\mathrm{pseudo}}&=\frac{1}{|\widehat{\mathcal{D}}_{U}^{(1)}|}
+% \sum_t q_t^{(1)}\ell(f_{\theta}(x_t),\hat{y}_t^{(1)}),\\
+% \mathcal{L}_{\mathrm{student}}&=\mathcal{L}_{\mathrm{sup}}
+% +\lambda_u\mathcal{L}_{\mathrm{pseudo}},
+% \end{aligned}
+% \end{equation}
+% 其中 $\ell$ 由二元交叉熵和 soft Dice 损失组成。
+
+% U-Net 随后作为独立的领域审核者。对每个路径候选，我们综合传播质量估计和候选掩码与 U-Net 预测之间的一致性。接受阈值及组合权重只根据验证集选择。其目的不是简单地让两个模型互相确认，而是发现那些沿路径看似自洽、却不符合目标领域外观的传播结果。
+
+% 通过审核的伪标签和锚点掩码用于参数高效的 SAM3 适配。为了把“模型适配收益”与“重新搜索路径的收益”区分开，适配之前冻结锚点身份、桥接成员、路径顺序和候选选择策略。
+
+% % TODO（阶段 2）：自动锚点闭环实现后，冻结审核公式、阈值、PEFT 模块和优化日程。
+
+% \subsection{保持路径不变的第二轮传播与最终推理}
+% \label{sec:repropagation-zh}
+
+% 将适配后的 SAM3 应用于相同的冻结路径，得到第二轮候选 $\hat{y}_{t,\mathcal{R}}^{(2)}$。随后按照预先在验证集确定的策略再次执行质量估计和任务模型审核，构造 $\widehat{\mathcal{D}}_{U}^{(2)}$。最终 U-Net 使用锚点真值和第二轮伪监督训练，目标函数仍采用式（13）。
+
+% 语义检索和 SAM3 传播都是训练阶段的监督扩展机制。测试时，最终 U-Net 只接收一张图像并直接输出分割掩码；它不检索锚点、不构造路径，也不需要人工提示。这样既可以在训练阶段利用较复杂的跨图像推理扩大监督，又能保持部署阶段的轻量和稳定。
 
 \bibliographystyle{plainnat}
 \bibliography{../related_work_papers/references}

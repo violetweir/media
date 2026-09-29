@@ -181,6 +181,15 @@ Pixel-level annotation remains a major bottleneck in medical image segmentation 
 
 Building on this progress, promptable segmentation foundation models provide an additional way to strengthen learning with limited annotations. The Segment Anything Model (SAM) family~\cite{kirillov2023segment,ravi2025sam2,carion2026sam3} has acquired strong prompt-conditioned segmentation priors through large-scale pretraining. Although direct deployment remains unreliable because medical and natural images differ substantially in image formation, contrast, target scale, and morphology~\cite{mazurowski2023samexperiment,ma2024medsam}, SAM can still serve as a generalist prior when coupled with a task-specific medical model. Recent SAM-assisted SSMIS methods therefore use specialist predictions to prompt SAM, use SAM outputs to refine pseudo labels, or exchange knowledge between the generalist and specialist, further strengthening the supervision extracted from unlabeled images~\cite{zhang2023semisam,zhang2025semisamplus,xu2024samatch,miao2024cpcsam,vu2026scsam,zhang2026cppssam}.
 
+
+\begin{figure*}[pos=t]
+    \centering
+    \includegraphics[width=1\linewidth]{figs/figure1.pdf}
+    \caption{Conceptual comparison between direct and routed cross-image propagation. Given a labeled Anchor $A$ and an unlabeled Target $T$, direct propagation transfers the mask in a single source-to-target step. RouteSAM retrieves and orders unlabeled Bridge images $\{B_i\}_{i=1}^{K}$ and applies SAM3 sequentially along $A\rightarrow B_1\rightarrow\cdots\rightarrow B_K\rightarrow T$. The Bridges provide intermediate semantic states that reduce the difficulty of a large one-step transfer. The route is constructed only during training; the final specialist performs direct single-image inference. The displayed masks constitute an illustrative example rather than an aggregate comparison.}
+    \label{fig:motivation}
+\end{figure*}
+
+
 However, when labeled data are reduced further, such that only a handful of images in the entire training set have pixel-level annotations, conventional semi-supervised models and promptable segmentation foundation models are more likely to produce unreliable pseudo supervision and erroneous predictions. Reusing these erroneous predictions as training supervision may further amplify confirmation bias, causing errors to accumulate over iterative training.
 
 We observe that this phenomenon often occurs when a substantial visual or semantic gap exists between labeled source images and unlabeled target images. A limited set of labeled sources cannot adequately cover the diversity of lesion morphology, scale, and appearance. Consequently, conventional semi-supervised models may struggle to generate reliable pseudo labels for targets that differ substantially from the labeled examples, while promptable segmentation foundation models may also struggle to obtain accurate target masks from the mask prompts provided by labeled sources.
@@ -191,12 +200,7 @@ The unlabeled pool also contains useful dataset-level structure. ACTION learns g
 
 More closely related work transfers masks across images under one-shot supervision. OP-SAM transfers a prior from a labeled support image to a query through feature correlation and iterative prompt evolution~\cite{mao2025opsam}. YoloSeg uses SAM2 to propagate a single labeled mask to an unlabeled pool and trains a task-specific model using multi-view consensus and divergence regions~\cite{zhang2026yoloseg}. These studies establish the value of foundation-model-driven propagation, yet the transfer is still organized around a direct support-to-query connection rather than an explicitly selected and ordered sequence of intermediate unlabeled samples. When the labeled source and target differ substantially in morphology, scale, or appearance, such a one-step transfer can remain difficult even if its output is subsequently filtered or regularized.
 
-\begin{figure}[pos=t]
-    \centering
-    \includegraphics[width=1\linewidth]{figs/figure1.png}
-    \caption{Conceptual comparison between direct and routed cross-image propagation. Given a labeled Anchor $A$ and an unlabeled Target $T$, direct propagation transfers the mask in a single source-to-target step. RouteSAM retrieves and orders unlabeled Bridge images $\{B_i\}_{i=1}^{K}$ and applies SAM3 sequentially along $A\rightarrow B_1\rightarrow\cdots\rightarrow B_K\rightarrow T$. The Bridges provide intermediate semantic states that reduce the difficulty of a large one-step transfer. The route is constructed only during training; the final specialist performs direct single-image inference. The displayed masks constitute an illustrative example rather than an aggregate comparison.}
-    \label{fig:motivation}
-\end{figure}
+
 
 We instead view the unlabeled medical dataset as both a collection of prediction targets and a semantic transition space. Between a labeled source and a difficult target, the pool may contain images that provide intermediate semantic states and make successive transfers more local. As illustrated in Fig.~\ref{fig:motivation}, this view changes the central question from \emph{how to improve the prediction of each unlabeled image} to \emph{how to design the path through which sparse supervision reaches that image}.
 
@@ -349,7 +353,7 @@ where $q_t^{(1)}$ is the predicted route quality. A task-specific U-Net $f_{\the
 \end{equation}
 where $\ell$ combines binary cross-entropy and soft Dice losses.
 
-The specialist then acts as an independent auditor of SAM3 propagation. For every route candidate, we combine the propagation-quality estimate with its agreement to the specialist prediction. Candidate acceptance thresholds and combination weights are chosen only on the validation set. Unlike same-image specialist--generalist co-training, this audit operates on a set of masks produced by different cross-image routes and can therefore identify routes that are self-consistent but inconsistent with target-domain appearance.
+The specialist then acts as an independent auditor of SAM3 propagation. For every route candidate, we combine the propagation-quality estimate with its agreement to the specialist prediction. Candidate acceptance thresholds and combination weights are pre-specified and shared across datasets; no unlabeled-training, validation, or test target mask is used to tune the pseudo-label acceptance rule. Unlike same-image specialist--generalist co-training, this audit operates on a set of masks produced by different cross-image routes and can therefore identify routes that are self-consistent but inconsistent with target-domain appearance.
 
 Accepted Anchor masks and audited pseudo labels are used for parameter-efficient SAM3 adaptation. To isolate model adaptation from route search, the Anchor identity, Bridge membership, route order, and candidate policy are frozen before this update.
 
